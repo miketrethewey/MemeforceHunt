@@ -2,8 +2,12 @@ package memeforce;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.image.BufferedImage;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -19,6 +23,9 @@ import spritemanipulator.BetterJFileChooser;
 import static javax.swing.SpringLayout.*;
 
 public class Reskin {
+	public static final int OFFSET = 0x18A800;
+	public static final int PAL_LOC = 0x100A01;
+
 	public static void main(String[] args) throws IOException {
 		javax.swing.SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
@@ -96,6 +103,15 @@ public class Reskin {
 			});
 		prev.setIcon(Skin.BENANA.getImageIcon());
 
+		// ico
+		BufferedImage ico;
+		try {
+			ico = ImageIO.read(Skin.class.getResourceAsStream("/triforce piece.png"));
+		} catch (IOException e) {
+			ico = new BufferedImage(16, 16, BufferedImage.TYPE_4BYTE_ABGR);
+		}
+
+		frame.setIconImage(ico);
 		// frame setting
 		frame.setSize(d);
 		wrap.setBackground(new Color(120, 120, 120));
@@ -104,5 +120,27 @@ public class Reskin {
 		frame.setLocation(350, 350);
 
 		frame.setVisible(true);
+	}
+
+	public static void patchROM(String romTarget, Skin s) throws IOException {
+		byte[] romStream;
+		try (FileInputStream fsInput = new FileInputStream(romTarget)) {
+			romStream = new byte[(int) fsInput.getChannel().size()];
+			fsInput.read(romStream);
+			fsInput.getChannel().position(0);
+			fsInput.close();
+
+			try (FileOutputStream fsOut = new FileOutputStream(romTarget)) {
+				// grab relevant data from zspr file
+				byte[] data = s.getData();
+				int i = OFFSET;
+				for (byte b : data) {
+					romStream[i++] = b;
+				}
+				romStream[PAL_LOC] = s.getPalette();
+				fsOut.write(romStream, 0, romStream.length);
+				fsOut.close();
+			}
+		}
 	}
 }

@@ -12,8 +12,24 @@ import javax.swing.ImageIcon;
 import static memeforce.Palette.*;
 
 public enum Skin {
-	BENANA ("benana", GREEN);
-	//PIZZA ("pizza");
+	BENANA ("benana", GREEN),
+	THINKING ("thinking", GREEN),
+	ONE_UP ("1up", GREEN),
+	BIRB ("birb", GREEN),
+	BOB ("bob", GREEN),
+	BOOTS ("boots", RED),
+	BROCCOLI ("broccoli", GREEN),
+	CHEST ("chest", GREEN),
+	CUCCO ("cucco", RED),
+	DWARF ("dwarf", BLUE),
+	FORK ("fork", GREEN),
+	GLACEON ("glaceon", BLUE),
+	ICE_ROD ("icerod", BLUE),
+	LINK_FACE ("linkface", BLUE),
+	QUACK ("quack", GREEN),
+	SKULLTULA ("skulltula", GREEN),
+	WOODFELLA ("woodfella", BLUE),
+	Z1_LINK ("z1link", GREEN);
 
 	private final String name;
 	private final Palette p;
@@ -27,7 +43,7 @@ public enum Skin {
 		InputStream temp;
 		ArrayList<Byte> btemp = new ArrayList<Byte>();
 		temp = Skin.class.getResourceAsStream(
-				String.format("/previews/%s.png", s));
+				String.format("/gfx/%s.bin", s));
 		int r = 0;
 		do {
 			try {
