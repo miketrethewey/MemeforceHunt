@@ -42,6 +42,7 @@ public enum Skin {
 	FORK ("fork", GREEN),
 	BIRB ("birb", GREEN),
 	HONK ("honk", GREEN),
+	PEACH ("peach", RED),
 	GLACEON ("glaceon", BLUE),
 	POKEBALL ("pokeball", RED),
 	COFFEE ("coffee", RED),

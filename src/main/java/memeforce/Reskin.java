@@ -31,11 +31,13 @@ import static javax.swing.SpringLayout.*;
 
 /*
  * Compression command:
- * recomp.exe u_item.bin item.bin 0 0 0 
+ * recomp.exe u_item.bin item.bin 0 0 0
+ * 
+ * Shoutouts to Zarby89
  */
 public class Reskin {
 	public static final int OFFSET = 0x18A800;
-	public static final int PAL_LOC = 0x100A01;
+	public static final int PAL_LOC = 0x103B2D;
 
 	static final Skin[] SKINS = Skin.values();
 
