@@ -57,6 +57,7 @@ public enum Skin {
 	PIZZA ("pizza", GREEN),
 	PIZZA_SLICE ("pizzaslice", GREEN),
 	E404 ("E404", GREEN),
+	SHINE ("shine", GREEN),
 	;
 
 	private final String name;
