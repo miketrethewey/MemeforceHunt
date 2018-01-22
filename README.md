@@ -1,1 +1,1 @@
-# MemeforceHunt
+Don't use this for races. Thanks.

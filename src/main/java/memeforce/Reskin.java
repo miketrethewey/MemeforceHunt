@@ -36,6 +36,8 @@ import static javax.swing.SpringLayout.*;
  * Shoutouts to Zarby89
  */
 public class Reskin {
+	public static final String VERSION = "1.0";
+
 	public static final int OFFSET = 0x18A800;
 	public static final int PAL_LOC = 0x103B2D;
 
@@ -62,7 +64,7 @@ public class Reskin {
 		} //end System
 
 		final Dimension d = new Dimension(350, 350);
-		JFrame frame = new JFrame("Reskin");
+		JFrame frame = new JFrame("Memeforce Hunt v" + VERSION);
 
 		SpringLayout l = new SpringLayout();
 		JPanel wrap = (JPanel) frame.getContentPane();
@@ -191,15 +193,17 @@ public class Reskin {
 					patchROM(n, (Skin) skins.getSelectedItem());
 				} catch (Exception e) {
 					JOptionPane.showMessageDialog(frame,
-							e.getMessage(),
+							"Something went wrong.",
 							"PROBLEM",
-							JOptionPane.WARNING_MESSAGE);
+							JOptionPane.WARNING_MESSAGE,
+							Skin.SCREAM.getImageIcon());
 					return;
 				}
 				JOptionPane.showMessageDialog(frame,
 						"SUCCESS",
 						"Enjoy",
-						JOptionPane.WARNING_MESSAGE);
+						JOptionPane.PLAIN_MESSAGE,
+						Skin.BENANA.getImageIcon());
 			});
 
 		rand.addActionListener(
@@ -211,15 +215,17 @@ public class Reskin {
 					patchROM(n, SKINS[r]);
 				} catch (Exception e) {
 					JOptionPane.showMessageDialog(frame,
-							e.getMessage(),
+							"Something went wrong.",
 							"PROBLEM",
-							JOptionPane.WARNING_MESSAGE);
+							JOptionPane.WARNING_MESSAGE,
+							Skin.SCREAM.getImageIcon());
 					return;
 				}
 				JOptionPane.showMessageDialog(frame,
 						"SUCCESS",
 						"Enjoy",
-						JOptionPane.WARNING_MESSAGE);
+						JOptionPane.PLAIN_MESSAGE,
+						Skin.BENANA.getImageIcon());
 			});
 
 		// ico

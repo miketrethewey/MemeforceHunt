@@ -11,6 +11,7 @@ public class SkinButton extends JButton {
 		super();
 		this.skin = skin;
 		this.setIcon(skin.getImageIconSmall());
+		this.setBackground(null);
 	}
 
 	public Skin getSkin() {
