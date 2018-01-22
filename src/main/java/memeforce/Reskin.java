@@ -2,6 +2,8 @@ package memeforce;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
@@ -18,6 +20,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SpringLayout;
+import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
@@ -26,6 +29,10 @@ import spritemanipulator.SpriteManipulator;
 
 import static javax.swing.SpringLayout.*;
 
+/*
+ * Compression command:
+ * recomp.exe u_item.bin item.bin 0 0 0 
+ */
 public class Reskin {
 	public static final int OFFSET = 0x18A800;
 	public static final int PAL_LOC = 0x100A01;
@@ -52,20 +59,21 @@ public class Reskin {
 			// do nothing
 		} //end System
 
-		final Dimension d = new Dimension(300, 150);
+		final Dimension d = new Dimension(350, 350);
 		JFrame frame = new JFrame("Reskin");
 
 		SpringLayout l = new SpringLayout();
 		JPanel wrap = (JPanel) frame.getContentPane();
 		wrap.setLayout(l);
 
+		JLabel skinsText = new JLabel("---");
 		JComboBox<Skin> skins = new JComboBox<Skin>(Skin.values());
 		skins.setEditable(false);
 
 		// rom name
 		JTextField fileName = new JTextField("");
 		l.putConstraint(NORTH, fileName, 5, NORTH, wrap);
-		l.putConstraint(EAST, fileName, -15, HORIZONTAL_CENTER, skins);
+		l.putConstraint(EAST, fileName, -15, HORIZONTAL_CENTER, skinsText);
 		l.putConstraint(WEST, fileName, 5, WEST, wrap);
 		frame.add(fileName);
 
@@ -77,16 +85,10 @@ public class Reskin {
 		frame.add(find);
 
 		// skin chooser
-		l.putConstraint(NORTH, skins, 5, SOUTH, fileName);
-		l.putConstraint(EAST, skins, -5, EAST, wrap);
-		l.putConstraint(WEST, skins, 5, HORIZONTAL_CENTER, wrap);
-		frame.add(skins);
-
-		// preview
-		JLabel prev = new JLabel();
-		l.putConstraint(NORTH, prev, 5, SOUTH, skins);
-		l.putConstraint(EAST, prev, -5, EAST, wrap);
-		frame.add(prev);
+		l.putConstraint(NORTH, skinsText, 5, SOUTH, fileName);
+		l.putConstraint(EAST, skinsText, -5, EAST, wrap);
+		l.putConstraint(WEST, skinsText, 5, HORIZONTAL_CENTER, wrap);
+		frame.add(skinsText);
 
 		// patch button
 		JButton go = new JButton("Patch");
@@ -95,12 +97,46 @@ public class Reskin {
 		l.putConstraint(WEST, go, 5, WEST, wrap);
 		frame.add(go);
 
+		// preview
+		JLabel prev = new JLabel();
+		prev.setHorizontalAlignment(SwingConstants.CENTER);
+		l.putConstraint(NORTH, prev, 5, SOUTH, skinsText);
+		l.putConstraint(EAST, prev, 0, EAST, skinsText);
+		l.putConstraint(WEST, prev, 0, WEST, skinsText);
+		frame.add(prev);
+
 		// random patch button
 		JButton rand = new JButton("Surprise me");
 		l.putConstraint(NORTH, rand, 5, SOUTH, go);
 		l.putConstraint(EAST, rand, 0, EAST, go);
 		l.putConstraint(WEST, rand, 0, WEST, go);
 		frame.add(rand);
+
+		JPanel iconList = new JPanel(new GridBagLayout());
+		iconList.setBackground(null);
+		GridBagConstraints c = new GridBagConstraints();
+		l.putConstraint(NORTH, iconList, 5, SOUTH, prev);
+		l.putConstraint(EAST, iconList, 0, EAST, wrap);
+		l.putConstraint(WEST, iconList, 0, WEST, wrap);
+		frame.add(iconList);
+
+		final int maxCol = 6;
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridy = 0;
+		c.gridx = 0;
+		for (Skin s : SKINS) {
+			SkinButton sb = new SkinButton(s);
+			sb.addActionListener(
+				arg0 -> {
+					skins.setSelectedItem(sb.getSkin());
+				});
+			iconList.add(sb, c);
+			c.gridx++;
+			if (c.gridx == maxCol) {
+				c.gridx = 0;
+				c.gridy++;
+			}
+		}
 
 		// file explorer
 		final BetterJFileChooser explorer = new BetterJFileChooser();
@@ -113,8 +149,10 @@ public class Reskin {
 			arg0 -> {
 				Skin sel = (Skin) skins.getSelectedItem();
 				prev.setIcon(sel.getImageIcon());
+				skinsText.setText(sel.toString());
 			});
 		prev.setIcon(Skin.BENANA.getImageIcon());
+		skinsText.setText(Skin.BENANA.toString());
 
 		// can't clear text due to wonky code
 		// have to set a blank file instead
@@ -193,9 +231,10 @@ public class Reskin {
 		frame.setIconImage(ico);
 
 		// frame setting
+		wrap.setBackground(new Color(225, 225, 225));
 		frame.setSize(d);
-		wrap.setBackground(new Color(220, 220, 220));
 		frame.setMinimumSize(d);
+		frame.setResizable(false);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setLocation(350, 350);
 

@@ -25,12 +25,15 @@ public enum Skin {
 	CHEST ("chest", GREEN),
 	CUCCO ("cucco", RED),
 	DWARF ("dwarf", BLUE),
+	FAIRY ("fairy", BLUE),
 	ICE_ROD ("icerod", BLUE),
+	MEAT ("meat", RED),
 	MAIL ("mail", GREEN),
 	PUFF ("puff", BLUE),
 	QUACK ("quack", GREEN),
 	VITREOUS ("vitreous", GREEN),
 	WOODFELLA ("woodfella", BLUE),
+	SIX_NINE ("69", GREEN),
 	KINSTONE ("kinstone", GREEN),
 	Z1_LINK ("z1link", GREEN),
 	Z1_OLD_MAN ("z1oldman", GREEN),
@@ -60,6 +63,7 @@ public enum Skin {
 	private final byte[] data;
 	private final BufferedImage preview;
 	private final ImageIcon ico;
+	private final ImageIcon icoSmall;
 
 	private Skin(String s, Palette p) {
 		name = s;
@@ -95,10 +99,12 @@ public enum Skin {
 		}
 		preview = new BufferedImage(32, 32, BufferedImage.TYPE_4BYTE_ABGR);
 		Graphics2D g = preview.createGraphics();
+
 		g.scale(2, 2);
 		g.drawImage(itemp, 0, 0, null);
 		g.dispose();
 		ico = new ImageIcon(preview);
+		icoSmall = new ImageIcon(itemp);
 	}
 
 	public String toString() {
@@ -107,6 +113,10 @@ public enum Skin {
 
 	public ImageIcon getImageIcon() {
 		return ico;
+	}
+
+	public ImageIcon getImageIconSmall() {
+		return icoSmall;
 	}
 
 	public byte[] getData() {
