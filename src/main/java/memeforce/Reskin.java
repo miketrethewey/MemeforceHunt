@@ -3,6 +3,7 @@ package memeforce;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -10,8 +11,10 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SpringLayout;
@@ -19,12 +22,15 @@ import javax.swing.UIManager;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import spritemanipulator.BetterJFileChooser;
+import spritemanipulator.SpriteManipulator;
 
 import static javax.swing.SpringLayout.*;
 
 public class Reskin {
 	public static final int OFFSET = 0x18A800;
 	public static final int PAL_LOC = 0x100A01;
+
+	static final Skin[] SKINS = Skin.values();
 
 	public static void main(String[] args) throws IOException {
 		javax.swing.SwingUtilities.invokeLater(new Runnable() {
@@ -89,6 +95,13 @@ public class Reskin {
 		l.putConstraint(WEST, go, 5, WEST, wrap);
 		frame.add(go);
 
+		// random patch button
+		JButton rand = new JButton("Surprise me");
+		l.putConstraint(NORTH, rand, 5, SOUTH, go);
+		l.putConstraint(EAST, rand, 0, EAST, go);
+		l.putConstraint(WEST, rand, 0, WEST, go);
+		frame.add(rand);
+
 		// file explorer
 		final BetterJFileChooser explorer = new BetterJFileChooser();
 		FileNameExtensionFilter romFilter =
@@ -103,6 +116,72 @@ public class Reskin {
 			});
 		prev.setIcon(Skin.BENANA.getImageIcon());
 
+		// can't clear text due to wonky code
+		// have to set a blank file instead
+		final File EEE = new File("");
+
+		// load sprite file
+		find.addActionListener(
+			arg0 -> {
+				explorer.setSelectedFile(EEE);
+				int option = explorer.showOpenDialog(find);
+				if (option == JFileChooser.CANCEL_OPTION) { return; }
+
+				// read the file
+				String n = "";
+				try {
+					n = explorer.getSelectedFile().getPath();
+				} catch (Exception e) {
+					JOptionPane.showMessageDialog(frame,
+							e.getMessage(),
+							"PROBLEM",
+							JOptionPane.WARNING_MESSAGE);
+					return;
+				}
+
+				if (SpriteManipulator.testFileType(n, "sfc")) {
+					fileName.setText(n);
+				}
+			});
+
+		go.addActionListener(
+			arg0 -> {
+				String n = fileName.getText();
+				try {
+					patchROM(n, (Skin) skins.getSelectedItem());
+				} catch (Exception e) {
+					JOptionPane.showMessageDialog(frame,
+							e.getMessage(),
+							"PROBLEM",
+							JOptionPane.WARNING_MESSAGE);
+					return;
+				}
+				JOptionPane.showMessageDialog(frame,
+						"SUCCESS",
+						"Enjoy",
+						JOptionPane.WARNING_MESSAGE);
+			});
+
+		rand.addActionListener(
+			arg0 -> {
+				String n = fileName.getText();
+				int r = (int) (Math.random() * SKINS.length);
+
+				try {
+					patchROM(n, SKINS[r]);
+				} catch (Exception e) {
+					JOptionPane.showMessageDialog(frame,
+							e.getMessage(),
+							"PROBLEM",
+							JOptionPane.WARNING_MESSAGE);
+					return;
+				}
+				JOptionPane.showMessageDialog(frame,
+						"SUCCESS",
+						"Enjoy",
+						JOptionPane.WARNING_MESSAGE);
+			});
+
 		// ico
 		BufferedImage ico;
 		try {
@@ -112,9 +191,10 @@ public class Reskin {
 		}
 
 		frame.setIconImage(ico);
+
 		// frame setting
 		frame.setSize(d);
-		wrap.setBackground(new Color(120, 120, 120));
+		wrap.setBackground(new Color(220, 220, 220));
 		frame.setMinimumSize(d);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setLocation(350, 350);
@@ -131,13 +211,21 @@ public class Reskin {
 			fsInput.close();
 
 			try (FileOutputStream fsOut = new FileOutputStream(romTarget)) {
-				// grab relevant data from zspr file
 				byte[] data = s.getData();
-				int i = OFFSET;
+
+				// clear up space (safety)
+				int pos = OFFSET;
+				for (int i = 0; i < 950; i++, pos++) {
+					romStream[pos] = 0;
+				}
+
+				// write graphics
+				pos = OFFSET;
 				for (byte b : data) {
-					romStream[i++] = b;
+					romStream[pos++] = b;
 				}
 				romStream[PAL_LOC] = s.getPalette();
+
 				fsOut.write(romStream, 0, romStream.length);
 				fsOut.close();
 			}
