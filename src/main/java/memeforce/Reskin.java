@@ -1,6 +1,7 @@
 package memeforce;
 
 import java.awt.Color;
+import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -9,6 +10,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.URL;
 
 import javax.imageio.ImageIO;
 import javax.swing.JButton;
@@ -38,12 +40,14 @@ import static javax.swing.SpringLayout.*;
  * Shoutouts to Zarby89
  */
 public class Reskin {
-	public static final String VERSION = "1.1";
+	public static final String VERSION = "1.2";
+	private static final String LINK = "https://github.com/fatmanspanda/MemeforceHunt/releases";
 
 	public static final int OFFSET = 0x18A800;
 	public static final int PAL_LOC = 0x103B2D;
 	public static final int PAL_OW = 0x100A03;
 
+	static final int PER_ROW = 8;
 	static final Skin[] SKINS = Skin.values();
 
 	public static void main(String[] args) throws IOException {
@@ -66,7 +70,7 @@ public class Reskin {
 			// do nothing
 		} //end System
 
-		final Dimension d = new Dimension(370, 350);
+		final Dimension d = new Dimension(400, 400);
 		JFrame frame = new JFrame("Memeforce Hunt v" + VERSION);
 
 		SpringLayout l = new SpringLayout();
@@ -127,7 +131,6 @@ public class Reskin {
 		l.putConstraint(WEST, iconList, 0, WEST, wrap);
 		frame.add(iconList);
 
-		final int maxCol = 7;
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridy = 0;
 		c.gridx = 0;
@@ -139,11 +142,35 @@ public class Reskin {
 				});
 			iconList.add(sb, c);
 			c.gridx++;
-			if (c.gridx == maxCol) {
+			if (c.gridx == PER_ROW) {
 				c.gridx = 0;
 				c.gridy++;
 			}
 		}
+
+		// update checks
+		JButton update = new JButton("Check for updates");
+		l.putConstraint(SOUTH, update, -5, SOUTH, wrap);
+		l.putConstraint(EAST, update, -5, EAST, wrap);
+		frame.add(update);
+
+		update.addActionListener(
+				arg0 -> {
+					URL aa;
+					try {
+						aa = new URL(LINK);
+						Desktop desktop = Desktop.isDesktopSupported() ? Desktop.getDesktop() : null;
+						if (desktop != null && desktop.isSupported(Desktop.Action.BROWSE)) {
+								desktop.browse(aa.toURI());
+						}
+					} catch (Exception e) {
+						JOptionPane.showMessageDialog(frame,
+								"uhhh",
+								"Houston, we have a problem.",
+								JOptionPane.WARNING_MESSAGE);
+						e.printStackTrace();
+					}
+				});
 
 		// file explorer
 		final BetterJFileChooser explorer = new BetterJFileChooser();
