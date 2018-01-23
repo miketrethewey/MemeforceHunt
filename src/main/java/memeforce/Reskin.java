@@ -33,13 +33,16 @@ import static javax.swing.SpringLayout.*;
  * Compression command:
  * recomp.exe u_item.bin item.bin 0 0 0
  * 
+ * for %f in (u_*.bin) do (recomp.exe %f n%f 0 0 0)
+ * 
  * Shoutouts to Zarby89
  */
 public class Reskin {
-	public static final String VERSION = "1.0";
+	public static final String VERSION = "1.1";
 
 	public static final int OFFSET = 0x18A800;
 	public static final int PAL_LOC = 0x103B2D;
+	public static final int PAL_OW = 0x100A03;
 
 	static final Skin[] SKINS = Skin.values();
 
@@ -63,7 +66,7 @@ public class Reskin {
 			// do nothing
 		} //end System
 
-		final Dimension d = new Dimension(350, 350);
+		final Dimension d = new Dimension(370, 350);
 		JFrame frame = new JFrame("Memeforce Hunt v" + VERSION);
 
 		SpringLayout l = new SpringLayout();
@@ -124,7 +127,7 @@ public class Reskin {
 		l.putConstraint(WEST, iconList, 0, WEST, wrap);
 		frame.add(iconList);
 
-		final int maxCol = 6;
+		final int maxCol = 7;
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridy = 0;
 		c.gridx = 0;
@@ -271,7 +274,9 @@ public class Reskin {
 				for (byte b : data) {
 					romStream[pos++] = b;
 				}
+
 				romStream[PAL_LOC] = s.getPalette();
+				romStream[PAL_OW] = s.getPaletteOW();
 
 				fsOut.write(romStream, 0, romStream.length);
 				fsOut.close();

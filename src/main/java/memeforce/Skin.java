@@ -31,33 +31,46 @@ public enum Skin {
 	MAIL ("mail", GREEN),
 	PUFF ("puff", BLUE),
 	QUACK ("quack", GREEN),
+	TILE ("tile", BLUE),
 	VITREOUS ("vitreous", GREEN),
 	WOODFELLA ("woodfella", BLUE),
 	SIX_NINE ("69", GREEN),
+	JOY_PENDANT ("joypendant", BLUE),
 	KINSTONE ("kinstone", GREEN),
 	Z1_LINK ("z1link", GREEN),
 	Z1_OLD_MAN ("z1oldman", GREEN),
 	NAVI ("navi", BLUE),
 	SKULLTULA ("skulltula", GREEN),
-	FORK ("fork", GREEN),
+	VEETORP ("veetorp", GREEN),
 	BIRB ("birb", GREEN),
+	PUG  ("pug", BLUE),
 	HONK ("honk", GREEN),
 	PEACH ("peach", RED),
+	COFFEE ("coffee", RED),
 	GLACEON ("glaceon", BLUE),
 	POKEBALL ("pokeball", RED),
-	COFFEE ("coffee", RED),
+	SHARD ("shard", RED),
+	EGG ("egg", RED),
 	COIN ("coin", BLUE),
 	ONE_UP ("1up", GREEN),
 	MOON ("moon", GREEN),
 	STAR ("star", GREEN),
+	FEATHER ("feather", BLUE),
+	YOSHI ("yoshi", RED),
 	Q_BLOCK ("qblock", GREEN),
+	FORTRESS ("fortress", RED),
+	KOOPA ("koopa", BLUE),
+	SHINE ("shine", GREEN),
+	CUBE ("cube", GREEN),
+	BEER ("beer", GREEN),
+	PIZZA ("pizza", GREEN),
+	PIZZA_SLICE ("pizzaslice", GREEN),
+	COOKIE ("cookie", BLUE),
+	FORK ("fork", GREEN),
 	B ("B", RED),
 	POOP ("poop", RED),
 	PYTHON ("python", BLUE),
-	PIZZA ("pizza", GREEN),
-	PIZZA_SLICE ("pizzaslice", GREEN),
 	E404 ("E404", GREEN),
-	SHINE ("shine", GREEN),
 	;
 
 	private final String name;
@@ -131,5 +144,9 @@ public enum Skin {
 
 	public byte getPalette() {
 		return p.b;
+	}
+
+	public byte getPaletteOW() {
+		return p.bOW;
 	}
 }
