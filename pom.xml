@@ -1,19 +1,22 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>MemeforceHunt</groupId>
-    <artifactId>MemeforceHunt</artifactId>
-    <version>0.0.1</version>
+    <parent>
+        <groupId>com.alttp.sprite.memeforcehunt</groupId>
+        <artifactId>memeforcehunt-parent</artifactId>
+        <version>0.0.1</version>
+        <relativePath>parent/pom.xml</relativePath>
+    </parent>
 
-    <properties>
-        <!-- jdk needed -->
-        <jdk.version>11</jdk.version>
-        <!-- compile to -->
-        <java.version>8</java.version>
-        <maven.compiler.release>${java.version}</maven.compiler.release>
+    <artifactId>memeforcehunt</artifactId>
+    <packaging>pom</packaging>
 
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
+    <modules>
+        <module>parent</module>
+        <module>common</module>
+        <module>gui</module>
+        <module>lib</module>
+    </modules>
 
     <dependencies>
         <dependency>
@@ -23,54 +26,4 @@
         </dependency>
     </dependencies>
 
-    <build>
-        <finalName>MemeforceHunt</finalName>
-
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.1</version>
-                <inherited>true</inherited>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-shade-plugin</artifactId>
-                <version>3.2.2</version>
-
-                <configuration>
-                    <createDependencyReducedPom>true</createDependencyReducedPom>
-                    <filters>
-                        <filter>
-                            <artifact>*:*</artifact>
-                            <excludes>
-                                <exclude>META-INF/*.SF</exclude>
-                                <exclude>META-INF/*.DSA</exclude>
-                                <exclude>META-INF/*.RSA</exclude>
-                            </excludes>
-                        </filter>
-                    </filters>
-                </configuration>
-
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>shade</goal>
-                        </goals>
-                        <configuration>
-                            <transformers>
-                                <transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
-                                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <mainClass>memeforce.Reskin</mainClass>
-                                </transformer>
-                            </transformers>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
-
-    </build>
 </project>

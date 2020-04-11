@@ -1,15 +1,16 @@
-package memeforce;
+package com.alttp.sprite.memeforcehunt.lib;
+
+import static com.alttp.sprite.memeforcehunt.lib.Palette.BLUE;
+import static com.alttp.sprite.memeforcehunt.lib.Palette.GREEN;
+import static com.alttp.sprite.memeforcehunt.lib.Palette.RED;
 
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
-
-import static memeforce.Palette.*;
 
 public enum Skin {
 	BENANA ("Benana (ajneb174)", "benana", GREEN),
@@ -129,10 +130,6 @@ public enum Skin {
 		icoSmall = new ImageIcon(itemp);
 	}
 
-	public String toString() {
-		return name;
-	}
-
 	public ImageIcon getImageIcon() {
 		return ico;
 	}
@@ -155,5 +152,9 @@ public enum Skin {
 
 	public byte getPaletteOW() {
 		return p.bOW;
+	}
+
+	public String toString() {
+		return name;
 	}
 }
