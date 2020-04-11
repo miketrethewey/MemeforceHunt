@@ -11,6 +11,8 @@
     <artifactId>memeforcehunt</artifactId>
     <packaging>pom</packaging>
 
+    <name>Memeforce Hunt</name>
+
     <modules>
         <module>parent</module>
         <module>common</module>

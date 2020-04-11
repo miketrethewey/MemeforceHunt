@@ -12,8 +12,9 @@
     </parent>
 
     <artifactId>memeforcehunt-common</artifactId>
-
     <packaging>pom</packaging>
+
+    <name>Memeforce Hunt :: common</name>
 
     <modules>
         <module>value</module>

@@ -14,5 +14,6 @@
     <artifactId>memeforcehunt-common-value</artifactId>
     <packaging>jar</packaging>
 
+    <name>Memeforce Hunt :: common :: value</name>
 
 </project>
