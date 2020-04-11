@@ -1,37 +1,44 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>MemeforceHunt</groupId>
-  <artifactId>MemeforceHunt</artifactId>
-  <version>0.0.1</version>
-      <dependencies>
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>MemeforceHunt</groupId>
+    <artifactId>MemeforceHunt</artifactId>
+    <version>0.0.1</version>
+
+    <properties>
+        <!-- jdk needed -->
+        <jdk.version>11</jdk.version>
+        <!-- compile to -->
+        <java.version>8</java.version>
+        <maven.compiler.release>${java.version}</maven.compiler.release>
+
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <dependencies>
         <dependency>
-            <groupId>spritemanipulator.spritemanipulator</groupId>
-            <artifactId>manip</artifactId>
-            <version>1.0</version>
+            <groupId>spritemanipulator</groupId>
+            <artifactId>spritemanipulator</artifactId>
+            <version>0.0.1</version>
         </dependency>
     </dependencies>
+
     <build>
         <finalName>MemeforceHunt</finalName>
-        <resources>
-            <resource>
-                <directory>src/main/resources</directory>
-            </resource>
-        </resources>
+
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>2.5.1</version>
+                <version>3.8.1</version>
                 <inherited>true</inherited>
-                <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
-                </configuration>
             </plugin>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
-                <version>1.6</version>
+                <version>3.2.2</version>
+
                 <configuration>
                     <createDependencyReducedPom>true</createDependencyReducedPom>
                     <filters>
@@ -45,6 +52,7 @@
                         </filter>
                     </filters>
                 </configuration>
+
                 <executions>
                     <execution>
                         <phase>package</phase>
@@ -63,5 +71,6 @@
                 </executions>
             </plugin>
         </plugins>
+
     </build>
 </project>
