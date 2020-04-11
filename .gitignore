@@ -120,8 +120,6 @@ hs_err_pid*
 # Edit at https://www.gitignore.io/?templates=maven,gradle,leiningen
 
 ### Leiningen ###
-pom.xml
-pom.xml.asc
 *.jar
 *.class
 /classes/

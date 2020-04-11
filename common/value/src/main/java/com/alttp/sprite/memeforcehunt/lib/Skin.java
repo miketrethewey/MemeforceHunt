@@ -130,6 +130,10 @@ public enum Skin {
 		icoSmall = new ImageIcon(itemp);
 	}
 
+	public String getName() {
+		return name;
+	}
+
 	public ImageIcon getImageIcon() {
 		return ico;
 	}

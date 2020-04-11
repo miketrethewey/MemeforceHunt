@@ -210,9 +210,9 @@ public class MemeforceHuntApp {
 
         go.addActionListener(
                 arg0 -> {
-                    String n = fileName.getText();
+                    String fileNameText = fileName.getText();
                     try {
-                        AlttpRomPatcher.patchROM(n, (Skin) skins.getSelectedItem());
+                        AlttpRomPatcher.patchROM(fileNameText, (Skin) skins.getSelectedItem());
                     } catch (Exception e) {
                         JOptionPane.showMessageDialog(frame,
                                 "Something went wrong.",
@@ -230,11 +230,11 @@ public class MemeforceHuntApp {
 
         rand.addActionListener(
                 arg0 -> {
-                    String n = fileName.getText();
+                    String fileNameText = fileName.getText();
                     int r = (int) (Math.random() * SKINS.length);
 
                     try {
-                        AlttpRomPatcher.patchROM(n, SKINS[r]);
+                        AlttpRomPatcher.patchROM(fileNameText, SKINS[r]);
                     } catch (Exception e) {
                         JOptionPane.showMessageDialog(frame,
                                 "Something went wrong.",
