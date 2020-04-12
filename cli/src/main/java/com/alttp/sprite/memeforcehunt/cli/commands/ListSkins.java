@@ -1,6 +1,6 @@
 package com.alttp.sprite.memeforcehunt.cli.commands;
 
-import com.alttp.sprite.memeforcehunt.lib.Skin;
+import com.alttp.sprite.memeforcehunt.common.value.Skin;
 import java.util.Arrays;
 import java.util.Locale;
 import java.util.concurrent.Callable;

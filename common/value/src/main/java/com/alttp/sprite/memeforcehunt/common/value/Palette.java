@@ -1,4 +1,4 @@
-package com.alttp.sprite.memeforcehunt.lib;
+package com.alttp.sprite.memeforcehunt.common.value;
 
 public enum Palette {
 	GREEN ((byte) 0x04, (byte) 0x08),

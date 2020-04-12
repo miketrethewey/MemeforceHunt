@@ -1,6 +1,6 @@
 package com.alttp.sprite.memeforcehunt.gui;
 
-import com.alttp.sprite.memeforcehunt.lib.Skin;
+import com.alttp.sprite.memeforcehunt.common.value.Skin;
 import javax.swing.JButton;
 
 public class SkinButton extends JButton {

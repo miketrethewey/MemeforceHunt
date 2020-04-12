@@ -1,5 +1,6 @@
 package com.alttp.sprite.memeforcehunt.lib;
 
+import com.alttp.sprite.memeforcehunt.common.value.Skin;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;

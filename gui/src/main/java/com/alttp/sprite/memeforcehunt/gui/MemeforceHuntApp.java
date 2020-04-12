@@ -7,7 +7,7 @@ import static javax.swing.SpringLayout.SOUTH;
 import static javax.swing.SpringLayout.WEST;
 
 import com.alttp.sprite.memeforcehunt.lib.AlttpRomPatcher;
-import com.alttp.sprite.memeforcehunt.lib.Skin;
+import com.alttp.sprite.memeforcehunt.common.value.Skin;
 import java.awt.Color;
 import java.awt.Desktop;
 import java.awt.Dimension;

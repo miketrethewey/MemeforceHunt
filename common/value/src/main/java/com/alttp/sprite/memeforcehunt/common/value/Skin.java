@@ -1,8 +1,8 @@
-package com.alttp.sprite.memeforcehunt.lib;
+package com.alttp.sprite.memeforcehunt.common.value;
 
-import static com.alttp.sprite.memeforcehunt.lib.Palette.BLUE;
-import static com.alttp.sprite.memeforcehunt.lib.Palette.GREEN;
-import static com.alttp.sprite.memeforcehunt.lib.Palette.RED;
+import static com.alttp.sprite.memeforcehunt.common.value.Palette.BLUE;
+import static com.alttp.sprite.memeforcehunt.common.value.Palette.GREEN;
+import static com.alttp.sprite.memeforcehunt.common.value.Palette.RED;
 
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
