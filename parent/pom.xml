@@ -22,13 +22,34 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
+    <!-- dependencies in the management section are not forced upon the child modules. -->
     <dependencyManagement>
         <dependencies>
+            <!-- slf4j is an implementation-independent log framework. -->
             <dependency>
-                <groupId>spritemanipulator</groupId>
-                <artifactId>spritemanipulator</artifactId>
-                <version>0.0.1</version>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-api</artifactId>
+                <version>1.7.30</version>
+                <scope>compile</scope>
             </dependency>
+
+            <!-- this is the actual implementation which will result in log messages being configurable and printed. -->
+            <dependency>
+                <groupId>ch.qos.logback</groupId>
+                <artifactId>logback-classic</artifactId>
+                <version>1.2.3</version>
+                <!-- runtime means: only needed for tests or executing the app, not while compiling. -->
+                <scope>runtime</scope>
+            </dependency>
+
+            <!-- test dependencies -->
+            <dependency>
+                <groupId>org.junit.jupiter</groupId>
+                <artifactId>junit-jupiter-engine</artifactId>
+                <version>5.6.2</version>
+                <scope>test</scope>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 
