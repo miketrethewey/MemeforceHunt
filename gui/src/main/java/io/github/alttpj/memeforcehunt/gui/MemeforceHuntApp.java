@@ -34,7 +34,7 @@ import io.github.alttpj.memeforcehunt.lib.AlttpRomPatcher;
 public class MemeforceHuntApp {
 
   public static final String VERSION = "2.0.0-SNAPSHOT";
-  private static final String LINK = "https://github.com/fatmanspanda/MemeforceHunt/releases";
+  private static final String LINK = "https://github.com/alttpj/MemeforceHunt/releases";
 
   private static final int PER_ROW = 8;
 
