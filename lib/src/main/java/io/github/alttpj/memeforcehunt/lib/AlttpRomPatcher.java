@@ -11,8 +11,8 @@ import io.github.alttpj.memeforcehunt.common.value.Skin;
 public class AlttpRomPatcher {
 
   public static final int OFFSET = 0x18A800;
-  public static final int PAL_LOC = 0x103B2D;
-  public static final int PAL_OW = 0x100A03;
+  public static final int PAL_LOC = 0x104FE4;
+  public static final int PAL_OW = 0x10126E;
 
   public static void patchROM(final String romTarget, final Skin skin) throws IOException {
     final byte[] romStream = readRom(romTarget);
