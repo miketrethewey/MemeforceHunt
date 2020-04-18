@@ -6,6 +6,10 @@ _Note: This tool is not permitted for modifying game files that are to be used i
 
 == Usage
 
+.Screenshot
+[#img-spritemap]
+image::.github/current-screenshot.png[Screenshot,162,144,link=.github/current-screenshot.png]
+
 === Setup
 
 * Get a randomized game file from the http://alttpr.com/[A Link to the Past Randomizer website].
