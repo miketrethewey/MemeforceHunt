@@ -1,13 +1,7 @@
 package io.github.alttpj.memeforcehunt.gui;
 
-import static javax.swing.SpringLayout.EAST;
-import static javax.swing.SpringLayout.HORIZONTAL_CENTER;
-import static javax.swing.SpringLayout.NORTH;
-import static javax.swing.SpringLayout.SOUTH;
-import static javax.swing.SpringLayout.WEST;
-
-
 import javax.imageio.ImageIO;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -15,14 +9,16 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.SpringLayout;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
+import java.awt.BorderLayout;
 import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.FileDialog;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ItemEvent;
 import java.awt.image.BufferedImage;
 import java.io.FilenameFilter;
 import java.io.IOException;
@@ -33,27 +29,29 @@ import io.github.alttpj.memeforcehunt.lib.AlttpRomPatcher;
 
 public class MemeforceHuntApp {
 
-  public static final String VERSION = "2.0.0-SNAPSHOT";
   private static final String LINK = "https://github.com/alttpj/MemeforceHunt/releases";
 
   private static final int PER_ROW = 8;
 
   static final Skin[] SKINS = Skin.values();
+  private JTextField fileName;
+  private JLabel preview;
+  private JLabel skinsText;
+  private JComboBox<Skin> skins;
 
-  public static void main(final String[] args) throws IOException {
-    javax.swing.SwingUtilities.invokeLater(new Runnable() {
-      @Override
-      public void run() {
-        try {
-          printGUI();
-        } catch (final Exception e) {
-          e.printStackTrace();
-        }
+  public static void main(final String[] args) {
+    final MemeforceHuntApp memeforceHuntApp = new MemeforceHuntApp();
+
+    javax.swing.SwingUtilities.invokeLater(() -> {
+      try {
+        memeforceHuntApp.printGUI();
+      } catch (final Exception runEx) {
+        runEx.printStackTrace();
       }
     });
   }
 
-  public static void printGUI() {
+  public void printGUI() {
     // try to set LaF
     try {
       UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -61,93 +59,216 @@ public class MemeforceHuntApp {
       // do nothing
     } //end System
 
-    final Dimension d = new Dimension(800, 600);
-    final JFrame frame = new JFrame("Memeforce Hunt v" + VERSION);
+    final BorderLayout borderLayout = new BorderLayout();
+    borderLayout.setHgap(5);
+    borderLayout.setVgap(5);
+    final JFrame frame = new JFrame();
+    frame.setTitle("Memeforce Hunt v" + AlttpRomPatcher.getVersion());
+    frame.setLayout(borderLayout);
 
-    final SpringLayout l = new SpringLayout();
-    final JPanel wrap = (JPanel) frame.getContentPane();
-    wrap.setLayout(l);
+    /* *************************************
+     * left side
+     ***************************************/
+    final JPanel topBar = createTopBar();
+    frame.add(topBar, BorderLayout.NORTH);
 
-    final JLabel skinsText = new JLabel("---");
-    final JComboBox<Skin> skins = new JComboBox<Skin>(Skin.values());
-    skins.setEditable(false);
 
-    // rom name
-    final JTextField fileName = new JTextField("");
-    l.putConstraint(NORTH, fileName, 5, NORTH, wrap);
-    l.putConstraint(EAST, fileName, -15, HORIZONTAL_CENTER, skinsText);
-    l.putConstraint(WEST, fileName, 5, WEST, wrap);
-    frame.add(fileName);
+    /* *************************************
+     * right side
+     ***************************************/
+    final JPanel rightColumn = createRightColumn(frame);
+    frame.add(rightColumn, BorderLayout.EAST);
 
-    // file chooser
-    final JButton find = new JButton("Open");
-    l.putConstraint(NORTH, find, 0, NORTH, fileName);
-    l.putConstraint(EAST, find, -5, EAST, wrap);
-    l.putConstraint(WEST, find, 5, EAST, fileName);
-    frame.add(find);
 
-    // skin chooser
-    l.putConstraint(NORTH, skinsText, 5, SOUTH, fileName);
-    l.putConstraint(EAST, skinsText, -5, EAST, wrap);
-    l.putConstraint(WEST, skinsText, 5, HORIZONTAL_CENTER, wrap);
-    frame.add(skinsText);
+    /* *************************************
+     * center / main / icon chooser
+     ***************************************/
+    final JPanel iconSelector = createIconSelector();
+    frame.add(iconSelector, BorderLayout.CENTER);
 
-    // patch button
-    final JButton go = new JButton("Patch");
-    l.putConstraint(NORTH, go, 5, SOUTH, fileName);
-    l.putConstraint(EAST, go, -5, HORIZONTAL_CENTER, wrap);
-    l.putConstraint(WEST, go, 5, WEST, wrap);
-    frame.add(go);
+    /* *************************************
+     * bottom for baseline
+     ***************************************/
+    final JPanel base = new JPanel();
+    frame.add(base, BorderLayout.SOUTH);
 
-    // preview
-    final JLabel prev = new JLabel();
-    prev.setHorizontalAlignment(SwingConstants.CENTER);
-    l.putConstraint(NORTH, prev, 5, SOUTH, skinsText);
-    l.putConstraint(EAST, prev, 0, EAST, skinsText);
-    l.putConstraint(WEST, prev, 0, WEST, skinsText);
-    frame.add(prev);
 
-    // random patch button
-    final JButton rand = new JButton("Surprise me");
-    l.putConstraint(NORTH, rand, 5, SOUTH, go);
-    l.putConstraint(EAST, rand, 0, EAST, go);
-    l.putConstraint(WEST, rand, 0, WEST, go);
-    frame.add(rand);
+    /* *************************************
+     * window stuff
+     ***************************************/
+    // ico
+    BufferedImage ico;
+    try {
+      ico = ImageIO.read(Skin.class.getResourceAsStream("/triforce piece.png"));
+    } catch (final IOException e) {
+      ico = new BufferedImage(16, 16, BufferedImage.TYPE_4BYTE_ABGR);
+    }
 
-    final JPanel iconList = new JPanel(new GridBagLayout());
-    iconList.setBackground(null);
-    final GridBagConstraints c = new GridBagConstraints();
-    l.putConstraint(NORTH, iconList, 5, SOUTH, prev);
-    l.putConstraint(EAST, iconList, 0, EAST, wrap);
-    l.putConstraint(WEST, iconList, 0, WEST, wrap);
-    frame.add(iconList);
+    frame.setIconImage(ico);
 
-    c.fill = GridBagConstraints.HORIZONTAL;
-    c.gridy = 0;
-    c.gridx = 0;
-    for (final Skin s : SKINS) {
-      final SkinButton sb = new SkinButton(s);
-      sb.addActionListener(
-          arg0 -> {
-            skins.setSelectedItem(sb.getSkin());
-          });
-      iconList.add(sb, c);
-      sb.setToolTipText("Use Skin \"" + s.getName() + "\".");
-      c.gridx++;
-      if (c.gridx == PER_ROW) {
-        c.gridx = 0;
-        c.gridy++;
+    // frame setting
+    final Dimension size = new Dimension(600, 528);
+    frame.setMinimumSize(size);
+    frame.setResizable(true);
+    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    frame.setLocation(350, 350);
+
+    frame.setVisible(true);
+  }
+
+  /**
+   * Create the main icon selector.
+   *
+   * <p>It is just a little odd how this works.<br>
+   * First there is a hidden combo box. It is hidden, but used for the internal selection
+   * which item is currently selected. Kind of a 'state holder'.<br>
+   * It is also used as a indexed list for the random button.</p>
+   */
+  private JPanel createIconSelector() {
+    final JPanel iconGrid = new JPanel(new GridBagLayout());
+    final GridBagConstraints iconListGridConstraints = new GridBagConstraints();
+
+    iconListGridConstraints.fill = GridBagConstraints.HORIZONTAL;
+    iconListGridConstraints.gridy = 0;
+    iconListGridConstraints.gridx = 0;
+
+    /* *************************************
+     * model (data only)
+     ***************************************/
+    this.skins = new JComboBox<>(Skin.values());
+    this.skins.setEditable(false);
+
+    for (final Skin skin : SKINS) {
+      final SkinButton sb = new SkinButton(skin);
+      sb.addActionListener(arg0 -> this.skins.setSelectedItem(sb.getSkin()));
+      iconGrid.add(sb, iconListGridConstraints);
+      sb.setToolTipText("Use Skin \"" + skin.getName() + "\".");
+      iconListGridConstraints.gridx++;
+      if (iconListGridConstraints.gridx == PER_ROW) {
+        iconListGridConstraints.gridx = 0;
+        iconListGridConstraints.gridy++;
       }
     }
 
+    this.skins.addItemListener(
+        (ItemEvent itemEvent) -> {
+          final Skin sel = (Skin) this.skins.getSelectedItem();
+          this.preview.setIcon(sel.getImageIcon());
+          this.skinsText.setText(sel.toString());
+        });
+
+    return iconGrid;
+  }
+
+  private JPanel createRightColumn(final JFrame parent) {
+    final GridBagLayout gridBagLayout = new GridBagLayout();
+    final JPanel rightColumn = new JPanel(gridBagLayout);
+    final GridBagConstraints gbc = new GridBagConstraints();
+    gbc.gridx = 0;
+    gbc.gridy = 0;
+    gbc.fill = GridBagConstraints.BOTH;
+    gbc.ipadx = 10;
+    gbc.ipady = 10;
+    gbc.anchor = GridBagConstraints.NORTH;
+    gridBagLayout.rowWeights = new double[] {
+        // skintext, preview
+        0.0, 0.0,
+        // spacer 1
+        0.2,
+        // patch, random
+        0.0, 0.0,
+        // spacer 2+3
+        1.0, 1.0, 1.0,
+        // update
+        0.0
+    };
+    gbc.weighty = 0.5;
+
+    // skin text
+    this.skinsText = new JLabel("---");
+    this.skinsText.setHorizontalAlignment(SwingConstants.CENTER);
+    this.skinsText.setText(Skin.BENANA.toString());
+    rightColumn.add(this.skinsText, gbc);
+    gbc.gridy++;
+
+    // preview
+    this.preview = new JLabel();
+    this.preview.setHorizontalAlignment(SwingConstants.CENTER);
+    this.preview.setIcon(Skin.BENANA.getImageIcon());
+    rightColumn.add(this.preview, gbc);
+    gbc.gridy++;
+
+    // spacer
+    rightColumn.add(new JLabel(" "), gbc);
+    gbc.gridy++;
+
+    // patch button
+    final JButton doPatch = new JButton("Patch");
+    rightColumn.add(doPatch, gbc);
+    gbc.gridy++;
+
+    doPatch.addActionListener(
+        arg0 -> {
+          final String fileNameText = this.fileName.getText();
+          try {
+            AlttpRomPatcher.patchROM(fileNameText, (Skin) this.skins.getSelectedItem());
+          } catch (final Exception e) {
+            JOptionPane.showMessageDialog(parent,
+                "Something went wrong: [" + e.getMessage() + "].",
+                "PROBLEM",
+                JOptionPane.WARNING_MESSAGE,
+                Skin.SCREAM.getImageIcon());
+            return;
+          }
+          JOptionPane.showMessageDialog(parent,
+              "SUCCESS",
+              "Enjoy",
+              JOptionPane.PLAIN_MESSAGE,
+              Skin.BENANA.getImageIcon());
+        });
+
+    // random patch button
+    final JButton doRandom = new JButton("Surprise me");
+    rightColumn.add(doRandom, gbc);
+    gbc.gridy++;
+
+    doRandom.addActionListener(
+        arg0 -> {
+          final String fileNameText = this.fileName.getText();
+          final int r = (int) (Math.random() * SKINS.length);
+
+          try {
+            AlttpRomPatcher.patchROM(fileNameText, SKINS[r]);
+          } catch (final Exception patchException) {
+            JOptionPane.showMessageDialog(parent,
+                "Something went wrong.\n\n"
+                    + "Error Message:\n"
+                    + "" + patchException.getMessage(),
+                "PROBLEM",
+                JOptionPane.WARNING_MESSAGE,
+                Skin.SCREAM.getImageIcon());
+            return;
+          }
+          JOptionPane.showMessageDialog(parent,
+              "SUCCESS",
+              "Enjoy",
+              JOptionPane.PLAIN_MESSAGE,
+              Skin.BENANA.getImageIcon());
+        });
+
+    rightColumn.add(new JLabel(""), gbc);
+    gbc.gridy++;
+    rightColumn.add(new JLabel(""), gbc);
+    gbc.gridy++;
+    rightColumn.add(new JLabel(""), gbc);
+    gbc.gridy++;
+
     // update checks
     final JButton update = new JButton("Check for updates");
-    l.putConstraint(SOUTH, update, -5, SOUTH, wrap);
-    l.putConstraint(EAST, update, -5, EAST, wrap);
-    frame.add(update);
+    rightColumn.add(update, gbc);
 
     update.addActionListener(
-        arg0 -> {
+        (ActionEvent actionEvent) -> {
           final URL aa;
           try {
             aa = new URL(LINK);
@@ -156,13 +277,28 @@ public class MemeforceHuntApp {
               desktop.browse(aa.toURI());
             }
           } catch (final Exception e) {
-            JOptionPane.showMessageDialog(frame,
+            JOptionPane.showMessageDialog(parent,
                 "uhhh",
                 "Houston, we have a problem.",
                 JOptionPane.WARNING_MESSAGE);
             e.printStackTrace();
           }
         });
+
+    return rightColumn;
+  }
+
+  private JPanel createTopBar() {
+    final JPanel topBar = new JPanel();
+    topBar.setLayout(new BoxLayout(topBar, BoxLayout.X_AXIS));
+
+    // rom name
+    this.fileName = new JTextField("");
+    topBar.add(this.fileName);
+
+    // file chooser
+    final JButton find = new JButton("Open…");
+    topBar.add(find);
 
     // file explorer
     final FileDialog explorer = new java.awt.FileDialog((java.awt.Frame) null);
@@ -174,15 +310,6 @@ public class MemeforceHuntApp {
       return true;
     };
     explorer.setFilenameFilter(filenameFilter);
-
-    skins.addItemListener(
-        arg0 -> {
-          final Skin sel = (Skin) skins.getSelectedItem();
-          prev.setIcon(sel.getImageIcon());
-          skinsText.setText(sel.toString());
-        });
-    prev.setIcon(Skin.BENANA.getImageIcon());
-    skinsText.setText(Skin.BENANA.toString());
 
     // load sprite file
     find.addActionListener(
@@ -199,68 +326,10 @@ public class MemeforceHuntApp {
           }
 
           if (n.endsWith(".sfc")) {
-            fileName.setText(n);
+            this.fileName.setText(n);
           }
         });
 
-    go.addActionListener(
-        arg0 -> {
-          final String fileNameText = fileName.getText();
-          try {
-            AlttpRomPatcher.patchROM(fileNameText, (Skin) skins.getSelectedItem());
-          } catch (final Exception e) {
-            JOptionPane.showMessageDialog(frame,
-                "Something went wrong.",
-                "PROBLEM",
-                JOptionPane.WARNING_MESSAGE,
-                Skin.SCREAM.getImageIcon());
-            return;
-          }
-          JOptionPane.showMessageDialog(frame,
-              "SUCCESS",
-              "Enjoy",
-              JOptionPane.PLAIN_MESSAGE,
-              Skin.BENANA.getImageIcon());
-        });
-
-    rand.addActionListener(
-        arg0 -> {
-          final String fileNameText = fileName.getText();
-          final int r = (int) (Math.random() * SKINS.length);
-
-          try {
-            AlttpRomPatcher.patchROM(fileNameText, SKINS[r]);
-          } catch (final Exception e) {
-            JOptionPane.showMessageDialog(frame,
-                "Something went wrong.",
-                "PROBLEM",
-                JOptionPane.WARNING_MESSAGE,
-                Skin.SCREAM.getImageIcon());
-            return;
-          }
-          JOptionPane.showMessageDialog(frame,
-              "SUCCESS",
-              "Enjoy",
-              JOptionPane.PLAIN_MESSAGE,
-              Skin.BENANA.getImageIcon());
-        });
-
-    // ico
-    BufferedImage ico;
-    try {
-      ico = ImageIO.read(Skin.class.getResourceAsStream("/triforce piece.png"));
-    } catch (final IOException e) {
-      ico = new BufferedImage(16, 16, BufferedImage.TYPE_4BYTE_ABGR);
-    }
-
-    frame.setIconImage(ico);
-
-    // frame setting
-    frame.setMinimumSize(d);
-    frame.setResizable(true);
-    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    frame.setLocation(350, 350);
-
-    frame.setVisible(true);
+    return topBar;
   }
 }
