@@ -27,7 +27,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.concurrent.Callable;
 
-import io.github.alttpj.memeforcehunt.common.value.Skin;
+import io.github.alttpj.memeforcehunt.common.value.SpritemapWithSkin;
 import io.github.alttpj.memeforcehunt.lib.AlttpRomPatcher;
 
 public class MemeforceHuntGui implements Callable<Integer> {
@@ -36,11 +36,11 @@ public class MemeforceHuntGui implements Callable<Integer> {
 
   private static final int PER_ROW = 8;
 
-  static final Skin[] SKINS = Skin.values();
+  static final SpritemapWithSkin[] SPRITEMAPS_WITH_SKIN = SpritemapWithSkin.values();
   private JTextField fileName;
   private JLabel preview;
   private JLabel skinsText;
-  private JComboBox<Skin> skins;
+  private JComboBox<SpritemapWithSkin> skins;
 
   @Override
   public Integer call() throws Exception {
@@ -103,7 +103,7 @@ public class MemeforceHuntGui implements Callable<Integer> {
     // ico
     BufferedImage ico;
     try {
-      ico = ImageIO.read(Skin.class.getResourceAsStream("/triforce piece.png"));
+      ico = ImageIO.read(SpritemapWithSkin.class.getResourceAsStream("/triforce piece.png"));
     } catch (final IOException e) {
       ico = new BufferedImage(16, 16, BufferedImage.TYPE_4BYTE_ABGR);
     }
@@ -140,14 +140,14 @@ public class MemeforceHuntGui implements Callable<Integer> {
     /* *************************************
      * model (data only)
      ***************************************/
-    this.skins = new JComboBox<>(Skin.values());
+    this.skins = new JComboBox<>(SpritemapWithSkin.values());
     this.skins.setEditable(false);
 
-    for (final Skin skin : SKINS) {
-      final SkinButton sb = new SkinButton(skin);
-      sb.addActionListener(arg0 -> this.skins.setSelectedItem(sb.getSkin()));
+    for (final SpritemapWithSkin spritemapWithSkin : SPRITEMAPS_WITH_SKIN) {
+      final SkinButton sb = new SkinButton(spritemapWithSkin);
+      sb.addActionListener(arg0 -> this.skins.setSelectedItem(sb.getSpritemapWithSkin()));
       iconGrid.add(sb, iconListGridConstraints);
-      sb.setToolTipText("Use Skin \"" + skin.getName() + "\".");
+      sb.setToolTipText("Use Skin \"" + spritemapWithSkin.getName() + "\".");
       iconListGridConstraints.gridx++;
       if (iconListGridConstraints.gridx == PER_ROW) {
         iconListGridConstraints.gridx = 0;
@@ -157,7 +157,7 @@ public class MemeforceHuntGui implements Callable<Integer> {
 
     this.skins.addItemListener(
         (ItemEvent itemEvent) -> {
-          final Skin sel = (Skin) this.skins.getSelectedItem();
+          final SpritemapWithSkin sel = (SpritemapWithSkin) this.skins.getSelectedItem();
           this.preview.setIcon(sel.getImageIcon());
           this.skinsText.setText(sel.toString());
         });
@@ -194,14 +194,14 @@ public class MemeforceHuntGui implements Callable<Integer> {
     // skin text
     this.skinsText = new JLabel("---");
     this.skinsText.setHorizontalAlignment(SwingConstants.CENTER);
-    this.skinsText.setText(Skin.BENANA.toString());
+    this.skinsText.setText(SpritemapWithSkin.BENANA.toString());
     rightColumn.add(this.skinsText, gbc);
     gbc.gridy++;
 
     // preview
     this.preview = new JLabel();
     this.preview.setHorizontalAlignment(SwingConstants.CENTER);
-    this.preview.setIcon(Skin.BENANA.getImageIcon());
+    this.preview.setIcon(SpritemapWithSkin.BENANA.getImageIcon());
     rightColumn.add(this.preview, gbc);
     gbc.gridy++;
 
@@ -218,20 +218,20 @@ public class MemeforceHuntGui implements Callable<Integer> {
         arg0 -> {
           final String fileNameText = this.fileName.getText();
           try {
-            AlttpRomPatcher.patchROM(fileNameText, (Skin) this.skins.getSelectedItem());
+            AlttpRomPatcher.patchROM(fileNameText, (SpritemapWithSkin) this.skins.getSelectedItem());
           } catch (final Exception e) {
             JOptionPane.showMessageDialog(parent,
                 "Something went wrong: [" + e.getMessage() + "].",
                 "PROBLEM",
                 JOptionPane.WARNING_MESSAGE,
-                Skin.SCREAM.getImageIcon());
+                SpritemapWithSkin.SCREAM.getImageIcon());
             return;
           }
           JOptionPane.showMessageDialog(parent,
               "SUCCESS",
               "Enjoy",
               JOptionPane.PLAIN_MESSAGE,
-              Skin.BENANA.getImageIcon());
+              SpritemapWithSkin.BENANA.getImageIcon());
         });
 
     // random patch button
@@ -242,10 +242,10 @@ public class MemeforceHuntGui implements Callable<Integer> {
     doRandom.addActionListener(
         arg0 -> {
           final String fileNameText = this.fileName.getText();
-          final int r = (int) (Math.random() * SKINS.length);
+          final int r = (int) (Math.random() * SPRITEMAPS_WITH_SKIN.length);
 
           try {
-            AlttpRomPatcher.patchROM(fileNameText, SKINS[r]);
+            AlttpRomPatcher.patchROM(fileNameText, SPRITEMAPS_WITH_SKIN[r]);
           } catch (final Exception patchException) {
             JOptionPane.showMessageDialog(parent,
                 "Something went wrong.\n\n"
@@ -253,14 +253,14 @@ public class MemeforceHuntGui implements Callable<Integer> {
                     + "" + patchException.getMessage(),
                 "PROBLEM",
                 JOptionPane.WARNING_MESSAGE,
-                Skin.SCREAM.getImageIcon());
+                SpritemapWithSkin.SCREAM.getImageIcon());
             return;
           }
           JOptionPane.showMessageDialog(parent,
               "SUCCESS",
               "Enjoy",
               JOptionPane.PLAIN_MESSAGE,
-              Skin.BENANA.getImageIcon());
+              SpritemapWithSkin.BENANA.getImageIcon());
         });
 
     rightColumn.add(new JLabel(""), gbc);

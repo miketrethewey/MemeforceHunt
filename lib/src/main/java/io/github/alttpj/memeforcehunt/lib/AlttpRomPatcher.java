@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
-import io.github.alttpj.memeforcehunt.common.value.Skin;
+import io.github.alttpj.memeforcehunt.common.value.SpritemapWithSkin;
 
 public class AlttpRomPatcher {
 
@@ -14,10 +14,12 @@ public class AlttpRomPatcher {
   public static final int PAL_LOC = 0x104FE4;
   public static final int PAL_OW = 0x10126E;
 
-  public static void patchROM(final String romTarget, final Skin skin) throws IOException {
+  private static final int MAX_SPRITEMAP_SIZE = 1023;
+
+  public static void patchROM(final String romTarget, final SpritemapWithSkin spritemapWithSkin) throws IOException {
     final byte[] romStream = readRom(romTarget);
 
-    writeSkin(romStream, skin);
+    writeSkin(romStream, spritemapWithSkin);
 
     writeRom(romTarget, romStream);
   }
@@ -28,12 +30,15 @@ public class AlttpRomPatcher {
     }
   }
 
-  private static void writeSkin(final byte[] romStream, final Skin skin) {
-    final byte[] data = skin.getData();
+  private static void writeSkin(final byte[] romStream, final SpritemapWithSkin spritemapWithSkin) {
+    final byte[] data = spritemapWithSkin.getData();
+    if (spritemapWithSkin.getData().length > MAX_SPRITEMAP_SIZE) {
+      throw new InvalidDataException("Skin too larg!");
+    }
 
     // clear up space (safety)
     int pos = OFFSET;
-    for (int i = 0; i < 950; i++, pos++) {
+    for (int i = 0; i < MAX_SPRITEMAP_SIZE; i++, pos++) {
       romStream[pos] = 0;
     }
 
@@ -43,8 +48,8 @@ public class AlttpRomPatcher {
       romStream[pos++] = b;
     }
 
-    romStream[PAL_LOC] = skin.getPalette();
-    romStream[PAL_OW] = skin.getPaletteOW();
+    romStream[PAL_LOC] = spritemapWithSkin.getItemPalette();
+    romStream[PAL_OW] = spritemapWithSkin.getPaletteOW();
   }
 
   private static byte[] readRom(final String romTarget) throws IOException {
@@ -55,6 +60,7 @@ public class AlttpRomPatcher {
       fsInput.read(romStream);
       fsInput.getChannel().position(0);
     }
+
     return romStream;
   }
 
