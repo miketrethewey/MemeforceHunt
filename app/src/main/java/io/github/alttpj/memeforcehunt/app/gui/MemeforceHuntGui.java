@@ -34,7 +34,7 @@ import java.awt.event.ItemEvent;
 import java.awt.image.BufferedImage;
 import java.io.FilenameFilter;
 import java.io.IOException;
-import java.net.URL;
+import java.net.URI;
 import java.util.concurrent.Callable;
 import javax.imageio.ImageIO;
 import javax.swing.Box;
@@ -53,7 +53,7 @@ public class MemeforceHuntGui implements Callable<Integer> {
 
   private static final Logger LOG = LoggerFactory.getLogger(MemeforceHuntGui.class);
 
-  private static final String LINK = "https://github.com/alttpj/MemeforceHunt/releases";
+  private static final URI LINK = URI.create("https://github.com/alttpj/MemeforceHunt/releases");
 
   private static final int PER_ROW = 8;
 
@@ -70,7 +70,7 @@ public class MemeforceHuntGui implements Callable<Integer> {
       try {
         printGUI();
       } catch (final Exception runEx) {
-        runEx.printStackTrace();
+        LOG.error("Problem encountered starting or running the GUI.", runEx);
       }
     });
 
@@ -265,19 +265,17 @@ public class MemeforceHuntGui implements Callable<Integer> {
 
     update.addActionListener(
         (ActionEvent actionEvent) -> {
-          final URL aa;
           try {
-            aa = new URL(LINK);
             final Desktop desktop = Desktop.isDesktopSupported() ? Desktop.getDesktop() : null;
             if (desktop != null && desktop.isSupported(Desktop.Action.BROWSE)) {
-              desktop.browse(aa.toURI());
+              desktop.browse(LINK);
             }
           } catch (final Exception urlOpenEx) {
             JOptionPane.showMessageDialog(parent,
                 "uhhh",
                 "Houston, we have a problem.",
                 JOptionPane.WARNING_MESSAGE);
-            urlOpenEx.printStackTrace();
+            LOG.error("Problem opening the URI [{}].", LINK, urlOpenEx);
           }
         });
     return update;
@@ -310,6 +308,7 @@ public class MemeforceHuntGui implements Callable<Integer> {
               JOptionPane.PLAIN_MESSAGE,
               SpritemapWithSkin.BENANA.getImageIcon());
         });
+
     return doRandom;
   }
 

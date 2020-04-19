@@ -16,6 +16,7 @@
 
 package io.github.alttpj.memeforcehunt.app.cli.commands;
 
+import io.github.alttpj.memeforcehunt.app.cli.internal.SuppressForbidden;
 import io.github.alttpj.memeforcehunt.common.value.SpritemapWithSkin;
 
 import picocli.CommandLine.Command;
@@ -37,6 +38,7 @@ public class ListSkins implements Callable<Integer> {
     return 0;
   }
 
+  @SuppressForbidden
   private static void printSkin(final SpritemapWithSkin spritemapWithSkin) {
     final String format = String.format(Locale.ENGLISH,
         "[%3d] - %s",

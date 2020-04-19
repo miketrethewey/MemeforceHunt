@@ -19,6 +19,7 @@ package io.github.alttpj.memeforcehunt.app.cli;
 import io.github.alttpj.memeforcehunt.app.cli.commands.ListSkins;
 import io.github.alttpj.memeforcehunt.app.cli.commands.SetSkin;
 import io.github.alttpj.memeforcehunt.app.cli.commands.StartGui;
+import io.github.alttpj.memeforcehunt.app.cli.internal.SuppressForbidden;
 
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
@@ -42,6 +43,7 @@ public class MemeforceHuntApp implements Callable<Integer> {
   }
 
   @Override
+  @SuppressForbidden
   public Integer call() throws Exception {
     if (GraphicsEnvironment.isHeadless() || GraphicsEnvironment.getLocalGraphicsEnvironment().isHeadlessInstance()) {
       commandLine.usage(System.out);
