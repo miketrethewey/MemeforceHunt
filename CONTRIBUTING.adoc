@@ -1,0 +1,46 @@
+= Contributing
+
+== How to create a PR
+
+. Fork this repository
+. create a feature branch which has the name `MemeforceHunt-#iss`. +
+Example: `MemeforceHunt-1` using `git checkout -b MemeforceHunt-1`.
+. Develop
+. Create some junit tests.
+Keep them SIMPLE. If you set up too many mocks, you are doing something wrong.
+. When you are done, execute `mvn clean verify` before commiting. +
+Pay attention to checkstyle checks, tests and
+. Commit and push
+. Create pull request.
+
+== Commit and PR rules
+
+* Your code *must* have code coverage on new and important routines.
+* Your code *must* pass the checkstyle and enforcer validation.
+* You *must* have run `mvn clean verify -Pdocs,integration-tests` before creating the pull request.
+* You *must* license the code under Apache License v2.0.
+
+== How to develop
+
+* Make sure your IDE picks up the checkstyle rules from `build/checkstyle.xml`.
+* Do not change any lines which you did not need to touch (e.g. adding or removing a modifier).
+* Do not add or remove whitespace if not needed.
+* Do not use `else`.
+If you encounter an else, refactor out into a method which does this: +
+
+[source,java]
+----
+class SomeClass {
+  void method() {
+    if (false /*special condition*/) {
+      specialLogic();
+
+      return;
+    }
+
+    // always execute 'normal' logic without indentation.
+    normalLogic();
+  }
+}
+----
+
