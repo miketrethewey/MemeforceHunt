@@ -68,9 +68,22 @@
 
       <!-- test dependencies -->
       <dependency>
-        <groupId>org.junit.jupiter</groupId>
         <artifactId>junit-jupiter-engine</artifactId>
+        <groupId>org.junit.jupiter</groupId>
+        <scope>test</scope>
         <version>5.6.2</version>
+      </dependency>
+      <dependency>
+        <groupId>org.junit.jupiter</groupId>
+        <artifactId>junit-jupiter-params</artifactId>
+        <scope>test</scope>
+        <version>5.6.2</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.hamcrest</groupId>
+        <artifactId>hamcrest-library</artifactId>
+        <version>2.2</version>
         <scope>test</scope>
       </dependency>
 
@@ -204,12 +217,13 @@
                   <element>CLASS</element>
                   <excludes>
                     <exclude>*Test</exclude>
+                    <exclude>*IT</exclude>
                   </excludes>
                   <limits>
                     <limit>
                       <counter>LINE</counter>
                       <value>COVEREDRATIO</value>
-                      <minimum>50%</minimum>
+                      <minimum>5%</minimum>
                     </limit>
                   </limits>
                 </rule>

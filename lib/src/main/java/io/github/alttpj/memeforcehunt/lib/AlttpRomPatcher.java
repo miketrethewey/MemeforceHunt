@@ -31,7 +31,7 @@ public class AlttpRomPatcher {
   public static final int PAL_LOC = 0x104FE4;
   public static final int PAL_OW = 0x10126E;
 
-  private static final int MAX_SPRITEMAP_SIZE = 1023;
+  protected static final int MAX_SPRITEMAP_SIZE = 1023;
   private int offset;
   private int paletteLocationChest;
   private int paletteLocationOverworld;
@@ -56,11 +56,12 @@ public class AlttpRomPatcher {
     }
   }
 
-  private void writeSkin(final byte[] romStream, final SpritemapWithSkin spritemapWithSkin) throws IOException {
+  protected void writeSkin(final byte[] romStream, final SpritemapWithSkin spritemapWithSkin) throws IOException {
     final byte[] data = spritemapWithSkin.getData();
 
-    if (spritemapWithSkin.getData().length > MAX_SPRITEMAP_SIZE) {
-      throw new InvalidDataException("Skin too larg!");
+    if (data.length > MAX_SPRITEMAP_SIZE) {
+      throw new IOException(
+          "Skin too large! Max is [" + MAX_SPRITEMAP_SIZE + "], but supplied skin contains [" + data.length + "] bytes.");
     }
 
     final int pos = getOffset();

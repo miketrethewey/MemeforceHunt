@@ -17,7 +17,7 @@
 package io.github.alttpj.memeforcehunt.app.cli.commands;
 
 import io.github.alttpj.memeforcehunt.app.cli.internal.SuppressForbidden;
-import io.github.alttpj.memeforcehunt.common.value.SpritemapWithSkin;
+import io.github.alttpj.memeforcehunt.common.value.DefaultSpritemapWithSkins;
 
 import picocli.CommandLine.Command;
 
@@ -25,12 +25,12 @@ import java.util.Arrays;
 import java.util.Locale;
 import java.util.concurrent.Callable;
 
-@Command(name = "list", aliases = {"ls"}, description = "List available skins.")
+@Command(name = "list", aliases = {"ls"}, description = "List available (shipped) skins.")
 public class ListSkins implements Callable<Integer> {
 
   @Override
   public Integer call() throws Exception {
-    final SpritemapWithSkin[] values = SpritemapWithSkin.values();
+    final DefaultSpritemapWithSkins[] values = DefaultSpritemapWithSkins.values();
 
     Arrays.stream(values)
         .forEach(ListSkins::printSkin);
@@ -39,11 +39,11 @@ public class ListSkins implements Callable<Integer> {
   }
 
   @SuppressForbidden
-  private static void printSkin(final SpritemapWithSkin spritemapWithSkin) {
+  private static void printSkin(final DefaultSpritemapWithSkins spritemapWithSkin) {
     final String format = String.format(Locale.ENGLISH,
         "[%3d] - %s",
         spritemapWithSkin.ordinal(),
-        spritemapWithSkin.getDescription());
+        spritemapWithSkin.getSpritemapWithSkin().getDescription());
 
     System.out.println(format);
   }

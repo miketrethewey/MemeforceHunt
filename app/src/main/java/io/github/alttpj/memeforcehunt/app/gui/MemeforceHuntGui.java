@@ -17,6 +17,7 @@
 package io.github.alttpj.memeforcehunt.app.gui;
 
 
+import io.github.alttpj.memeforcehunt.common.value.DefaultSpritemapWithSkins;
 import io.github.alttpj.memeforcehunt.common.value.SpritemapWithSkin;
 import io.github.alttpj.memeforcehunt.lib.AlttpRomPatcher;
 
@@ -35,6 +36,7 @@ import java.awt.image.BufferedImage;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.net.URI;
+import java.util.Arrays;
 import java.util.concurrent.Callable;
 import javax.imageio.ImageIO;
 import javax.swing.Box;
@@ -57,12 +59,14 @@ public class MemeforceHuntGui implements Callable<Integer> {
 
   private static final int PER_ROW = 8;
 
-  private static final SpritemapWithSkin[] SPRITEMAPS_WITH_SKIN = SpritemapWithSkin.values();
+  private static final SpritemapWithSkin[] SPRITEMAPS_WITH_SKIN = Arrays.stream(DefaultSpritemapWithSkins.values())
+      .map(DefaultSpritemapWithSkins::getSpritemapWithSkin)
+      .toArray(SpritemapWithSkin[]::new);
 
   private JTextField fileName;
   private JLabel preview;
   private JLabel skinsText;
-  private JComboBox<SpritemapWithSkin> skins;
+  private JComboBox<DefaultSpritemapWithSkins> skins;
 
   @Override
   public Integer call() throws Exception {
@@ -126,7 +130,7 @@ public class MemeforceHuntGui implements Callable<Integer> {
     // ico
     BufferedImage ico;
     try {
-      ico = ImageIO.read(SpritemapWithSkin.class.getResourceAsStream("/triforce piece.png"));
+      ico = ImageIO.read(DefaultSpritemapWithSkins.class.getResourceAsStream("/triforce piece.png"));
     } catch (final IOException imageReadEx) {
       LOG.warn("Unable to set app window icon.", imageReadEx);
       ico = new BufferedImage(16, 16, BufferedImage.TYPE_4BYTE_ABGR);
@@ -164,7 +168,7 @@ public class MemeforceHuntGui implements Callable<Integer> {
     /* *************************************
      * model (data only)
      ***************************************/
-    this.skins = new JComboBox<>(SpritemapWithSkin.values());
+    this.skins = new JComboBox<>(DefaultSpritemapWithSkins.values());
     this.skins.setEditable(false);
 
     for (final SpritemapWithSkin spritemapWithSkin : SPRITEMAPS_WITH_SKIN) {
@@ -199,14 +203,14 @@ public class MemeforceHuntGui implements Callable<Integer> {
     // skin text
     this.skinsText = new JLabel("---");
     this.skinsText.setHorizontalAlignment(SwingConstants.CENTER);
-    this.skinsText.setText(SpritemapWithSkin.BENANA.toString());
+    this.skinsText.setText(DefaultSpritemapWithSkins.BENANA.toString());
     rightColumn.add(this.skinsText, gbc);
     gbc.gridy++;
 
     // preview
     this.preview = new JLabel();
     this.preview.setHorizontalAlignment(SwingConstants.CENTER);
-    this.preview.setIcon(SpritemapWithSkin.BENANA.getImageIcon());
+    this.preview.setIcon(DefaultSpritemapWithSkins.BENANA.getSpritemapWithSkin().getImageIcon());
     rightColumn.add(this.preview, gbc);
     gbc.gridy++;
 
@@ -299,14 +303,14 @@ public class MemeforceHuntGui implements Callable<Integer> {
                     + "" + patchException.getMessage(),
                 "PROBLEM",
                 JOptionPane.WARNING_MESSAGE,
-                SpritemapWithSkin.SCREAM.getImageIcon());
+                DefaultSpritemapWithSkins.SCREAM.getSpritemapWithSkin().getImageIcon());
             return;
           }
           JOptionPane.showMessageDialog(parent,
               "SUCCESS",
               "Enjoy",
               JOptionPane.PLAIN_MESSAGE,
-              SpritemapWithSkin.BENANA.getImageIcon());
+              DefaultSpritemapWithSkins.BENANA.getSpritemapWithSkin().getImageIcon());
         });
 
     return doRandom;
@@ -326,14 +330,14 @@ public class MemeforceHuntGui implements Callable<Integer> {
                 "Something went wrong: [" + patchEx.getMessage() + "].",
                 "PROBLEM",
                 JOptionPane.WARNING_MESSAGE,
-                SpritemapWithSkin.SCREAM.getImageIcon());
+                DefaultSpritemapWithSkins.SCREAM.getSpritemapWithSkin().getImageIcon());
             return;
           }
           JOptionPane.showMessageDialog(parent,
               "SUCCESS",
               "Enjoy",
               JOptionPane.PLAIN_MESSAGE,
-              SpritemapWithSkin.BENANA.getImageIcon());
+              DefaultSpritemapWithSkins.BENANA.getSpritemapWithSkin().getImageIcon());
         });
     return doPatch;
   }
