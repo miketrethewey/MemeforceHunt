@@ -44,3 +44,9 @@ class SomeClass {
 }
 ----
 
+== Testing
+
+If you want to test if the code still works, load up a patched game and start in Link's house.
+Enter this code: `01E9BC=6C`.
+
+If you open the house chest, you should see a Memeforce piece.
