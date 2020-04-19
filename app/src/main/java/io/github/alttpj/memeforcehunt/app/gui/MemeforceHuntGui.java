@@ -17,18 +17,12 @@
 package io.github.alttpj.memeforcehunt.app.gui;
 
 
-import javax.imageio.ImageIO;
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
-import javax.swing.SwingConstants;
-import javax.swing.UIManager;
+import io.github.alttpj.memeforcehunt.common.value.SpritemapWithSkin;
+import io.github.alttpj.memeforcehunt.lib.AlttpRomPatcher;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.awt.BorderLayout;
 import java.awt.Desktop;
 import java.awt.Dimension;
@@ -42,17 +36,29 @@ import java.io.FilenameFilter;
 import java.io.IOException;
 import java.net.URL;
 import java.util.concurrent.Callable;
-
-import io.github.alttpj.memeforcehunt.common.value.SpritemapWithSkin;
-import io.github.alttpj.memeforcehunt.lib.AlttpRomPatcher;
+import javax.imageio.ImageIO;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import javax.swing.UIManager;
 
 public class MemeforceHuntGui implements Callable<Integer> {
+
+  private static final Logger LOG = LoggerFactory.getLogger(MemeforceHuntGui.class);
 
   private static final String LINK = "https://github.com/alttpj/MemeforceHunt/releases";
 
   private static final int PER_ROW = 8;
 
-  static final SpritemapWithSkin[] SPRITEMAPS_WITH_SKIN = SpritemapWithSkin.values();
+  private static final SpritemapWithSkin[] SPRITEMAPS_WITH_SKIN = SpritemapWithSkin.values();
+
   private JTextField fileName;
   private JLabel preview;
   private JLabel skinsText;
@@ -75,7 +81,8 @@ public class MemeforceHuntGui implements Callable<Integer> {
     // try to set LaF
     try {
       UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-    } catch (final Exception e) {
+    } catch (final Exception lookAndFeelEx) {
+      LOG.warn("Unable to set system L&F.", lookAndFeelEx);
       // do nothing
     } //end System
 
@@ -120,7 +127,8 @@ public class MemeforceHuntGui implements Callable<Integer> {
     BufferedImage ico;
     try {
       ico = ImageIO.read(SpritemapWithSkin.class.getResourceAsStream("/triforce piece.png"));
-    } catch (final IOException e) {
+    } catch (final IOException imageReadEx) {
+      LOG.warn("Unable to set app window icon.", imageReadEx);
       ico = new BufferedImage(16, 16, BufferedImage.TYPE_4BYTE_ABGR);
     }
 
@@ -161,9 +169,9 @@ public class MemeforceHuntGui implements Callable<Integer> {
 
     for (final SpritemapWithSkin spritemapWithSkin : SPRITEMAPS_WITH_SKIN) {
       final SkinButton sb = new SkinButton(spritemapWithSkin);
-      sb.addActionListener(arg0 -> this.skins.setSelectedItem(sb.getSpritemapWithSkin()));
+      sb.addActionListener(actionEvent -> this.skins.setSelectedItem(sb.getSpritemapWithSkin()));
       iconGrid.add(sb, iconListGridConstraints);
-      sb.setToolTipText("Use Skin \"" + spritemapWithSkin.getName() + "\".");
+      sb.setToolTipText("Use Skin \"" + spritemapWithSkin.getDescription() + "\".");
       iconListGridConstraints.gridx++;
       if (iconListGridConstraints.gridx == PER_ROW) {
         iconListGridConstraints.gridx = 0;
@@ -186,26 +194,7 @@ public class MemeforceHuntGui implements Callable<Integer> {
     final JPanel rightColumn = new JPanel(gridBagLayout);
     rightColumn.setBorder(SwingAppConstants.PADDING);
 
-    final GridBagConstraints gbc = new GridBagConstraints();
-    gbc.gridx = 0;
-    gbc.gridy = 0;
-    gbc.fill = GridBagConstraints.BOTH;
-    gbc.ipadx = 10;
-    gbc.ipady = 10;
-    gbc.anchor = GridBagConstraints.NORTH;
-    gridBagLayout.rowWeights = new double[] {
-        // skintext, preview
-        0.0, 0.0,
-        // spacer 1
-        0.2,
-        // patch, random
-        0.0, 0.0,
-        // spacer 2+3
-        1.0, 1.0, 1.0,
-        // update
-        0.0
-    };
-    gbc.weighty = 0.5;
+    final GridBagConstraints gbc = createGridBagConstraints(gridBagLayout);
 
     // skin text
     this.skinsText = new JLabel("---");
@@ -226,42 +215,85 @@ public class MemeforceHuntGui implements Callable<Integer> {
     gbc.gridy++;
 
     // patch button
-    final JButton doPatch = new JButton("Patch");
+    final JButton doPatch = createPatchButton(parent, gbc);
     rightColumn.add(doPatch, gbc);
-    gbc.gridy++;
-
-    doPatch.addActionListener(
-        arg0 -> {
-          final String fileNameText = this.fileName.getText();
-          try {
-            AlttpRomPatcher.patchROM(fileNameText, (SpritemapWithSkin) this.skins.getSelectedItem());
-          } catch (final Exception e) {
-            JOptionPane.showMessageDialog(parent,
-                "Something went wrong: [" + e.getMessage() + "].",
-                "PROBLEM",
-                JOptionPane.WARNING_MESSAGE,
-                SpritemapWithSkin.SCREAM.getImageIcon());
-            return;
-          }
-          JOptionPane.showMessageDialog(parent,
-              "SUCCESS",
-              "Enjoy",
-              JOptionPane.PLAIN_MESSAGE,
-              SpritemapWithSkin.BENANA.getImageIcon());
-        });
 
     // random patch button
-    final JButton doRandom = new JButton("Surprise me");
+    final JButton doRandom = createRandomPatchButton(parent, gbc);
     rightColumn.add(doRandom, gbc);
+
+    rightColumn.add(new JLabel(""), gbc);
+    gbc.gridy++;
+    rightColumn.add(new JLabel(""), gbc);
+    gbc.gridy++;
+    rightColumn.add(new JLabel(""), gbc);
+    gbc.gridy++;
+
+    // update checks
+    final JButton update = createUpdateCheckButton(parent);
+    rightColumn.add(update, gbc);
+
+    return rightColumn;
+  }
+
+  private GridBagConstraints createGridBagConstraints(final GridBagLayout gridBagLayout) {
+    final GridBagConstraints gbc = new GridBagConstraints();
+    gbc.gridx = 0;
+    gbc.gridy = 0;
+    gbc.fill = GridBagConstraints.BOTH;
+    gbc.ipadx = 10;
+    gbc.ipady = 10;
+    gbc.anchor = GridBagConstraints.NORTH;
+    gridBagLayout.rowWeights = new double[] {
+        // skintext, preview
+        0.0, 0.0,
+        // spacer 1
+        0.2,
+        // patch, random
+        0.0, 0.0,
+        // spacer 2+3
+        1.0, 1.0, 1.0,
+        // update
+        0.0
+    };
+    gbc.weighty = 0.5;
+    return gbc;
+  }
+
+  private JButton createUpdateCheckButton(final JFrame parent) {
+    final JButton update = new JButton("Check for updates");
+
+    update.addActionListener(
+        (ActionEvent actionEvent) -> {
+          final URL aa;
+          try {
+            aa = new URL(LINK);
+            final Desktop desktop = Desktop.isDesktopSupported() ? Desktop.getDesktop() : null;
+            if (desktop != null && desktop.isSupported(Desktop.Action.BROWSE)) {
+              desktop.browse(aa.toURI());
+            }
+          } catch (final Exception urlOpenEx) {
+            JOptionPane.showMessageDialog(parent,
+                "uhhh",
+                "Houston, we have a problem.",
+                JOptionPane.WARNING_MESSAGE);
+            urlOpenEx.printStackTrace();
+          }
+        });
+    return update;
+  }
+
+  private JButton createRandomPatchButton(final JFrame parent, final GridBagConstraints gbc) {
+    final JButton doRandom = new JButton("Surprise me");
     gbc.gridy++;
 
     doRandom.addActionListener(
-        arg0 -> {
+        actionEvent -> {
           final String fileNameText = this.fileName.getText();
           final int r = (int) (Math.random() * SPRITEMAPS_WITH_SKIN.length);
 
           try {
-            AlttpRomPatcher.patchROM(fileNameText, SPRITEMAPS_WITH_SKIN[r]);
+            new AlttpRomPatcher().patchROM(fileNameText, SPRITEMAPS_WITH_SKIN[r]);
           } catch (final Exception patchException) {
             JOptionPane.showMessageDialog(parent,
                 "Something went wrong.\n\n"
@@ -278,37 +310,33 @@ public class MemeforceHuntGui implements Callable<Integer> {
               JOptionPane.PLAIN_MESSAGE,
               SpritemapWithSkin.BENANA.getImageIcon());
         });
+    return doRandom;
+  }
 
-    rightColumn.add(new JLabel(""), gbc);
-    gbc.gridy++;
-    rightColumn.add(new JLabel(""), gbc);
-    gbc.gridy++;
-    rightColumn.add(new JLabel(""), gbc);
+  private JButton createPatchButton(final JFrame parent, final GridBagConstraints gbc) {
+    final JButton doPatch = new JButton("Patch");
     gbc.gridy++;
 
-    // update checks
-    final JButton update = new JButton("Check for updates");
-    rightColumn.add(update, gbc);
-
-    update.addActionListener(
-        (ActionEvent actionEvent) -> {
-          final URL aa;
+    doPatch.addActionListener(
+        actionEvent -> {
+          final String fileNameText = this.fileName.getText();
           try {
-            aa = new URL(LINK);
-            final Desktop desktop = Desktop.isDesktopSupported() ? Desktop.getDesktop() : null;
-            if (desktop != null && desktop.isSupported(Desktop.Action.BROWSE)) {
-              desktop.browse(aa.toURI());
-            }
-          } catch (final Exception e) {
+            new AlttpRomPatcher().patchROM(fileNameText, (SpritemapWithSkin) this.skins.getSelectedItem());
+          } catch (final Exception patchEx) {
             JOptionPane.showMessageDialog(parent,
-                "uhhh",
-                "Houston, we have a problem.",
-                JOptionPane.WARNING_MESSAGE);
-            e.printStackTrace();
+                "Something went wrong: [" + patchEx.getMessage() + "].",
+                "PROBLEM",
+                JOptionPane.WARNING_MESSAGE,
+                SpritemapWithSkin.SCREAM.getImageIcon());
+            return;
           }
+          JOptionPane.showMessageDialog(parent,
+              "SUCCESS",
+              "Enjoy",
+              JOptionPane.PLAIN_MESSAGE,
+              SpritemapWithSkin.BENANA.getImageIcon());
         });
-
-    return rightColumn;
+    return doPatch;
   }
 
   private JPanel createTopBar() {
@@ -333,7 +361,7 @@ public class MemeforceHuntGui implements Callable<Integer> {
 
     // load sprite file
     find.addActionListener(
-        arg0 -> {
+        actionEvent -> {
           //explorer.setSelectedFile(EEE);
           explorer.setMode(FileDialog.LOAD);
           explorer.setVisible(true);

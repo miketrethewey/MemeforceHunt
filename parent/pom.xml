@@ -19,82 +19,402 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
-    <modelVersion>4.0.0</modelVersion>
+  <modelVersion>4.0.0</modelVersion>
 
-    <groupId>io.github.alttpj.memeforcehunt</groupId>
-    <artifactId>memeforcehunt-parent</artifactId>
-    <version>2.0.0-SNAPSHOT</version>
-    <packaging>pom</packaging>
+  <groupId>io.github.alttpj.memeforcehunt</groupId>
+  <artifactId>memeforcehunt-parent</artifactId>
+  <version>2.0.0-SNAPSHOT</version>
+  <packaging>pom</packaging>
 
-    <name>Memeforce Hunt :: parent</name>
+  <name>Memeforce Hunt :: parent</name>
 
-    <properties>
-        <!-- jdk needed -->
-        <jdk.version>11</jdk.version>
-        <!-- compile to -->
-        <java.version>8</java.version>
-        <maven.compiler.release>${java.version}</maven.compiler.release>
+  <properties>
+    <!-- jdk needed -->
+    <jdk.version>11</jdk.version>
+    <!-- compile to -->
+    <java.version>8</java.version>
+    <maven.compiler.release>${java.version}</maven.compiler.release>
 
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-    <!-- dependencies in the management section are not forced upon the child modules. -->
-    <dependencyManagement>
+    <!--suppress UnresolvedMavenProperty -->
+    <project.buidasset.dir>${maven.multiModuleProjectDirectory}/build</project.buidasset.dir>
+    <checkstyle.header.file>${project.buidasset.dir}/header.txt</checkstyle.header.file>
+
+    <!-- default fork arguments. -->
+    <argLine>-Xmx1024m</argLine>
+  </properties>
+
+  <!-- dependencies in the management section are not forced upon the child modules. -->
+  <dependencyManagement>
+    <dependencies>
+      <!-- slf4j is an implementation-independent log framework. -->
+      <dependency>
+        <groupId>org.slf4j</groupId>
+        <artifactId>slf4j-api</artifactId>
+        <version>1.7.30</version>
+        <scope>compile</scope>
+      </dependency>
+
+      <!-- this is the actual implementation which will result in log messages being configurable and printed. -->
+      <dependency>
+        <groupId>ch.qos.logback</groupId>
+        <artifactId>logback-classic</artifactId>
+        <version>1.2.3</version>
+        <!-- runtime means: only needed for tests or executing the app, not while compiling. -->
+        <scope>runtime</scope>
+      </dependency>
+
+      <!-- test dependencies -->
+      <dependency>
+        <groupId>org.junit.jupiter</groupId>
+        <artifactId>junit-jupiter-engine</artifactId>
+        <version>5.6.2</version>
+        <scope>test</scope>
+      </dependency>
+
+    </dependencies>
+  </dependencyManagement>
+
+  <build>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <groupId>org.apache.maven.plugins</groupId>
+          <version>3.8.1</version>
+          <configuration>
+            <release>${maven.compiler.release}</release>
+          </configuration>
+        </plugin>
+
+        <plugin>
+          <artifactId>maven-shade-plugin</artifactId>
+          <groupId>org.apache.maven.plugins</groupId>
+          <version>3.2.2</version>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-enforcer-plugin</artifactId>
+          <version>3.0.0-M3</version>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-jar-plugin</artifactId>
+          <version>3.2.0</version>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-surefire-plugin</artifactId>
+          <version>3.0.0-M3</version>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-javadoc-plugin</artifactId>
+          <version>3.2.0</version>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-source-plugin</artifactId>
+          <version>3.2.1</version>
+        </plugin>
+
+        <!-- creates coverage reports and coverage files. -->
+        <plugin>
+          <groupId>org.jacoco</groupId>
+          <artifactId>jacoco-maven-plugin</artifactId>
+          <version>0.8.5</version>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-install-plugin</artifactId>
+          <version>2.5.2</version>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-deploy-plugin</artifactId>
+          <version>2.8.2</version>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-gpg-plugin</artifactId>
+          <version>1.6</version>
+        </plugin>
+
+      </plugins>
+    </pluginManagement>
+
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+
+        <configuration>
+          <showDeprecation>true</showDeprecation>
+          <showWarnings>true</showWarnings>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+      </plugin>
+
+      <plugin>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>jacoco-agent-ut</id>
+            <goals>
+              <goal>prepare-agent</goal>
+            </goals>
+          </execution>
+
+          <execution>
+            <id>prepare-agent-it</id>
+            <phase>pre-integration-test</phase>
+            <goals>
+              <goal>prepare-agent-integration</goal>
+            </goals>
+          </execution>
+
+          <execution>
+            <id>check-coverage</id>
+            <!-- default phase is verify. -->
+            <goals>
+              <goal>check</goal>
+            </goals>
+            <configuration>
+              <rules>
+                <rule>
+                  <element>CLASS</element>
+                  <excludes>
+                    <exclude>*Test</exclude>
+                  </excludes>
+                  <limits>
+                    <limit>
+                      <counter>LINE</counter>
+                      <value>COVEREDRATIO</value>
+                      <minimum>50%</minimum>
+                    </limit>
+                  </limits>
+                </rule>
+              </rules>
+            </configuration>
+          </execution>
+
+          <!-- the jacoco report needed for codecov.io. Generated in target/site/jacoco/. -->
+          <execution>
+            <id>report</id>
+            <goals>
+              <goal>report</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-enforcer-plugin</artifactId>
+
+        <executions>
+          <!-- enforce JDK version. -->
+          <execution>
+            <id>enforce-java</id>
+            <goals>
+              <goal>enforce</goal>
+            </goals>
+            <configuration>
+              <rules>
+                <!-- it actually means: JDK version. -->
+                <requireJavaVersion>
+                  <version>${jdk.version}</version>
+                </requireJavaVersion>
+              </rules>
+            </configuration>
+          </execution>
+
+          <!-- no-dependencies-rule -->
+          <execution>
+            <id>enforce-banned-dependencies</id>
+            <goals>
+              <goal>enforce</goal>
+            </goals>
+            <configuration>
+              <rules>
+                <bannedDependencies>
+                  <excludes>
+                    <exclude>org.slf4j:slf4j-api:*:jar:compile:*</exclude>
+                  </excludes>
+                  <includes>
+                    <!-- no runtime or compile dependencies are allowed except slf4j. -->
+                    <include>*:*:*:*:runtime:*</include>
+                    <include>*:*:*:*:compile:*</include>
+                  </includes>
+                </bannedDependencies>
+              </rules>
+            </configuration>
+          </execution>
+
+          <execution>
+            <id>enforce-maven</id>
+            <goals>
+              <goal>enforce</goal>
+            </goals>
+            <configuration>
+              <rules>
+                <requireMavenVersion>
+                  <version>3.5.2</version>
+                </requireMavenVersion>
+              </rules>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+      <!-- check code style -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-checkstyle-plugin</artifactId>
+        <version>3.1.1</version>
+        <configuration>
+          <configLocation>${project.buidasset.dir}/checkstyle.xml</configLocation>
+          <encoding>UTF-8</encoding>
+          <consoleOutput>false</consoleOutput>
+          <linkXRef>false</linkXRef>
+        </configuration>
         <dependencies>
-            <!-- slf4j is an implementation-independent log framework. -->
-            <dependency>
-                <groupId>org.slf4j</groupId>
-                <artifactId>slf4j-api</artifactId>
-                <version>1.7.30</version>
-                <scope>compile</scope>
-            </dependency>
-
-            <!-- this is the actual implementation which will result in log messages being configurable and printed. -->
-            <dependency>
-                <groupId>ch.qos.logback</groupId>
-                <artifactId>logback-classic</artifactId>
-                <version>1.2.3</version>
-                <!-- runtime means: only needed for tests or executing the app, not while compiling. -->
-                <scope>runtime</scope>
-            </dependency>
-
-            <!-- test dependencies -->
-            <dependency>
-                <groupId>org.junit.jupiter</groupId>
-                <artifactId>junit-jupiter-engine</artifactId>
-                <version>5.6.2</version>
-                <scope>test</scope>
-            </dependency>
-
+          <dependency>
+            <groupId>com.puppycrawl.tools</groupId>
+            <artifactId>checkstyle</artifactId>
+            <version>8.31</version>
+          </dependency>
         </dependencies>
-    </dependencyManagement>
+        <executions>
+          <execution>
+            <id>validate</id>
+            <phase>validate</phase>
+            <goals>
+              <goal>check</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
 
-    <build>
-        <pluginManagement>
-            <plugins>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-compiler-plugin</artifactId>
-                    <version>3.8.1</version>
-                    <configuration>
-                        <release>${maven.compiler.release}</release>
-                    </configuration>
-                </plugin>
 
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-shade-plugin</artifactId>
-                    <version>3.2.2</version>
-                </plugin>
+  <profiles>
+    <profile>
+      <id>docs</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-javadoc-plugin</artifactId>
+            <configuration>
+              <maxmemory>1024m</maxmemory>
+              <!-- do not show every java line -->
+              <quiet>true</quiet>
+              <serialwarn>true</serialwarn>
+            </configuration>
+            <executions>
+              <execution>
+                <id>attach-javadoc</id>
+                <goals>
+                  <goal>jar</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
 
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-resources-plugin</artifactId>
-                    <version>3.1.0</version>
-                </plugin>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-source-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>attach-sources</id>
+                <goals>
+                  <goal>jar-no-fork</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
 
-            </plugins>
-        </pluginManagement>
-    </build>
+    </profile>
+
+    <profile>
+      <id>integration-tests</id>
+    </profile>
+
+    <profile>
+      <!-- sign the artifacts. -->
+      <id>deploy</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-gpg-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>sign-artifacts</id>
+                <phase>verify</phase>
+                <goals>
+                  <goal>sign</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
+
+  <licenses>
+    <license>
+      <name>Apache License v2.0</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0</url>
+    </license>
+  </licenses>
+
+  <inceptionYear>2020</inceptionYear>
+
+  <scm>
+    <connection>scm:git:https://github.com:alttpj/MemeforceHunt.git</connection>
+    <developerConnection>scm:git:https://github.com:alttpj/MemeforceHunt.git</developerConnection>
+  </scm>
+
+  <ciManagement>
+    <system>Travis-CI.com</system>
+    <url>https://www.travis-ci.com/github/alttpj/MemeforceHunt/</url>
+  </ciManagement>
+
+  <issueManagement>
+    <url>https://github.com/alttpj/MemeforceHunt/issues</url>
+    <system>GitHub</system>
+  </issueManagement>
+
+  <distributionManagement>
+    <repository>
+      <id>ossrh</id>
+      <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/
+      </url>
+    </repository>
+    <snapshotRepository>
+      <id>ossrh</id>
+      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+    </snapshotRepository>
+  </distributionManagement>
 
 </project>

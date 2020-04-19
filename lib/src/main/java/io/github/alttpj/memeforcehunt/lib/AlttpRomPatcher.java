@@ -16,23 +16,33 @@
 
 package io.github.alttpj.memeforcehunt.lib;
 
+import io.github.alttpj.memeforcehunt.common.value.SpritemapWithSkin;
+
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
-
-import io.github.alttpj.memeforcehunt.common.value.SpritemapWithSkin;
+import java.util.StringJoiner;
 
 public class AlttpRomPatcher {
 
-  public static final int OFFSET = 0x18A800;
+  public static final int DEFAULT_SPRITEMAP_OFFSET = 0x18A800;
   public static final int PAL_LOC = 0x104FE4;
   public static final int PAL_OW = 0x10126E;
 
   private static final int MAX_SPRITEMAP_SIZE = 1023;
+  private int offset;
+  private int paletteLocationChest;
+  private int paletteLocationOverworld;
 
-  public static void patchROM(final String romTarget, final SpritemapWithSkin spritemapWithSkin) throws IOException {
+  public AlttpRomPatcher() {
+    this.offset = DEFAULT_SPRITEMAP_OFFSET;
+    this.paletteLocationChest = PAL_LOC;
+    this.paletteLocationOverworld = PAL_OW;
+  }
+
+  public void patchROM(final String romTarget, final SpritemapWithSkin spritemapWithSkin) throws IOException {
     final byte[] romStream = readRom(romTarget);
 
     writeSkin(romStream, spritemapWithSkin);
@@ -40,35 +50,30 @@ public class AlttpRomPatcher {
     writeRom(romTarget, romStream);
   }
 
-  private static void writeRom(final String romTarget, final byte[] romStream) throws IOException {
+  private void writeRom(final String romTarget, final byte[] romStream) throws IOException {
     try (final FileOutputStream fsOut = new FileOutputStream(romTarget)) {
       fsOut.write(romStream, 0, romStream.length);
     }
   }
 
-  private static void writeSkin(final byte[] romStream, final SpritemapWithSkin spritemapWithSkin) throws IOException {
+  private void writeSkin(final byte[] romStream, final SpritemapWithSkin spritemapWithSkin) throws IOException {
     final byte[] data = spritemapWithSkin.getData();
+
     if (spritemapWithSkin.getData().length > MAX_SPRITEMAP_SIZE) {
       throw new InvalidDataException("Skin too larg!");
     }
 
+    final int pos = getOffset();
     // clear up space (safety)
-    int pos = OFFSET;
-    for (int i = 0; i < MAX_SPRITEMAP_SIZE; i++, pos++) {
-      romStream[pos] = 0;
-    }
-
+    System.arraycopy(new byte[MAX_SPRITEMAP_SIZE], 0, romStream, pos, MAX_SPRITEMAP_SIZE);
     // write graphics
-    pos = OFFSET;
-    for (final byte b : data) {
-      romStream[pos++] = b;
-    }
+    System.arraycopy(data, 0, romStream, pos, data.length);
 
-    romStream[PAL_LOC] = spritemapWithSkin.getItemPalette();
-    romStream[PAL_OW] = spritemapWithSkin.getPaletteOW();
+    romStream[getPaletteLocationChest()] = spritemapWithSkin.getItemPalette();
+    romStream[getPaletteLocationOverworld()] = spritemapWithSkin.getPaletteOW();
   }
 
-  private static byte[] readRom(final String romTarget) throws IOException {
+  private byte[] readRom(final String romTarget) throws IOException {
     final byte[] romStream;
 
     try (final FileInputStream fsInput = new FileInputStream(romTarget)) {
@@ -90,5 +95,38 @@ public class AlttpRomPatcher {
     } catch (final IOException ioException) {
       return "UNKNOWN";
     }
+  }
+
+  public int getOffset() {
+    return this.offset;
+  }
+
+  public void setOffset(final int offset) {
+    this.offset = offset;
+  }
+
+  public int getPaletteLocationChest() {
+    return this.paletteLocationChest;
+  }
+
+  public void setPaletteLocationChest(final int paletteLocationChest) {
+    this.paletteLocationChest = paletteLocationChest;
+  }
+
+  public int getPaletteLocationOverworld() {
+    return this.paletteLocationOverworld;
+  }
+
+  public void setPaletteLocationOverworld(final int paletteLocationOverworld) {
+    this.paletteLocationOverworld = paletteLocationOverworld;
+  }
+
+  @Override
+  public String toString() {
+    return new StringJoiner(", ", "AlttpRomPatcher{", "}")
+        .add("offset=" + this.offset)
+        .add("paletteLocationChest=" + this.paletteLocationChest)
+        .add("paletteLocationOverworld=" + this.paletteLocationOverworld)
+        .toString();
   }
 }

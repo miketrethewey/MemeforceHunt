@@ -19,9 +19,13 @@ package io.github.alttpj.memeforcehunt.lib.i18n;
 import java.io.InputStream;
 import java.util.PropertyResourceBundle;
 
-public class I18N {
+public final class I18N {
 
   private static final String RESOURCE_NAME = "/memeforcehunt.lib.properties";
+
+  private I18N() {
+    // util.
+  }
 
   public static String getString(final String key) {
     return getString(I18N.class.getCanonicalName(), RESOURCE_NAME, key);
