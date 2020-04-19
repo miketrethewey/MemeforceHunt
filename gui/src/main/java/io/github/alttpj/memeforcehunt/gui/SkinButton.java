@@ -1,5 +1,9 @@
 package io.github.alttpj.memeforcehunt.gui;
 
+import static io.github.alttpj.memeforcehunt.gui.SwingAppConstants.PADDING;
+
+
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.SwingUtilities;
 
@@ -13,7 +17,13 @@ public class SkinButton extends JButton {
   public SkinButton(final Skin skin) {
     super();
     this.skin = skin;
-    SwingUtilities.invokeLater(() -> setIcon(skin.getImageIcon()));
+    SwingUtilities.invokeLater(this::init);
+  }
+
+  void init() {
+    final ImageIcon imageIcon = this.skin.getImageIcon();
+    setIcon(imageIcon);
+    setBorder(PADDING);
   }
 
   public Skin getSkin() {

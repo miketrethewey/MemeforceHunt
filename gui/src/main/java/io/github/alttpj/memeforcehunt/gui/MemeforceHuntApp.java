@@ -1,6 +1,10 @@
 package io.github.alttpj.memeforcehunt.gui;
 
+import static io.github.alttpj.memeforcehunt.gui.SwingAppConstants.PADDING;
+
+
 import javax.imageio.ImageIO;
+import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -107,11 +111,11 @@ public class MemeforceHuntApp {
     frame.setIconImage(ico);
 
     // frame setting
-    final Dimension size = new Dimension(600, 528);
-    frame.setMinimumSize(size);
-    frame.setResizable(true);
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    frame.setLocation(350, 350);
+    frame.setLocationByPlatform(true);
+    frame.setResizable(true);
+    frame.pack();
+    frame.setSize(640, 544);
 
     frame.setVisible(true);
   }
@@ -126,6 +130,7 @@ public class MemeforceHuntApp {
    */
   private JPanel createIconSelector() {
     final JPanel iconGrid = new JPanel(new GridBagLayout());
+    iconGrid.setBorder(PADDING);
     final GridBagConstraints iconListGridConstraints = new GridBagConstraints();
 
     iconListGridConstraints.fill = GridBagConstraints.HORIZONTAL;
@@ -163,6 +168,8 @@ public class MemeforceHuntApp {
   private JPanel createRightColumn(final JFrame parent) {
     final GridBagLayout gridBagLayout = new GridBagLayout();
     final JPanel rightColumn = new JPanel(gridBagLayout);
+    rightColumn.setBorder(PADDING);
+
     final GridBagConstraints gbc = new GridBagConstraints();
     gbc.gridx = 0;
     gbc.gridy = 0;
@@ -290,11 +297,14 @@ public class MemeforceHuntApp {
 
   private JPanel createTopBar() {
     final JPanel topBar = new JPanel();
-    topBar.setLayout(new BoxLayout(topBar, BoxLayout.X_AXIS));
+    topBar.setBorder(PADDING);
+    topBar.setLayout(new BoxLayout(topBar, BoxLayout.LINE_AXIS));
 
     // rom name
     this.fileName = new JTextField("");
     topBar.add(this.fileName);
+
+    topBar.add(Box.createRigidArea(new Dimension(10, 0)));
 
     // file chooser
     final JButton find = new JButton("Open…");
@@ -302,13 +312,7 @@ public class MemeforceHuntApp {
 
     // file explorer
     final FileDialog explorer = new java.awt.FileDialog((java.awt.Frame) null);
-    final FilenameFilter filenameFilter = (dir, name) -> {
-      if (!name.endsWith("sfc")) {
-        return false;
-      }
-
-      return true;
-    };
+    final FilenameFilter filenameFilter = (dir, name) -> name.endsWith("sfc");
     explorer.setFilenameFilter(filenameFilter);
 
     // load sprite file
