@@ -30,7 +30,7 @@ public class AlttpRomPatcher {
     }
   }
 
-  private static void writeSkin(final byte[] romStream, final SpritemapWithSkin spritemapWithSkin) {
+  private static void writeSkin(final byte[] romStream, final SpritemapWithSkin spritemapWithSkin) throws IOException {
     final byte[] data = spritemapWithSkin.getData();
     if (spritemapWithSkin.getData().length > MAX_SPRITEMAP_SIZE) {
       throw new InvalidDataException("Skin too larg!");
