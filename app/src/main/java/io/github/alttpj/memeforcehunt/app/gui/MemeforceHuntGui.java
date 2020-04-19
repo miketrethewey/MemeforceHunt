@@ -33,6 +33,7 @@ import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ItemEvent;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.net.URI;
@@ -66,7 +67,7 @@ public class MemeforceHuntGui implements Callable<Integer> {
   private JTextField fileName;
   private JLabel preview;
   private JLabel skinsText;
-  private JComboBox<DefaultSpritemapWithSkins> skins;
+  private JComboBox<SpritemapWithSkin> skins;
 
   @Override
   public Integer call() throws Exception {
@@ -168,7 +169,7 @@ public class MemeforceHuntGui implements Callable<Integer> {
     /* *************************************
      * model (data only)
      ***************************************/
-    this.skins = new JComboBox<>(DefaultSpritemapWithSkins.values());
+    this.skins = new JComboBox<>(SPRITEMAPS_WITH_SKIN);
     this.skins.setEditable(false);
 
     for (final SpritemapWithSkin spritemapWithSkin : SPRITEMAPS_WITH_SKIN) {
@@ -187,7 +188,7 @@ public class MemeforceHuntGui implements Callable<Integer> {
         (ItemEvent itemEvent) -> {
           final SpritemapWithSkin sel = (SpritemapWithSkin) this.skins.getSelectedItem();
           this.preview.setIcon(sel.getImageIcon());
-          this.skinsText.setText(sel.toString());
+          this.skinsText.setText(sel.getDescription());
         });
 
     return iconGrid;
@@ -326,6 +327,7 @@ public class MemeforceHuntGui implements Callable<Integer> {
           try {
             new AlttpRomPatcher().patchROM(fileNameText, (SpritemapWithSkin) this.skins.getSelectedItem());
           } catch (final Exception patchEx) {
+            LOG.error("Error patching.", patchEx);
             JOptionPane.showMessageDialog(parent,
                 "Something went wrong: [" + patchEx.getMessage() + "].",
                 "PROBLEM",
@@ -369,15 +371,16 @@ public class MemeforceHuntGui implements Callable<Integer> {
           explorer.setMode(FileDialog.LOAD);
           explorer.setVisible(true);
 
-          // read the file
-          final String n = explorer.getFile();
-
-          if (n == null) {
+          if (explorer.getFile() == null) {
             return;
           }
 
-          if (n.endsWith(".sfc")) {
-            this.fileName.setText(n);
+          // read the file
+          final File selectedFile = new File(explorer.getDirectory(), explorer.getFile());
+
+          final String absolutePath = selectedFile.getAbsolutePath();
+          if (absolutePath.endsWith(".sfc")) {
+            this.fileName.setText(absolutePath);
           }
         });
 
