@@ -20,15 +20,14 @@ import static io.github.alttpj.memeforcehunt.common.value.ItemPalette.BLUE;
 import static io.github.alttpj.memeforcehunt.common.value.ItemPalette.GREEN;
 import static io.github.alttpj.memeforcehunt.common.value.ItemPalette.RED;
 
-
-import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Locale;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 
 public enum SpritemapWithSkin {
   BENANA("Benana (ajneb174)", "benana", GREEN),
@@ -98,22 +97,22 @@ public enum SpritemapWithSkin {
   ;
 
   private static final int BUFFER_SIZE = 512;
-  private final String name;
+  private final String description;
   private final String fileName;
   private final ItemPalette itemPalette;
   private final ImageIcon imageIcon;
 
-  SpritemapWithSkin(final String name, final String fileName, final ItemPalette itemPalette) {
-    this.name = name;
+  SpritemapWithSkin(final String skinDescription, final String fileName, final ItemPalette itemPalette) {
+    this.description = skinDescription;
     this.fileName = fileName;
     this.itemPalette = itemPalette;
 
+    final String previewLocation = String.format(Locale.ENGLISH, "/previews/%s.png", fileName);
+
     BufferedImage itemp;
-    try {
-      final String previewLocation = String.format(Locale.ENGLISH, "/previews/%s.png", fileName);
-      itemp = ImageIO.read(SpritemapWithSkin.class.getResourceAsStream(
-          previewLocation));
-    } catch (final IOException e) {
+    try (final InputStream inputStream = SpritemapWithSkin.class.getResourceAsStream(previewLocation)) {
+      itemp = ImageIO.read(inputStream);
+    } catch (final IOException imageReadEx) {
       itemp = new BufferedImage(16, 16, BufferedImage.TYPE_4BYTE_ABGR);
     }
     this.imageIcon = createImageIcon(itemp);
@@ -130,8 +129,8 @@ public enum SpritemapWithSkin {
     return new ImageIcon(imageIconImage);
   }
 
-  public String getName() {
-    return this.name;
+  public String getDescription() {
+    return this.description;
   }
 
   /**
@@ -160,15 +159,15 @@ public enum SpritemapWithSkin {
   }
 
   public byte getItemPalette() {
-    return this.itemPalette.paletteIdChest;
+    return this.itemPalette.getPaletteIdChest();
   }
 
   public byte getPaletteOW() {
-    return this.itemPalette.paletteIdOverworld;
+    return this.itemPalette.getPaletteIdOverworld();
   }
 
   @Override
   public String toString() {
-    return this.name;
+    return this.description;
   }
 }

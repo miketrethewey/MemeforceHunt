@@ -18,12 +18,11 @@ package io.github.alttpj.memeforcehunt.app.gui;
 
 import static io.github.alttpj.memeforcehunt.app.gui.SwingAppConstants.PADDING;
 
+import io.github.alttpj.memeforcehunt.common.value.SpritemapWithSkin;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.SwingUtilities;
-
-import io.github.alttpj.memeforcehunt.common.value.SpritemapWithSkin;
 
 public class SkinButton extends JButton {
 

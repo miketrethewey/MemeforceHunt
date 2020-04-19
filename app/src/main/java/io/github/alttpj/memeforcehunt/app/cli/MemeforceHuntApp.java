@@ -16,14 +16,15 @@
 
 package io.github.alttpj.memeforcehunt.app.cli;
 
-import java.awt.GraphicsEnvironment;
-import java.util.concurrent.Callable;
-
 import io.github.alttpj.memeforcehunt.app.cli.commands.ListSkins;
 import io.github.alttpj.memeforcehunt.app.cli.commands.SetSkin;
 import io.github.alttpj.memeforcehunt.app.cli.commands.StartGui;
+
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
+
+import java.awt.GraphicsEnvironment;
+import java.util.concurrent.Callable;
 
 @Command(subcommands = {
     ListSkins.class,
