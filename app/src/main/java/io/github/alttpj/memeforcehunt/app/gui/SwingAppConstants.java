@@ -1,4 +1,4 @@
-package io.github.alttpj.memeforcehunt.gui;
+package io.github.alttpj.memeforcehunt.app.gui;
 
 import javax.swing.BorderFactory;
 import javax.swing.border.Border;

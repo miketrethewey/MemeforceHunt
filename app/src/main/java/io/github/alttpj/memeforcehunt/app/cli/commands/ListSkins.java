@@ -1,4 +1,4 @@
-package io.github.alttpj.memeforcehunt.cli.commands;
+package io.github.alttpj.memeforcehunt.app.cli.commands;
 
 import java.util.Arrays;
 import java.util.Locale;

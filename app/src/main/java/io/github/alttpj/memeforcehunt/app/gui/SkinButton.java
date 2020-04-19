@@ -1,6 +1,6 @@
-package io.github.alttpj.memeforcehunt.gui;
+package io.github.alttpj.memeforcehunt.app.gui;
 
-import static io.github.alttpj.memeforcehunt.gui.SwingAppConstants.PADDING;
+import static io.github.alttpj.memeforcehunt.app.gui.SwingAppConstants.PADDING;
 
 
 import javax.swing.ImageIcon;

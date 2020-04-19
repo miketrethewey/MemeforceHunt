@@ -1,6 +1,4 @@
-package io.github.alttpj.memeforcehunt.gui;
-
-import static io.github.alttpj.memeforcehunt.gui.SwingAppConstants.PADDING;
+package io.github.alttpj.memeforcehunt.app.gui;
 
 
 import javax.imageio.ImageIO;
@@ -27,11 +25,12 @@ import java.awt.image.BufferedImage;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.net.URL;
+import java.util.concurrent.Callable;
 
 import io.github.alttpj.memeforcehunt.common.value.Skin;
 import io.github.alttpj.memeforcehunt.lib.AlttpRomPatcher;
 
-public class MemeforceHuntApp {
+public class MemeforceHuntGui implements Callable<Integer> {
 
   private static final String LINK = "https://github.com/alttpj/MemeforceHunt/releases";
 
@@ -43,16 +42,17 @@ public class MemeforceHuntApp {
   private JLabel skinsText;
   private JComboBox<Skin> skins;
 
-  public static void main(final String[] args) {
-    final MemeforceHuntApp memeforceHuntApp = new MemeforceHuntApp();
-
+  @Override
+  public Integer call() throws Exception {
     javax.swing.SwingUtilities.invokeLater(() -> {
       try {
-        memeforceHuntApp.printGUI();
+        printGUI();
       } catch (final Exception runEx) {
         runEx.printStackTrace();
       }
     });
+
+    return 0;
   }
 
   public void printGUI() {
@@ -130,7 +130,7 @@ public class MemeforceHuntApp {
    */
   private JPanel createIconSelector() {
     final JPanel iconGrid = new JPanel(new GridBagLayout());
-    iconGrid.setBorder(PADDING);
+    iconGrid.setBorder(SwingAppConstants.PADDING);
     final GridBagConstraints iconListGridConstraints = new GridBagConstraints();
 
     iconListGridConstraints.fill = GridBagConstraints.HORIZONTAL;
@@ -168,7 +168,7 @@ public class MemeforceHuntApp {
   private JPanel createRightColumn(final JFrame parent) {
     final GridBagLayout gridBagLayout = new GridBagLayout();
     final JPanel rightColumn = new JPanel(gridBagLayout);
-    rightColumn.setBorder(PADDING);
+    rightColumn.setBorder(SwingAppConstants.PADDING);
 
     final GridBagConstraints gbc = new GridBagConstraints();
     gbc.gridx = 0;
@@ -297,7 +297,7 @@ public class MemeforceHuntApp {
 
   private JPanel createTopBar() {
     final JPanel topBar = new JPanel();
-    topBar.setBorder(PADDING);
+    topBar.setBorder(SwingAppConstants.PADDING);
     topBar.setLayout(new BoxLayout(topBar, BoxLayout.LINE_AXIS));
 
     // rom name
