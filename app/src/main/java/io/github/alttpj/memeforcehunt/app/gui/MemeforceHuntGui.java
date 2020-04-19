@@ -38,6 +38,7 @@ import java.io.FilenameFilter;
 import java.io.IOException;
 import java.net.URI;
 import java.util.Arrays;
+import java.util.Optional;
 import java.util.concurrent.Callable;
 import javax.imageio.ImageIO;
 import javax.swing.Box;
@@ -324,8 +325,11 @@ public class MemeforceHuntGui implements Callable<Integer> {
     doPatch.addActionListener(
         actionEvent -> {
           final String fileNameText = this.fileName.getText();
+          final SpritemapWithSkin selectedItem;
+
           try {
-            new AlttpRomPatcher().patchROM(fileNameText, (SpritemapWithSkin) this.skins.getSelectedItem());
+            selectedItem = (SpritemapWithSkin) this.skins.getSelectedItem();
+            new AlttpRomPatcher().patchROM(fileNameText, selectedItem);
           } catch (final Exception patchEx) {
             LOG.error("Error patching.", patchEx);
             JOptionPane.showMessageDialog(parent,
@@ -335,11 +339,14 @@ public class MemeforceHuntGui implements Callable<Integer> {
                 DefaultSpritemapWithSkins.SCREAM.getSpritemapWithSkin().getImageIcon());
             return;
           }
+
           JOptionPane.showMessageDialog(parent,
               "SUCCESS",
               "Enjoy",
               JOptionPane.PLAIN_MESSAGE,
-              DefaultSpritemapWithSkins.BENANA.getSpritemapWithSkin().getImageIcon());
+              Optional.ofNullable(selectedItem)
+                  .map(SpritemapWithSkin::getImageIcon)
+                  .orElseGet(() -> DefaultSpritemapWithSkins.BENANA.getSpritemapWithSkin().getImageIcon()));
         });
     return doPatch;
   }
