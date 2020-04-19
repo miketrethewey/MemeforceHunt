@@ -75,6 +75,5 @@ after_success:
       ./mvnw --batch-mode -Pdocs,deploy,ossrh deploy \
         --settings .deployment/.travis.settings.xml \
         -DskipTests \
-        -Dgpg.defaultKeyring=false -Dgpg.publicKeyring=$TRAVIS_BUILD_DIR/pubring.gpg -Dgpg.secretKeyring=$TRAVIS_BUILD_DIR/secring.gpg \
-        -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn
+        -Dgpg.defaultKeyring=false -Dgpg.publicKeyring=$TRAVIS_BUILD_DIR/pubring.gpg -Dgpg.secretKeyring=$TRAVIS_BUILD_DIR/secring.gpg
     fi
