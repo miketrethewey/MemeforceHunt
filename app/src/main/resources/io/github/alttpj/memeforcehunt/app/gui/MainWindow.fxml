@@ -30,9 +30,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import java.net.URL?>
-<BorderPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="io.github.alttpj.memeforcehunt.app.gui.MainWindow">
+<fx:root type="javafx.scene.layout.BorderPane" xmlns:fx="http://javafx.com/fxml">
   <stylesheets>
     <URL value="@borders.css"/>
   </stylesheets>
@@ -88,6 +86,4 @@
       </HBox>
     </VBox>
   </bottom>
-
-
-</BorderPane>
+</fx:root>

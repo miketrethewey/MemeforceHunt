@@ -16,11 +16,9 @@
 
 package io.github.alttpj.memeforcehunt.app.gui.actions;
 
+import javafx.application.HostServices;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Label;
 
-import java.awt.Desktop;
-import java.io.IOException;
 import java.net.URI;
 
 public final class StaticGuiActions {
@@ -31,18 +29,14 @@ public final class StaticGuiActions {
     // util class
   }
 
-  public static void tryOpenAboutPage(final Label statusBarLabel) {
+  public static void tryOpenAboutPage(final HostServices hostServices) {
     try {
-      final Desktop desktop = Desktop.isDesktopSupported() ? Desktop.getDesktop() : null;
-      if (desktop != null && desktop.isSupported(Desktop.Action.BROWSE)) {
-        desktop.browse(LINK);
-      }
-    } catch (final IOException | UnsupportedOperationException | SecurityException urlOpenEx) {
+      hostServices.showDocument(LINK.toString());
+    } catch (final UnsupportedOperationException | SecurityException urlOpenEx) {
       final Alert alert = new Alert(Alert.AlertType.ERROR);
       alert.setHeaderText("Unable to open your browser");
       alert.setContentText("Unable to open your browser. Error message:\n[" + urlOpenEx.getMessage() + "].");
       alert.show();
-      statusBarLabel.setText("Unable to open Browser: [" + urlOpenEx.getMessage() + "].");
     }
   }
 }

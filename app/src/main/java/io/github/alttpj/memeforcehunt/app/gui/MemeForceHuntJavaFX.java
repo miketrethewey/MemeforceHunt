@@ -19,8 +19,6 @@ package io.github.alttpj.memeforcehunt.app.gui;
 import io.github.alttpj.memeforcehunt.lib.AlttpRomPatcher;
 
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import jfxtras.styles.jmetro.JMetro;
@@ -38,7 +36,8 @@ public class MemeForceHuntJavaFX extends Application {
 
   @Override
   public void start(final Stage primaryStage) throws IOException {
-    final Parent root = FXMLLoader.load(getClass().getResource("/io/github/alttpj/memeforcehunt/app/gui/MainWindow.fxml"));
+    final MainWindow root = new MainWindow();
+    root.setHostServices(this.getHostServices());
 
     final JMetro jMetro = new JMetro(Style.DARK);
     final Scene scene = new Scene(root, 720, 544);

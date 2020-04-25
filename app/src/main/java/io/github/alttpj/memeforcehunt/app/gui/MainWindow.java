@@ -21,22 +21,26 @@ import io.github.alttpj.memeforcehunt.app.gui.main.DefaultSpriteTab;
 import io.github.alttpj.memeforcehunt.app.gui.main.MainPane;
 import io.github.alttpj.memeforcehunt.app.gui.properties.SelectedFileProperty;
 
+import javafx.application.HostServices;
 import javafx.application.Platform;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-public class MainWindow implements Initializable {
+public class MainWindow extends BorderPane implements Initializable {
 
   private static final FileChooser.ExtensionFilter SFC_EXTENSION_FILTER =
       new FileChooser.ExtensionFilter("SFC rom files (*.sfc)", "*.sfc");
@@ -56,7 +60,23 @@ public class MainWindow implements Initializable {
   @FXML
   private Label statusBarLabel;
 
+  private HostServices hostServices;
+
   private final SelectedFileProperty selectedFileProperty = new SelectedFileProperty();
+
+  public MainWindow() {
+    // fmxl
+    final FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/io/github/alttpj/memeforcehunt/app/gui/MainWindow.fxml"));
+    fxmlLoader.setRoot(this);
+    fxmlLoader.setController(this);
+
+    try {
+      fxmlLoader.load();
+    } catch (final IOException ioException) {
+      throw new RuntimeException(ioException);
+    }
+  }
+
 
   @Override
   public void initialize(final URL location, final ResourceBundle resources) {
@@ -75,7 +95,6 @@ public class MainWindow implements Initializable {
 
           if (selectedFile.isEmpty()) {
             this.fileMenuCloseRom.setDisable(true);
-
             this.statusBarLabel.setText("No ROM File Loaded.");
             return;
           }
@@ -85,6 +104,7 @@ public class MainWindow implements Initializable {
           this.fileMenuCloseRom.setDisable(false);
           this.statusBarLabel.setText("Loaded file [" + loadedFile.getAbsolutePath() + "].");
         });
+
   }
 
   @FXML
@@ -113,12 +133,17 @@ public class MainWindow implements Initializable {
 
   @FXML
   public void onHelpMenuUpdate(final ActionEvent actionEvent) {
-
+    StaticGuiActions.tryOpenAboutPage(getHostServices());
   }
 
   public void onHelpMenuAbout(final ActionEvent actionEvent) {
-    StaticGuiActions.tryOpenAboutPage(this.statusBarLabel);
   }
 
+  public HostServices getHostServices() {
+    return this.hostServices;
+  }
 
+  public void setHostServices(final HostServices hostServices) {
+    this.hostServices = hostServices;
+  }
 }

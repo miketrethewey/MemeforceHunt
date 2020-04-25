@@ -17,6 +17,8 @@ module memeforcehunt.app {
   opens io.github.alttpj.memeforcehunt.app.gui to javafx.fxml;
   opens io.github.alttpj.memeforcehunt.app.gui.main to javafx.fxml;
 
+  opens io.github.alttpj.memeforcehunt.app.cli.commands to info.picocli;
+
   // those classes are accessible from outside, e.g. for the JavaFX loader.
   exports io.github.alttpj.memeforcehunt.app.cli;
   exports io.github.alttpj.memeforcehunt.app.cli.commands;
