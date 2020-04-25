@@ -41,7 +41,8 @@ public class ListSkins implements Callable<Integer> {
   @SuppressForbidden
   private static void printSkin(final SpritemapWithSkin spritemapWithSkin) {
     final String format = String.format(Locale.ENGLISH,
-        "%-16s - %-32s by %-16s",
+        "[%26S] %-16s - %-32s by %-16s",
+        spritemapWithSkin.getId().toString(),
         spritemapWithSkin.getSpriteName(),
         spritemapWithSkin.getDescription(),
         spritemapWithSkin.getAuthor()

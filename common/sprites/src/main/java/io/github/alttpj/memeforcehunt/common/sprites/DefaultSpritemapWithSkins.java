@@ -55,6 +55,9 @@ public final class DefaultSpritemapWithSkins {
     return unmodifiableList(sprites);
   }
 
+  /**
+   * @throws NoSuchElementException if spriteName could not be found.
+   */
   public static SpritemapWithSkin getByName(final String spriteName) {
     return DEFAULT_SPRITEMAPS.stream()
         .filter(spr -> spr.getSpriteName().equals(spriteName))
