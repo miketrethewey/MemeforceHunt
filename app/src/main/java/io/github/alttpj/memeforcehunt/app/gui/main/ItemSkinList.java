@@ -14,23 +14,23 @@
  * limitations under the License.
  */
 
-package io.github.alttpj.memeforcehunt.app.cli.commands;
+package io.github.alttpj.memeforcehunt.app.gui.main;
 
-import io.github.alttpj.memeforcehunt.app.gui.MemeForceHuntJavaFX;
+import io.github.alttpj.memeforcehunt.common.value.SpritemapWithSkin;
 
-import picocli.CommandLine.Command;
+import javafx.collections.ObservableList;
+import javafx.scene.control.ListView;
 
-import java.util.concurrent.Callable;
+public class ItemSkinList extends ListView<SpritemapWithSkin> {
 
-@Command(name = "gui",
-    aliases = {"startGui", "start"},
-    description = "Starts the gui (default action).",
-    descriptionHeading = "Default action if no other action is given.")
-public class StartGui implements Callable<Integer> {
-
-  @Override
-  public Integer call() {
-    MemeForceHuntJavaFX.main(new String[0]);
-    return 0;
+  public ItemSkinList() {
+    this.setCellFactory(listView -> new SkinListCell());
   }
+
+
+  public void addSkin(final SpritemapWithSkin skin) {
+    final ObservableList<SpritemapWithSkin> items = getItems();
+    items.add(skin);
+  }
+
 }

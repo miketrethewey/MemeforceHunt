@@ -32,7 +32,7 @@
     <!-- jdk needed -->
     <jdk.version>11</jdk.version>
     <!-- compile to -->
-    <java.version>8</java.version>
+    <java.version>11</java.version>
     <maven.compiler.release>${java.version}</maven.compiler.release>
 
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -44,16 +44,55 @@
 
     <!-- default fork arguments. -->
     <argLine>-Xmx1024m</argLine>
+    <dependency.javafx.version>14.0.1</dependency.javafx.version>
+    <dependency.slf4j-api.version>1.7.30</dependency.slf4j-api.version>
+    <dependency.snakeyaml.version>1.25</dependency.snakeyaml.version>
   </properties>
 
   <!-- dependencies in the management section are not forced upon the child modules. -->
   <dependencyManagement>
     <dependencies>
+      <dependency>
+        <groupId>org.openjfx</groupId>
+        <artifactId>javafx-controls</artifactId>
+        <version>${dependency.javafx.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.openjfx</groupId>
+        <artifactId>javafx-fxml</artifactId>
+        <version>${dependency.javafx.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.openjfx</groupId>
+        <artifactId>javafx-swing</artifactId>
+        <version>${dependency.javafx.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.openjfx</groupId>
+        <artifactId>javafx-web</artifactId>
+        <version>${dependency.javafx.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.openjfx</groupId>
+        <artifactId>javafx-base</artifactId>
+        <version>${dependency.javafx.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.openjfx</groupId>
+        <artifactId>javafx-media</artifactId>
+        <version>${dependency.javafx.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.openjfx</groupId>
+        <artifactId>javafx-graphics</artifactId>
+        <version>${dependency.javafx.version}</version>
+      </dependency>
+
       <!-- slf4j is an implementation-independent log framework. -->
       <dependency>
         <groupId>org.slf4j</groupId>
         <artifactId>slf4j-api</artifactId>
-        <version>1.7.30</version>
+        <version>${dependency.slf4j-api.version}</version>
         <scope>compile</scope>
       </dependency>
 
@@ -136,6 +175,12 @@
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-source-plugin</artifactId>
           <version>3.2.1</version>
+        </plugin>
+
+        <plugin>
+          <groupId>org.openjfx</groupId>
+          <artifactId>javafx-maven-plugin</artifactId>
+          <version>0.0.4</version>
         </plugin>
 
         <!-- creates coverage reports and coverage files. -->

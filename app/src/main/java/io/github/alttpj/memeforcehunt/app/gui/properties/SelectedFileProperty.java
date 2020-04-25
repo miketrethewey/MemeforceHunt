@@ -14,18 +14,23 @@
  * limitations under the License.
  */
 
-package io.github.alttpj.memeforcehunt.app.gui;
+package io.github.alttpj.memeforcehunt.app.gui.properties;
 
-import javax.swing.BorderFactory;
-import javax.swing.border.Border;
+import javafx.beans.property.SimpleObjectProperty;
 
-final class SwingAppConstants {
+import java.io.File;
+import java.util.Optional;
 
-  protected static final Border PADDING = BorderFactory.createEmptyBorder(10, 10, 10, 10);
-
-
-  private SwingAppConstants() {
-    // util.
+public final class SelectedFileProperty extends SimpleObjectProperty<Optional<File>> {
+  public SelectedFileProperty() {
+    super(Optional.empty());
   }
 
+  public SelectedFileProperty(final File initialValue) {
+    super(Optional.ofNullable(initialValue));
+  }
+
+  public void set(final File file) {
+    set(Optional.ofNullable(file));
+  }
 }

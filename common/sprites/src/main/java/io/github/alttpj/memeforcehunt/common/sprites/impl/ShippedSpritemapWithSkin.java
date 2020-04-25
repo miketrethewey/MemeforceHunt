@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package io.github.alttpj.memeforcehunt.common.sprites;
+package io.github.alttpj.memeforcehunt.common.sprites.impl;
 
 import io.github.alttpj.memeforcehunt.common.value.AbstractSpritemapWithSkin;
 import io.github.alttpj.memeforcehunt.common.value.ItemPalette;
@@ -43,7 +43,7 @@ public class ShippedSpritemapWithSkin extends AbstractSpritemapWithSkin {
   }
 
   @Override
-  protected BufferedImage getImage() {
+  public BufferedImage getImage() {
     BufferedImage itemp;
     try (final InputStream inputStream = this.getClass().getResourceAsStream(getSkinPreviewPath())) {
       itemp = ImageIO.read(inputStream);

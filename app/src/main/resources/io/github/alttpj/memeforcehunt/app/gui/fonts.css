@@ -1,0 +1,11 @@
+.monospaced {
+  -fx-font-family: 'Consolas', 'Ubuntu Mono', 'Monospace', 'monospaced' !important;
+}
+
+.italic {
+  -fx-font-style: italic;
+}
+
+.bold {
+  -fx-font-weight: bold;
+}

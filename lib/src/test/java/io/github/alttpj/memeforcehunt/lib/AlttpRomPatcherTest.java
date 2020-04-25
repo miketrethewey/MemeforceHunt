@@ -31,16 +31,16 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-class AlttpRomPatcherTest {
+public class AlttpRomPatcherTest {
 
   @Test
-  void shouldRejectLongByteArrays() {
+  public void shouldRejectLongByteArrays() {
     // given big sprite map
     final byte[] bytes = new byte[AlttpRomPatcher.MAX_SPRITEMAP_SIZE * 2];
     final AbstractSpritemapWithSkin spritemap =
         new AbstractSpritemapWithSkin(new ULID().nextULID(), "test", "test", "author", ItemPalette.GREEN) {
           @Override
-          protected BufferedImage getImage() {
+          public BufferedImage getImage() {
             return null;
           }
 

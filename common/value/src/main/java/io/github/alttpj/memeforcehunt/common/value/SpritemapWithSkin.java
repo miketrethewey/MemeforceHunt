@@ -16,6 +16,7 @@
 
 package io.github.alttpj.memeforcehunt.common.value;
 
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import javax.swing.ImageIcon;
 
@@ -44,6 +45,8 @@ public interface SpritemapWithSkin {
   String getDescription();
 
   String getAuthor();
+
+  BufferedImage getImage();
 
   /**
    * Returns a 32x32 image icon.
