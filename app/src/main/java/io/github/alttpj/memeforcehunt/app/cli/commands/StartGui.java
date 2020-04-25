@@ -29,7 +29,7 @@ import java.util.concurrent.Callable;
 public class StartGui implements Callable<Integer> {
 
   @Override
-  public Integer call() throws Exception {
+  public Integer call() {
     MemeForceHuntJavaFX.main(new String[0]);
     return 0;
   }
