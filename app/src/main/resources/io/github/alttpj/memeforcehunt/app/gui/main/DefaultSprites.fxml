@@ -29,7 +29,9 @@
       <Insets top="5" right="5" bottom="5" left="5"/>
     </padding>
     <!-- disabled until a file is loaded. -->
-    <Button text="Patch" fx:id="patchButton" VBox.vgrow="NEVER" maxWidth="Infinity" disable="true"/>
-    <Button text="Random" fx:id="randomButton" VBox.vgrow="NEVER" maxWidth="Infinity" disable="true"/>
+    <Button text="Patch" fx:id="patchButton" VBox.vgrow="NEVER" maxWidth="Infinity" disable="true"
+            onAction="#doPatchRom"/>
+    <Button text="Random" fx:id="randomButton" VBox.vgrow="NEVER" maxWidth="Infinity" disable="true"
+            onAction="#doPatchRandom"/>
   </VBox>
 </fx:root>

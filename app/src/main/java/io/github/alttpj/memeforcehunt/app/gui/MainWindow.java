@@ -62,6 +62,9 @@ public class MainWindow implements Initializable {
   public void initialize(final URL location, final ResourceBundle resources) {
     assert this.fileMenuExit != null : "fx:id=\"fileMenuExit\" was not injected: check your FXML file 'AxisFxml.fxml'.";
     this.fileMenuCloseRom.setDisable(true);
+    final DefaultSpriteTab defaultSpriteTab = this.mainPane.getDefaultSpriteTab();
+    defaultSpriteTab.fileProperty().bind(this.selectedFileProperty);
+
     this.selectedFileProperty.addListener(
         (ObservableValue<?> observableValue, Object oldVal, Object newVal) -> {
           if (!(newVal instanceof Optional)) {
@@ -69,12 +72,10 @@ public class MainWindow implements Initializable {
           }
 
           final Optional<File> selectedFile = (Optional<File>) newVal;
-          final DefaultSpriteTab defaultSpriteTab = this.mainPane.getDefaultSpriteTab();
 
           if (selectedFile.isEmpty()) {
             this.fileMenuCloseRom.setDisable(true);
-            defaultSpriteTab.getPatchButton().setDisable(true);
-            defaultSpriteTab.getRandomButton().setDisable(true);
+
             this.statusBarLabel.setText("No ROM File Loaded.");
             return;
           }
@@ -83,10 +84,7 @@ public class MainWindow implements Initializable {
 
           this.fileMenuCloseRom.setDisable(false);
           this.statusBarLabel.setText("Loaded file [" + loadedFile.getAbsolutePath() + "].");
-          defaultSpriteTab.getPatchButton().setDisable(false);
-          defaultSpriteTab.getRandomButton().setDisable(false);
         });
-
   }
 
   @FXML

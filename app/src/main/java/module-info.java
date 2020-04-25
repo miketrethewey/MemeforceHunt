@@ -4,6 +4,7 @@ module memeforcehunt.app {
   requires javafx.controls;
   requires javafx.swing;
   requires java.desktop;
+  requires java.logging;
 
   requires info.picocli;
   requires memeforcehunt.common.sprites;
