@@ -62,6 +62,11 @@
         <artifactId>javafx-fxml</artifactId>
         <version>${dependency.javafx.version}</version>
       </dependency>
+      <dependency>
+        <groupId>org.openjfx</groupId>
+        <artifactId>javafx-swing</artifactId>
+        <version>${dependency.javafx.version}</version>
+      </dependency>
 
       <!-- slf4j is an implementation-independent log framework. -->
       <dependency>

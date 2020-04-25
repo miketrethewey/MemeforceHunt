@@ -43,7 +43,7 @@ public class ShippedSpritemapWithSkin extends AbstractSpritemapWithSkin {
   }
 
   @Override
-  protected BufferedImage getImage() {
+  public BufferedImage getImage() {
     BufferedImage itemp;
     try (final InputStream inputStream = this.getClass().getResourceAsStream(getSkinPreviewPath())) {
       itemp = ImageIO.read(inputStream);

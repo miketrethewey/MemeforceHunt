@@ -40,7 +40,7 @@ public class AlttpRomPatcherTest {
     final AbstractSpritemapWithSkin spritemap =
         new AbstractSpritemapWithSkin(new ULID().nextULID(), "test", "test", "author", ItemPalette.GREEN) {
           @Override
-          protected BufferedImage getImage() {
+          public BufferedImage getImage() {
             return null;
           }
 

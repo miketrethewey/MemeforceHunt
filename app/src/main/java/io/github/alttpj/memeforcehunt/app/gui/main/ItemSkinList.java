@@ -14,24 +14,23 @@
  * limitations under the License.
  */
 
-package io.github.alttpj.memeforcehunt.app.gui;
+package io.github.alttpj.memeforcehunt.app.gui.main;
 
-import io.github.alttpj.memeforcehunt.app.gui.main.ItemSkinList;
-import io.github.alttpj.memeforcehunt.common.sprites.DefaultSpritemapWithSkins;
+import io.github.alttpj.memeforcehunt.common.value.SpritemapWithSkin;
 
-import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
+import javafx.collections.ObservableList;
+import javafx.scene.control.ListView;
 
-import java.net.URL;
-import java.util.ResourceBundle;
+public class ItemSkinList extends ListView<SpritemapWithSkin> {
 
-public class MainPane implements Initializable {
-  @FXML
-  private ItemSkinList defaultSpritesItemSkinList;
+  public ItemSkinList() {
+    this.setCellFactory(listView -> new SkinListCell());
+  }
 
-  @Override
-  public void initialize(final URL location, final ResourceBundle resources) {
-    DefaultSpritemapWithSkins.values().forEach(this.defaultSpritesItemSkinList::addSkin);
+
+  public void addSkin(final SpritemapWithSkin skin) {
+    final ObservableList<SpritemapWithSkin> items = getItems();
+    items.add(skin);
   }
 
 }

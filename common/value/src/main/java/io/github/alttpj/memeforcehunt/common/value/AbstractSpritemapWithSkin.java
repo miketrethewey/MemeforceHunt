@@ -81,7 +81,8 @@ public abstract class AbstractSpritemapWithSkin implements SpritemapWithSkin {
     return createImageIcon(getImage());
   }
 
-  protected abstract BufferedImage getImage();
+  @Override
+  public abstract BufferedImage getImage();
 
   protected static ImageIcon createImageIcon(final BufferedImage itemp) {
     final BufferedImage imageIconImage = new BufferedImage(32, 32, BufferedImage.TYPE_4BYTE_ABGR);
