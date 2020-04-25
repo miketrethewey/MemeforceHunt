@@ -20,16 +20,24 @@ import io.github.alttpj.memeforcehunt.common.value.SpritemapWithSkin;
 
 import javafx.embed.swing.SwingFXUtils;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 
 import java.awt.image.BufferedImage;
+import java.net.URL;
 
 public class SkinListCell extends ListCell<SpritemapWithSkin> {
 
   private static final Insets DEFAULT_PADDING = new Insets(0.0d, 1.0d, 0.0d, 5.0d);
+
+  private static final URL FONTS = SkinListCell.class.getResource("/io/github/alttpj/memeforcehunt/app/gui/fonts.css");
 
   public SkinListCell() {
     graphicTextGapProperty().set(15.0);
@@ -45,12 +53,43 @@ public class SkinListCell extends ListCell<SpritemapWithSkin> {
       return;
     }
 
-    final BufferedImage bufferedImage = item.getImage();
-    final WritableImage fxImage = SwingFXUtils.toFXImage(bufferedImage, null);
-    final ImageView drawnItem = new ImageView(fxImage);
-    drawnItem.setFitWidth(32.0);
-    drawnItem.setFitHeight(32.0);
-    setGraphic(drawnItem);
-    setText(item.getSpriteName() + " by " + item.getAuthor() + "\n" + item.getDescription());
+    setGraphic(new SkinListCellGraphic(item));
+  }
+
+  static class SkinListCellGraphic extends HBox {
+
+    private final SpritemapWithSkin item;
+
+    public SkinListCellGraphic(final SpritemapWithSkin item) {
+      getStylesheets().add(FONTS.toExternalForm());
+      this.item = item;
+      setSpacing(15.0d);
+      setAlignment(Pos.CENTER_LEFT);
+      draw();
+    }
+
+    private void draw() {
+      // left: draw item
+      final BufferedImage bufferedImage = this.item.getImage();
+      final WritableImage fxImage = SwingFXUtils.toFXImage(bufferedImage, null);
+      final ImageView drawnItem = new ImageView(fxImage);
+      drawnItem.setFitWidth(32.0);
+      drawnItem.setFitHeight(32.0);
+      getChildren().add(drawnItem);
+
+      // right: Multi-Line text
+      final VBox rightHandCellPart = new VBox();
+      final Text itemNameLabel = new Text(this.item.getSpriteName());
+      itemNameLabel.getStyleClass().add("bold");
+      final Text authorLabel = new Text(" by " + this.item.getAuthor());
+      authorLabel.getStyleClass().add("italic");
+      rightHandCellPart.getChildren().add(new HBox(itemNameLabel, authorLabel));
+      rightHandCellPart.getChildren().add(new Label(this.item.getDescription()));
+      final Text idLabel = new Text("ID: " + this.item.getId());
+      idLabel.getStyleClass().add("monospaced");
+      rightHandCellPart.getChildren().add(idLabel);
+      getChildren().add(rightHandCellPart);
+    }
+
   }
 }

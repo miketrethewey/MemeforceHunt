@@ -44,7 +44,7 @@
 
     <!-- default fork arguments. -->
     <argLine>-Xmx1024m</argLine>
-    <dependency.javafx.version>14</dependency.javafx.version>
+    <dependency.javafx.version>14.0.1</dependency.javafx.version>
     <dependency.slf4j-api.version>1.7.30</dependency.slf4j-api.version>
     <dependency.snakeyaml.version>1.25</dependency.snakeyaml.version>
   </properties>
@@ -65,6 +65,26 @@
       <dependency>
         <groupId>org.openjfx</groupId>
         <artifactId>javafx-swing</artifactId>
+        <version>${dependency.javafx.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.openjfx</groupId>
+        <artifactId>javafx-web</artifactId>
+        <version>${dependency.javafx.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.openjfx</groupId>
+        <artifactId>javafx-base</artifactId>
+        <version>${dependency.javafx.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.openjfx</groupId>
+        <artifactId>javafx-media</artifactId>
+        <version>${dependency.javafx.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.openjfx</groupId>
+        <artifactId>javafx-graphics</artifactId>
         <version>${dependency.javafx.version}</version>
       </dependency>
 
