@@ -20,5 +20,8 @@
         "-//Puppy Crawl//DTD Suppressions 1.1//EN" "https://checkstyle.github.io/dtds/suppressions_1_1.dtd">
 
 <suppressions>
+    <suppress files="module-info\.java" checks="[a-zA-Z0-9]*"/>
+    <suppress files="module\-info\.java" checks="[a-zA-Z0-9]*"/>
+    <suppress files="module\-info\.java$" checks="[a-zA-Z0-9]*"/>
     <suppress files="ULID\.java" checks="[a-zA-Z0-9]*"/>
 </suppressions>

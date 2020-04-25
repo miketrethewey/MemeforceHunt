@@ -14,23 +14,23 @@
  * limitations under the License.
  */
 
-package io.github.alttpj.memeforcehunt.app.cli.commands;
+package io.github.alttpj.memeforcehunt.app.gui.properties;
 
-import io.github.alttpj.memeforcehunt.app.gui.MemeForceHuntJavaFX;
+import javafx.beans.property.SimpleObjectProperty;
 
-import picocli.CommandLine.Command;
+import java.io.File;
+import java.util.Optional;
 
-import java.util.concurrent.Callable;
+public final class SelectedFileProperty extends SimpleObjectProperty<Optional<File>> {
+  public SelectedFileProperty() {
+    super(Optional.empty());
+  }
 
-@Command(name = "gui",
-    aliases = {"startGui", "start"},
-    description = "Starts the gui (default action).",
-    descriptionHeading = "Default action if no other action is given.")
-public class StartGui implements Callable<Integer> {
+  public SelectedFileProperty(final File initialValue) {
+    super(Optional.ofNullable(initialValue));
+  }
 
-  @Override
-  public Integer call() throws Exception {
-    MemeForceHuntJavaFX.main(new String[0]);
-    return 0;
+  public void set(final File file) {
+    set(Optional.ofNullable(file));
   }
 }

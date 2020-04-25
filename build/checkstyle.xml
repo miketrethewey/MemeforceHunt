@@ -39,14 +39,13 @@
   </module>
 
   <module name="BeforeExecutionExclusionFileFilter">
-    <property name="fileNamePattern" value="module\-info\.java$"/>
-    <property name="fileNamePattern" value=".*\.ULID\.java$"/>
+    <property name="fileNamePattern" value="module\-info\.java|.*\.ULID\.java$$"/>
   </module>
 
   <!-- required till https://bugs.openjdk.java.net/browse/JDK-8160601 -->
   <module name="SuppressionSingleFilter">
     <property name="checks" value="MissingDeprecatedCheck"/>
-    <property name="files" value="package-info\.java"/>
+    <property name="files" value="package-info\.java|module-info\.java"/>
   </module>
 
   <!-- filter: allow suppressions via @SuppressWarning. -->

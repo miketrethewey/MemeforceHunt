@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  ~ Copyright 2020-2020 the ALttPJ Team @ https://github.com/alttpj
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~          http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.SeparatorMenuItem?>
+<?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import java.net.URL?>
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="io.github.alttpj.memeforcehunt.app.gui.MainWindow">
+  <stylesheets>
+    <URL value="@borders.css"/>
+  </stylesheets>
+  <top>
+    <VBox fx:id="topPane">
+      <children>
+        <MenuBar fx:id="mainMenu">
+          <Menu fx:id="fileMenu" text="File">
+            <MenuItem fx:id="fileMenuOpenRom" text="Open ROM file" onAction="#onFileMenuOpenRom"/>
+            <MenuItem fx:id="fileMenuCloseRom" text="Close current file" onAction="#onFileMenuFileClose"/>
+            <SeparatorMenuItem/>
+            <MenuItem fx:id="fileMenuExit" text="Exit" onAction="#onFileMenuExitClick"/>
+          </Menu>
+          <Menu fx:id="HelpMenu" text="Help">
+            <MenuItem fx:id="helpMenuUpdate" text="Check for updates…" onAction="#onHelpMenuUpdate"/>
+            <SeparatorMenuItem/>
+            <MenuItem fx:id="helpMenuAbout" text="About…" onAction="#onHelpMenuAbout"/>
+          </Menu>
+        </MenuBar>
+        <ToolBar nodeOrientation="LEFT_TO_RIGHT" VBox.vgrow="NEVER" styleClass="background, border">
+          <Button fx:id="buttonBarFileOpen"
+                  mnemonicParsing="false"
+                  text="O"
+                  onAction="#onFileMenuOpenRom"
+                  ButtonBar.buttonData="LEFT"
+          />
+          <Button fx:id="buttonBarFilePatch"
+                  mnemonicParsing="false"
+                  text="P!"
+                  ButtonBar.buttonData="LEFT"
+          />
+          <Button fx:id="buttonBarFileClose"
+                  mnemonicParsing="false"
+                  text="X"
+                  onAction="#onFileMenuFileClose"
+                  ButtonBar.buttonData="LEFT"
+          />
+          <Separator/>
+          <Button text="?"/>
+        </ToolBar>
+      </children>
+    </VBox>
+  </top>
+
+  <center>
+    <fx:include source="MainPane.fxml"/>
+  </center>
+
+  <bottom>
+    <VBox fx:id="bottomPane" styleClass="background, border">
+      <HBox fx:id="statusBar">
+        <Label fx:id="statusBarLabel" text="Ready." styleClass="background"/>
+      </HBox>
+    </VBox>
+  </bottom>
+
+
+</BorderPane>

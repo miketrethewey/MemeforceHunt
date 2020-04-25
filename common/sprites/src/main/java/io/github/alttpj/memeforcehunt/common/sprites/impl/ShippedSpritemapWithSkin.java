@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package io.github.alttpj.memeforcehunt.common.sprites;
+package io.github.alttpj.memeforcehunt.common.sprites.impl;
 
 import io.github.alttpj.memeforcehunt.common.value.AbstractSpritemapWithSkin;
 import io.github.alttpj.memeforcehunt.common.value.ItemPalette;

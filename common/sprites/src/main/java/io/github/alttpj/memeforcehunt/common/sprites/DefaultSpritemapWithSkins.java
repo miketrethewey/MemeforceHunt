@@ -18,6 +18,7 @@ package io.github.alttpj.memeforcehunt.common.sprites;
 
 import static java.util.Collections.unmodifiableList;
 
+import io.github.alttpj.memeforcehunt.common.sprites.impl.SpriteLoader;
 import io.github.alttpj.memeforcehunt.common.value.SpritemapWithSkin;
 
 import org.slf4j.Logger;
