@@ -17,6 +17,8 @@
 package io.github.alttpj.memeforcehunt.app.gui;
 
 import io.github.alttpj.memeforcehunt.app.gui.actions.StaticGuiActions;
+import io.github.alttpj.memeforcehunt.app.gui.main.DefaultSpriteTab;
+import io.github.alttpj.memeforcehunt.app.gui.main.MainPane;
 import io.github.alttpj.memeforcehunt.app.gui.properties.SelectedFileProperty;
 
 import javafx.application.Platform;
@@ -40,6 +42,9 @@ public class MainWindow implements Initializable {
       new FileChooser.ExtensionFilter("SFC rom files (*.sfc)", "*.sfc");
 
   @FXML
+  private MainPane mainPane;
+
+  @FXML
   private MenuItem fileMenuExit;
 
   @FXML
@@ -53,10 +58,6 @@ public class MainWindow implements Initializable {
 
   private final SelectedFileProperty selectedFileProperty = new SelectedFileProperty();
 
-  public MainWindow() {
-    // fmxl
-  }
-
   @Override
   public void initialize(final URL location, final ResourceBundle resources) {
     assert this.fileMenuExit != null : "fx:id=\"fileMenuExit\" was not injected: check your FXML file 'AxisFxml.fxml'.";
@@ -68,9 +69,12 @@ public class MainWindow implements Initializable {
           }
 
           final Optional<File> selectedFile = (Optional<File>) newVal;
+          final DefaultSpriteTab defaultSpriteTab = this.mainPane.getDefaultSpriteTab();
 
           if (selectedFile.isEmpty()) {
             this.fileMenuCloseRom.setDisable(true);
+            defaultSpriteTab.getPatchButton().setDisable(true);
+            defaultSpriteTab.getRandomButton().setDisable(true);
             this.statusBarLabel.setText("No ROM File Loaded.");
             return;
           }
@@ -79,7 +83,10 @@ public class MainWindow implements Initializable {
 
           this.fileMenuCloseRom.setDisable(false);
           this.statusBarLabel.setText("Loaded file [" + loadedFile.getAbsolutePath() + "].");
+          defaultSpriteTab.getPatchButton().setDisable(false);
+          defaultSpriteTab.getRandomButton().setDisable(false);
         });
+
   }
 
   @FXML

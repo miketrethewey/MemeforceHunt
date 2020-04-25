@@ -16,6 +16,7 @@
   ~ limitations under the License.
   -->
 
+<?import io.github.alttpj.memeforcehunt.app.gui.main.MainPane?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ButtonBar?>
 <?import javafx.scene.control.Label?>
@@ -77,7 +78,7 @@
   </top>
 
   <center>
-    <fx:include source="MainPane.fxml"/>
+    <MainPane fx:id="mainPane" styleClass="background"/>
   </center>
 
   <bottom>

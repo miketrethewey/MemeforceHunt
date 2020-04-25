@@ -14,24 +14,41 @@
  * limitations under the License.
  */
 
-package io.github.alttpj.memeforcehunt.app.gui;
-
-import io.github.alttpj.memeforcehunt.app.gui.main.ItemSkinList;
-import io.github.alttpj.memeforcehunt.common.sprites.DefaultSpritemapWithSkins;
+package io.github.alttpj.memeforcehunt.app.gui.main;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.layout.HBox;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class MainPane implements Initializable {
+public class MainPane extends HBox implements Initializable {
+
   @FXML
-  private ItemSkinList defaultSpritesItemSkinList;
+  private DefaultSpriteTab defaultSpriteTab;
+
+  public MainPane() {
+    // fmxl
+    final FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/io/github/alttpj/memeforcehunt/app/gui/MainPane.fxml"));
+    fxmlLoader.setRoot(this);
+    fxmlLoader.setController(this);
+
+    try {
+      fxmlLoader.load();
+    } catch (final IOException ioException) {
+      throw new RuntimeException(ioException);
+    }
+  }
 
   @Override
   public void initialize(final URL location, final ResourceBundle resources) {
-    DefaultSpritemapWithSkins.values().forEach(this.defaultSpritesItemSkinList::addSkin);
+
   }
 
+  public DefaultSpriteTab getDefaultSpriteTab() {
+    return this.defaultSpriteTab;
+  }
 }

@@ -73,6 +73,8 @@ public class SkinListCell extends ListCell<SpritemapWithSkin> {
       final BufferedImage bufferedImage = this.item.getImage();
       final WritableImage fxImage = SwingFXUtils.toFXImage(bufferedImage, null);
       final ImageView drawnItem = new ImageView(fxImage);
+      drawnItem.setPreserveRatio(true);
+      drawnItem.setSmooth(false);
       drawnItem.setFitWidth(32.0);
       drawnItem.setFitHeight(32.0);
       getChildren().add(drawnItem);
