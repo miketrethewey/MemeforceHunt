@@ -20,6 +20,8 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
 <?import java.net.URL?>
 <fx:root type="javafx.scene.layout.HBox" xmlns:fx="http://javafx.com/fxml">
@@ -36,14 +38,35 @@
     </padding>
     <tabs>
       <Tab text="Default Sprites" closable="false">
+        <graphic>
+          <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+              <Image url="@icons/local_library-white-18dp-128.png"/>
+            </image>
+          </ImageView>
+        </graphic>
         <DefaultSpriteTab fx:id="defaultSpriteTab" styleClass="background"/>
       </Tab>
 
       <Tab text="Roll your own" closable="false" disable="true">
+        <graphic>
+          <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+              <Image url="@icons/create-white-18dp-128.png"/>
+            </image>
+          </ImageView>
+        </graphic>
         <!-- develop in 2.2.0 or 2.3.0 -->
       </Tab>
 
       <Tab text="Repository" closable="false" disable="true">
+        <graphic>
+          <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+              <Image url="@icons/store-white-18dp-128.png"/>
+            </image>
+          </ImageView>
+        </graphic>
         <!-- develop in 2.2.0 or 2.3.0 -->
       </Tab>
     </tabs>

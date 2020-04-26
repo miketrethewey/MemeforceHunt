@@ -33,6 +33,8 @@
 <fx:root type="javafx.scene.layout.BorderPane" xmlns:fx="http://javafx.com/fxml">
   <stylesheets>
     <URL value="@borders.css"/>
+    <URL value="@icons.css"/>
+    <URL value="@nodes.css"/>
   </stylesheets>
   <top>
     <VBox fx:id="topPane">
@@ -50,26 +52,30 @@
             <MenuItem fx:id="helpMenuAbout" text="About…" onAction="#onHelpMenuAbout"/>
           </Menu>
         </MenuBar>
-        <ToolBar nodeOrientation="LEFT_TO_RIGHT" VBox.vgrow="NEVER" styleClass="background, border">
+        <ToolBar nodeOrientation="LEFT_TO_RIGHT" VBox.vgrow="NEVER" styleClass="background, border, toolbar">
           <Button fx:id="buttonBarFileOpen"
                   mnemonicParsing="false"
-                  text="O"
                   onAction="#onFileMenuOpenRom"
                   ButtonBar.buttonData="LEFT"
+                  styleClass="toolbar-button, toolbar-button-open"
           />
           <Button fx:id="buttonBarFilePatch"
                   mnemonicParsing="false"
                   text="P!"
                   ButtonBar.buttonData="LEFT"
+                  styleClass="toolbar-button, toolbar-button-patch"
           />
           <Button fx:id="buttonBarFileClose"
                   mnemonicParsing="false"
                   text="X"
                   onAction="#onFileMenuFileClose"
                   ButtonBar.buttonData="LEFT"
+                  styleClass="toolbar-button, toolbar-button-close"
           />
           <Separator/>
-          <Button text="?"/>
+          <Button text="?"
+                  styleClass="toolbar-button, toolbar-button-help"
+          />
         </ToolBar>
       </children>
     </VBox>

@@ -1,0 +1,36 @@
+.toolbar-button {
+  -fx-border-width: 1px;
+  -fx-background-size: 24px 24px;
+  -fx-background-position: left;
+  -fx-background-repeat: no-repeat;
+  -fx-min-width: 24px;
+  -fx-min-height: 24px;
+  -fx-pref-width: 24px;
+  -fx-pref-height: 24px;
+  -fx-max-width: 24px;
+  -fx-max-height: 24px;
+}
+
+.toolbar-button:hover{
+  -fx-border-width: 1px;
+}
+
+.toolbar-button:armed {
+  -fx-border-width: 1px;
+}
+
+.toolbar-button-open {
+  -fx-background-image: url('icons/folder_open-white-18dp-128.png');
+}
+
+.toolbar-button-patch {
+  -fx-background-image: url('icons/build-white-18dp-128.png');
+}
+
+.toolbar-button-close {
+  -fx-background-image: url('icons/eject-white-18dp-128.png');
+}
+
+.toolbar-button-help {
+  -fx-background-image: url('icons/help-white-18dp-128.png');
+}

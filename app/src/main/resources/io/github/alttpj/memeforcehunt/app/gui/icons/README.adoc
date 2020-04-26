@@ -1,0 +1,9 @@
+= Material Design Icons
+
+== Source
+
+https://material.io/resources/icons/
+
+== License
+
+Apache License 2
