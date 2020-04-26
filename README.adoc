@@ -13,7 +13,7 @@ _Note: This tool is not permitted for modifying game files that are to be used i
 
 .Screenshot
 [#img-spritemap]
-image::.github/current-screenshot.png[Screenshot,162,144,link=.github/current-screenshot.png]
+image::.github/2020-04-26_screenshot-v2.1.png[Screenshot,378,302,link=.github/2020-04-26_screenshot-v2.1.png]
 
 === Setup
 
@@ -24,8 +24,8 @@ image::.github/current-screenshot.png[Screenshot,162,144,link=.github/current-sc
 
 * Open: Open a game file for injection.
 * Patch: Execute patching of game file.
-* Surprise Me: Patch game file with random image for Triforce Pieces.
-* Check for updates: Check to see if there's a new version of the app available.
+* Random: Patch game file with random image for Triforce Pieces.
+* Help -> Check for updates: Check to see if there's a new version of the app available.
 
 We have a http://github.com/bmhm/MemeforceHunt/wiki/Icon-Previews[list of images] available for viewing online.
 
