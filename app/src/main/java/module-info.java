@@ -10,7 +10,6 @@ module memeforcehunt.app {
   requires memeforcehunt.common.sprites;
   requires memeforcehunt.common.value;
   requires memforcehunt.lib;
-  requires org.slf4j;
   requires org.jfxtras.styles.jmetro;
 
   // fxml needs to modify the gui classes.

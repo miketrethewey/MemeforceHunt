@@ -45,7 +45,6 @@
     <!-- default fork arguments. -->
     <argLine>-Xmx1024m</argLine>
     <dependency.javafx.version>14.0.1</dependency.javafx.version>
-    <dependency.slf4j-api.version>1.7.30</dependency.slf4j-api.version>
     <dependency.snakeyaml.version>1.25</dependency.snakeyaml.version>
   </properties>
 
@@ -86,23 +85,6 @@
         <groupId>org.openjfx</groupId>
         <artifactId>javafx-graphics</artifactId>
         <version>${dependency.javafx.version}</version>
-      </dependency>
-
-      <!-- slf4j is an implementation-independent log framework. -->
-      <dependency>
-        <groupId>org.slf4j</groupId>
-        <artifactId>slf4j-api</artifactId>
-        <version>${dependency.slf4j-api.version}</version>
-        <scope>compile</scope>
-      </dependency>
-
-      <!-- this is the actual implementation which will result in log messages being configurable and printed. -->
-      <dependency>
-        <groupId>ch.qos.logback</groupId>
-        <artifactId>logback-classic</artifactId>
-        <version>1.2.3</version>
-        <!-- runtime means: only needed for tests or executing the app, not while compiling. -->
-        <scope>runtime</scope>
       </dependency>
 
       <!-- test dependencies -->
@@ -313,28 +295,6 @@
                 <requireJavaVersion>
                   <version>${jdk.version}</version>
                 </requireJavaVersion>
-              </rules>
-            </configuration>
-          </execution>
-
-          <!-- no-dependencies-rule -->
-          <execution>
-            <id>enforce-banned-dependencies</id>
-            <goals>
-              <goal>enforce</goal>
-            </goals>
-            <configuration>
-              <rules>
-                <bannedDependencies>
-                  <excludes>
-                    <exclude>org.slf4j:slf4j-api:*:jar:compile:*</exclude>
-                  </excludes>
-                  <includes>
-                    <!-- no runtime or compile dependencies are allowed except slf4j. -->
-                    <include>*:*:*:*:runtime:*</include>
-                    <include>*:*:*:*:compile:*</include>
-                  </includes>
-                </bannedDependencies>
               </rules>
             </configuration>
           </execution>

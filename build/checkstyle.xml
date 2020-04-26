@@ -399,9 +399,6 @@
       <property name="excludes" value="java.util.Objects.*"/>
       <property name="excludes" value="java.util.Spliterators.*"/>
 
-      <!-- 3rd party exclusions -->
-      <property name="excludes" value="org.slf4j.LoggerFactory.getLogger"/>
-
       <!-- test exclusions -->
       <property name="excludes" value="org.hamcrest.CoreMatchers.*"/>
       <property name="excludes" value="org.hamcrest.Matchers.*"/>

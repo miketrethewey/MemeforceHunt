@@ -21,18 +21,17 @@ import static java.util.Collections.unmodifiableList;
 import io.github.alttpj.memeforcehunt.common.sprites.impl.SpriteLoader;
 import io.github.alttpj.memeforcehunt.common.value.SpritemapWithSkin;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public final class DefaultSpritemapWithSkins {
 
-  private static final Logger LOG = LoggerFactory.getLogger(DefaultSpritemapWithSkins.class);
+  private static final Logger LOG = Logger.getLogger(DefaultSpritemapWithSkins.class.getCanonicalName());
 
   private static final String SPRITE_FILE = "/sprites/sprites.yaml";
 
@@ -49,7 +48,8 @@ public final class DefaultSpritemapWithSkins {
       final SpriteLoader loader = new SpriteLoader(spriteYmlIS);
       sprites.addAll(loader.load());
     } catch (final IOException ioEx) {
-      LOG.error("Unable to load default spritemaps!");
+      LOG.log(Level.SEVERE, "Unable to load default spritemaps!");
+      // just show an empty pane.
     }
 
     return unmodifiableList(sprites);
