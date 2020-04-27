@@ -16,10 +16,10 @@
 
 package io.github.alttpj.memeforcehunt.app.gui.main;
 
+import io.github.alttpj.memeforcehunt.app.gui.actions.StaticGuiActions;
 import io.github.alttpj.memeforcehunt.app.gui.properties.SelectedFileProperty;
 import io.github.alttpj.memeforcehunt.common.sprites.DefaultSpritemapWithSkins;
 import io.github.alttpj.memeforcehunt.common.value.SpritemapWithSkin;
-import io.github.alttpj.memeforcehunt.lib.AlttpRomPatcher;
 
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -112,10 +112,9 @@ public class DefaultSpriteTab extends HBox implements Initializable {
       return;
 
     }
-    final AlttpRomPatcher alttpRomPatcher = new AlttpRomPatcher();
+
     try {
-      final File file = this.selectedFileProperty.getValue().orElseThrow();
-      alttpRomPatcher.patchROM(file.getAbsolutePath(), selectedItem);
+      StaticGuiActions.patch(this.selectedFileProperty.get().orElseThrow(), selectedItem);
       final Alert alert = new Alert(Alert.AlertType.INFORMATION);
       alert.setTitle("Rom file patched successfully.");
       alert.setHeaderText(selectedItem.getSpriteName());
@@ -145,10 +144,9 @@ public class DefaultSpriteTab extends HBox implements Initializable {
     final int randomItemNumber = secureRandom.nextInt(max);
     final SpritemapWithSkin selectedItem = availableItems.get(randomItemNumber);
 
-    final AlttpRomPatcher alttpRomPatcher = new AlttpRomPatcher();
     try {
-      final File file = this.selectedFileProperty.getValue().orElseThrow();
-      alttpRomPatcher.patchROM(file.getAbsolutePath(), selectedItem);
+      StaticGuiActions.patch(this.selectedFileProperty.get().orElseThrow(), selectedItem);
+
       final Alert alert = new Alert(Alert.AlertType.INFORMATION);
       alert.setTitle("Rom file patched successfully.");
       alert.setHeaderText("** top secret random skin **");

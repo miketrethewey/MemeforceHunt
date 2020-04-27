@@ -46,6 +46,12 @@
             <SeparatorMenuItem/>
             <MenuItem fx:id="fileMenuExit" text="Exit" onAction="#onFileMenuExitClick"/>
           </Menu>
+
+          <Menu text="Edit">
+            <SeparatorMenuItem/>
+            <MenuItem fx:id="editMenuPreferences" text="Preferences" onAction="#onEditMenuPreferences"/>
+          </Menu>
+
           <Menu fx:id="HelpMenu" text="Help">
             <MenuItem fx:id="helpMenuUpdate" text="Check for updates…" onAction="#onHelpMenuUpdate"/>
             <SeparatorMenuItem/>
@@ -61,7 +67,6 @@
           />
           <Button fx:id="buttonBarFilePatch"
                   mnemonicParsing="false"
-                  text="P!"
                   ButtonBar.buttonData="LEFT"
                   styleClass="toolbar-button, toolbar-button-patch"
           />
@@ -71,6 +76,13 @@
                   onAction="#onFileMenuFileClose"
                   ButtonBar.buttonData="LEFT"
                   styleClass="toolbar-button, toolbar-button-close"
+          />
+          <Separator/>
+          <Button fx:id="buttonBarSettings"
+                  mnemonicParsing="false"
+                  onAction="#onEditMenuPreferences"
+                  ButtonBar.buttonData="LEFT"
+                  styleClass="toolbar-button, toolbar-button-preferences"
           />
           <Separator/>
           <Button text="?"

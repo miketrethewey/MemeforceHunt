@@ -17,6 +17,7 @@
 package io.github.alttpj.memeforcehunt.app.cli.commands;
 
 import io.github.alttpj.memeforcehunt.app.cli.ToLogPrintStream;
+import io.github.alttpj.memeforcehunt.app.config.YamlConfigurator;
 import io.github.alttpj.memeforcehunt.common.sprites.DefaultSpritemapWithSkins;
 import io.github.alttpj.memeforcehunt.common.value.SpritemapWithSkin;
 import io.github.alttpj.memeforcehunt.lib.AlttpRomPatcher;
@@ -96,8 +97,16 @@ public class SetSkin implements Callable<Integer> {
     final SpritemapWithSkin skinToPatch = skinToPatchOpt.orElseThrow();
 
     final AlttpRomPatcher alttpRomPatcher = new AlttpRomPatcher();
+
+    final YamlConfigurator yamlConfigurator = new YamlConfigurator();
+    final int customOffset = yamlConfigurator.getCustomOffset();
+    if (yamlConfigurator.useCustomPatchOffset() && this.patchOffset == 0 && customOffset != 0) {
+      STDOUT.log(Level.INFO, () -> String.format(Locale.ENGLISH, "Setting memory address to [0x%06X].", 0x000000));
+      alttpRomPatcher.setOffset(customOffset);
+    }
+
     if (this.patchOffset != 0) {
-      STDOUT.log(Level.INFO, () -> String.format(Locale.ENGLISH, "Setting memory address to [0x%08X].", this.patchOffset & 0xFFFFFF));
+      STDOUT.log(Level.INFO, () -> String.format(Locale.ENGLISH, "Setting memory address to [0x%06X].", this.patchOffset));
       alttpRomPatcher.setOffset(this.patchOffset);
     }
 

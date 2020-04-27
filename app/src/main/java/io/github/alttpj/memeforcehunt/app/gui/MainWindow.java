@@ -136,7 +136,15 @@ public class MainWindow extends BorderPane implements Initializable {
     StaticGuiActions.tryOpenAboutPage(getHostServices());
   }
 
+  @FXML
   public void onHelpMenuAbout(final ActionEvent actionEvent) {
+  }
+
+  @FXML
+  public void onEditMenuPreferences(final ActionEvent actionEvent) {
+    final Preferences preferences = new Preferences(this.getScene().getWindow());
+
+    preferences.showAndWait();
   }
 
   public HostServices getHostServices() {

@@ -24,11 +24,15 @@
 }
 
 .toolbar-button-patch {
-  -fx-background-image: url('icons/build-white-18dp-128.png');
+  -fx-background-image: url('icons/save_alt-white-18dp-128.png');
 }
 
 .toolbar-button-close {
   -fx-background-image: url('icons/eject-white-18dp-128.png');
+}
+
+.toolbar-button-preferences {
+  -fx-background-image: url('icons/build-white-18dp-128.png');
 }
 
 .toolbar-button-help {
