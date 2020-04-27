@@ -26,6 +26,7 @@ import picocli.CommandLine.Command;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Locale;
 import java.util.Optional;
 import java.util.concurrent.Callable;
 import java.util.logging.Level;
@@ -48,6 +49,13 @@ public class SetSkin implements Callable<Integer> {
 
   @CommandLine.Option(names = {"-c", "--custom"}, description = "Patch from this custom spritemap file.")
   private File customSpritemapFile;
+
+  @CommandLine.Option(
+      names = {"--offset"},
+      converter = HexStringConverter.class,
+      description = "Patch offset. Do not touch this setting unless you know what you do!",
+      required = false)
+  private int patchOffset;
 
   @Override
   public Integer call() {
@@ -88,6 +96,11 @@ public class SetSkin implements Callable<Integer> {
     final SpritemapWithSkin skinToPatch = skinToPatchOpt.orElseThrow();
 
     final AlttpRomPatcher alttpRomPatcher = new AlttpRomPatcher();
+    if (this.patchOffset != 0) {
+      STDOUT.log(Level.INFO, () -> String.format(Locale.ENGLISH, "Setting memory address to [0x%08X].", this.patchOffset & 0xFFFFFF));
+      alttpRomPatcher.setOffset(this.patchOffset);
+    }
+
     try {
       alttpRomPatcher.patchROM(this.romFileToPatch.getAbsolutePath(), skinToPatch);
       STDOUT.log(Level.INFO, "Patched successfully.");
@@ -134,5 +147,13 @@ public class SetSkin implements Callable<Integer> {
 
   public void setSkin(final String skin) {
     this.skin = skin;
+  }
+
+  static class HexStringConverter implements CommandLine.ITypeConverter<Integer> {
+
+    @Override
+    public Integer convert(final String value) {
+      return Integer.decode(value);
+    }
   }
 }
