@@ -82,14 +82,14 @@ public class YamlConfigurator {
   }
 
   public void setCustomPatchOffset(final boolean useCustomOffset) {
-    if (!this.isUsable) {
-      return;
-    }
-
     writeField("useCustomPatchOffset", useCustomOffset);
   }
 
   private void writeField(final String fieldName, final Object value) {
+    if (!this.isUsable) {
+      return;
+    }
+
     final Yaml yaml = YamlProvider.createYaml();
     final Map<String, Object> yamlConfig = new ConcurrentHashMap<>();
 
@@ -165,7 +165,7 @@ public class YamlConfigurator {
         .map(file -> new File(file, "memeforcehunt"));
   }
 
-  public int getCustomOffset() {
+  public int getCustomOffsetAddress() {
     if (!this.useCustomPatchOffset()) {
       return 0;
     }
@@ -174,6 +174,25 @@ public class YamlConfigurator {
       return 0;
     }
 
-    return readFromYaml("customPatchOffset", 0);
+    String offset = readFromYaml("offset", "0x0");
+    if (offset == null) {
+      return 0;
+    }
+
+    if (offset.startsWith("0x")) {
+      offset = offset.substring(2);
+    }
+
+    try {
+      return Integer.parseInt(offset, 16);
+    } catch (final NumberFormatException nfEx) {
+      LOG.log(Level.WARNING, "Invalid field 'offset' was written in yaml file: [" + offset + "].", nfEx);
+      writeField("offset", 0);
+      return 0;
+    }
+  }
+
+  public void setCustomOffsetAddress(final String offsetAddressAsHex) {
+    writeField("offset", offsetAddressAsHex);
   }
 }

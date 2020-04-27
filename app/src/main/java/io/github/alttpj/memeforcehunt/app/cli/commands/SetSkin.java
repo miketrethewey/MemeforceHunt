@@ -99,7 +99,7 @@ public class SetSkin implements Callable<Integer> {
     final AlttpRomPatcher alttpRomPatcher = new AlttpRomPatcher();
 
     final YamlConfigurator yamlConfigurator = new YamlConfigurator();
-    final int customOffset = yamlConfigurator.getCustomOffset();
+    final int customOffset = yamlConfigurator.getCustomOffsetAddress();
     if (yamlConfigurator.useCustomPatchOffset() && this.patchOffset == 0 && customOffset != 0) {
       STDOUT.log(Level.INFO, () -> String.format(Locale.ENGLISH, "Setting memory address to [0x%06X].", 0x000000));
       alttpRomPatcher.setOffset(customOffset);

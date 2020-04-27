@@ -16,6 +16,7 @@ module memeforcehunt.app {
   // fxml needs to modify the gui classes.
   opens io.github.alttpj.memeforcehunt.app.gui to javafx.fxml;
   opens io.github.alttpj.memeforcehunt.app.gui.main to javafx.fxml;
+  opens io.github.alttpj.memeforcehunt.app.gui.preferences to javafx.fxml;
 
   opens io.github.alttpj.memeforcehunt.app.cli.commands to info.picocli;
 

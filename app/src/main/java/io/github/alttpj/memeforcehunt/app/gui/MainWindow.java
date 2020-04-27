@@ -19,6 +19,7 @@ package io.github.alttpj.memeforcehunt.app.gui;
 import io.github.alttpj.memeforcehunt.app.gui.actions.StaticGuiActions;
 import io.github.alttpj.memeforcehunt.app.gui.main.DefaultSpriteTab;
 import io.github.alttpj.memeforcehunt.app.gui.main.MainPane;
+import io.github.alttpj.memeforcehunt.app.gui.preferences.Preferences;
 import io.github.alttpj.memeforcehunt.app.gui.properties.SelectedFileProperty;
 
 import javafx.application.HostServices;

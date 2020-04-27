@@ -14,10 +14,12 @@
  * limitations under the License.
  */
 
-package io.github.alttpj.memeforcehunt.app.gui;
+package io.github.alttpj.memeforcehunt.app.gui.preferences;
 
 import io.github.alttpj.memeforcehunt.app.config.YamlConfigurator;
 
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -26,7 +28,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
-import javafx.scene.control.TextField;
+import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Window;
@@ -35,6 +37,7 @@ import jfxtras.styles.jmetro.Style;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Locale;
 import java.util.ResourceBundle;
 
 public class Preferences extends Stage implements Initializable {
@@ -46,14 +49,20 @@ public class Preferences extends Stage implements Initializable {
   private CheckBox customMemoryEnabledCheckBox;
 
   @FXML
-  private TextField customMemoryAddressField;
+  private MultiNumberInput customMemoryAddressField;
+
+  @FXML
+  private Text memoryAddressHexDisplay;
+
+  private final StringProperty hexString = new SimpleStringProperty();
 
   public Preferences(final Window owner) {
     this.initOwner(owner);
     this.initModality(Modality.WINDOW_MODAL);
 
     // fmxl
-    final FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/io/github/alttpj/memeforcehunt/app/gui/Preferences.fxml"));
+    final FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(
+        "/io/github/alttpj/memeforcehunt/app/gui/preferences/Preferences.fxml"));
     fxmlLoader.setController(this);
 
     try {
@@ -74,10 +83,14 @@ public class Preferences extends Stage implements Initializable {
     // only activate text field if the checkbox is selected.
     this.customMemoryAddressField.disableProperty().bind(this.customMemoryEnabledCheckBox.selectedProperty().not());
 
+    // map the address input to the local hex display field.
+    this.customMemoryAddressField.getHexValue().addListener((source, oldValue, newValue) -> {
+      this.memoryAddressHexDisplay.setText(String.format(Locale.ENGLISH, "0x%6s", newValue).replaceAll(" ", "0"));
+    });
+
     final YamlConfigurator yamlConfigurator = new YamlConfigurator();
     this.customMemoryEnabledCheckBox.setSelected(yamlConfigurator.useCustomPatchOffset());
-
-    // set address
+    this.customMemoryAddressField.getAddress().set(yamlConfigurator.getCustomOffsetAddress());
   }
 
   @FXML
@@ -101,8 +114,8 @@ public class Preferences extends Stage implements Initializable {
     yamlConfigurator.setCustomPatchOffset(this.customMemoryEnabledCheckBox.isSelected());
 
     if (this.customMemoryEnabledCheckBox.isSelected()) {
-      final String text = this.customMemoryAddressField.getText();
-      //yamlConfigurator.setCustomPatchOffset();
+      final String hexOffset = this.memoryAddressHexDisplay.getText();
+      yamlConfigurator.setCustomOffsetAddress(hexOffset);
     }
   }
 }

@@ -48,7 +48,7 @@ public final class StaticGuiActions {
 
   public static void patch(final File romToPatch, final SpritemapWithSkin selectedItem) throws IOException {
     final YamlConfigurator yamlConfigurator = new YamlConfigurator();
-    final int customOffset = yamlConfigurator.getCustomOffset();
+    final int customOffset = yamlConfigurator.getCustomOffsetAddress();
     final AlttpRomPatcher alttpRomPatcher = new AlttpRomPatcher();
 
     if (yamlConfigurator.useCustomPatchOffset() && customOffset != 0) {
