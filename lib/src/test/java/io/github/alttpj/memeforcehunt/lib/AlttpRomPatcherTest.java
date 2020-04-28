@@ -18,6 +18,7 @@ package io.github.alttpj.memeforcehunt.lib;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsStringIgnoringCase;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import io.github.alttpj.memeforcehunt.common.value.AbstractSpritemapWithSkin;
@@ -57,6 +58,19 @@ public class AlttpRomPatcherTest {
     final IOException ioException =
         assertThrows(IOException.class, () -> alttpRomPatcher.writeSkin(new byte[bytes.length], spritemap));
     assertThat(ioException.getMessage(), containsStringIgnoringCase("too large"));
+  }
+
+  @Test
+  public void shouldNotSetNegativeValues() {
+    // given a positive value
+    final AlttpRomPatcher alttpRomPatcher = new AlttpRomPatcher();
+    final int defaultOffset = alttpRomPatcher.getOffset();
+
+    // when setting a bogus value
+    alttpRomPatcher.setOffset(-1);
+
+    // then assume the old value is set
+    assertEquals(defaultOffset, alttpRomPatcher.getOffset());
   }
 
 }
