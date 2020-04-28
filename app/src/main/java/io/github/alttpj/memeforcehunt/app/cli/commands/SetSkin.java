@@ -41,6 +41,11 @@ public class SetSkin implements Callable<Integer> {
   private static final Logger STDERR = Logger.getLogger("STDERR");
   private static final ToLogPrintStream ERRORLOG_PRINTSTREAM = new ToLogPrintStream(STDERR, Level.SEVERE);
 
+  /**
+   * Offset not set.
+   */
+  private static final int NO_PATCHOFFSET_OPTION_SET = -1;
+
   @CommandLine.Option(names = {"-r", "--rom"}, description = "the ROM file (\"*.sfc\") to patch.",
       required = true)
   private File romFileToPatch;
@@ -55,6 +60,7 @@ public class SetSkin implements Callable<Integer> {
       names = {"--offset"},
       converter = HexStringConverter.class,
       description = "Patch offset. Do not touch this setting unless you know what you do!",
+      defaultValue = "-1",
       required = false)
   private int patchOffset;
 
@@ -99,13 +105,13 @@ public class SetSkin implements Callable<Integer> {
     final AlttpRomPatcher alttpRomPatcher = new AlttpRomPatcher();
 
     final YamlConfigurator yamlConfigurator = new YamlConfigurator();
-    final int customOffset = yamlConfigurator.getCustomOffsetAddress();
-    if (yamlConfigurator.useCustomPatchOffset() && this.patchOffset == 0 && customOffset != 0) {
+    final int yamlConfigOffset = yamlConfigurator.getCustomOffsetAddress();
+    if (yamlConfigurator.useCustomPatchOffset() && this.patchOffset == NO_PATCHOFFSET_OPTION_SET && yamlConfigOffset >= 0) {
       STDOUT.log(Level.INFO, () -> String.format(Locale.ENGLISH, "Setting memory address to [0x%06X].", 0x000000));
-      alttpRomPatcher.setOffset(customOffset);
+      alttpRomPatcher.setOffset(yamlConfigOffset);
     }
 
-    if (this.patchOffset != 0) {
+    if (this.patchOffset != NO_PATCHOFFSET_OPTION_SET) {
       STDOUT.log(Level.INFO, () -> String.format(Locale.ENGLISH, "Setting memory address to [0x%06X].", this.patchOffset));
       alttpRomPatcher.setOffset(this.patchOffset);
     }

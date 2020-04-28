@@ -17,7 +17,9 @@
 package io.github.alttpj.memeforcehunt.app.gui.preferences;
 
 import io.github.alttpj.memeforcehunt.app.config.YamlConfigurator;
+import io.github.alttpj.memeforcehunt.lib.AlttpRomPatcher;
 
+import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
@@ -90,7 +92,25 @@ public class Preferences extends Stage implements Initializable {
 
     final YamlConfigurator yamlConfigurator = new YamlConfigurator();
     this.customMemoryEnabledCheckBox.setSelected(yamlConfigurator.useCustomPatchOffset());
-    this.customMemoryAddressField.getAddress().set(yamlConfigurator.getCustomOffsetAddress());
+    setAddress(yamlConfigurator.getCustomOffsetAddress());
+  }
+
+  public IntegerProperty getAddress() {
+    return this.customMemoryAddressField.getAddress();
+  }
+
+  public void setAddress(final int newValue) {
+    this.customMemoryAddressField.getAddress().set(newValue);
+  }
+
+  public String getAddressAsHex() {
+    return this.memoryAddressHexDisplay.getText();
+  }
+
+  @FXML
+  public void onMemoryAddressReset(final ActionEvent actionEvent) {
+    setAddress(AlttpRomPatcher.DEFAULT_SPRITEMAP_OFFSET);
+    this.customMemoryEnabledCheckBox.setSelected(false);
   }
 
   @FXML
@@ -114,7 +134,7 @@ public class Preferences extends Stage implements Initializable {
     yamlConfigurator.setCustomPatchOffset(this.customMemoryEnabledCheckBox.isSelected());
 
     if (this.customMemoryEnabledCheckBox.isSelected()) {
-      final String hexOffset = this.memoryAddressHexDisplay.getText();
+      final String hexOffset = getAddressAsHex();
       yamlConfigurator.setCustomOffsetAddress(hexOffset);
     }
   }

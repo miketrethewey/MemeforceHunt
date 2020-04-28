@@ -67,6 +67,10 @@
             <Text fx:id="memoryAddressHexDisplay" text="0x000000"
                   styleClass="bold, red, monospaced"
                   GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+            <Button fx:id="memoryAddressReset" text="Reset"
+                    prefWidth="120"
+                    onAction="#onMemoryAddressReset"
+                    GridPane.columnIndex="1" GridPane.rowIndex="4"/>
 
           </GridPane>
         </Tab>

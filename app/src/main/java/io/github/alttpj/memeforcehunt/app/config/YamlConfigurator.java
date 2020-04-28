@@ -29,40 +29,22 @@ import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class YamlConfigurator {
+public class YamlConfigurator extends AbstractOsConfigurationFile {
 
   private static final Logger LOG = java.util.logging.Logger.getLogger(YamlConfigurator.class.getCanonicalName());
 
-  private File configDirectory;
+  /**
+   * Offset not set.
+   */
+  private static final int NO_PATCHOFFSET_OPTION_SET = -1;
 
-  private final File configFile;
-
-  private boolean isUsable;
-
-  public YamlConfigurator() {
-    // default
-    initConfigDirectory();
-    this.configFile = new File(this.configDirectory, "config.yaml");
-    if (!this.configFile.exists()) {
-      try {
-        Files.createFile(this.configFile.toPath());
-        LOG.log(Level.INFO, "Using config dir: [" + this.configFile.getAbsolutePath() + "].");
-      } catch (final IOException ioException) {
-        LOG.log(Level.SEVERE, ioException, () -> "Unable to write to Config File [" + this.configFile.getAbsolutePath() + "].");
-      }
-    }
-    if (this.configFile.exists() && this.configFile.canWrite()) {
-      this.isUsable = true;
-    }
-  }
 
   public boolean useCustomPatchOffset() {
-    if (!this.isUsable) {
+    if (!isUsable()) {
       return false;
     }
 
@@ -71,12 +53,15 @@ public class YamlConfigurator {
 
   private <T> T readFromYaml(final String fieldName, final T defaultValue) {
     final Yaml yaml = YamlProvider.createYaml();
-    try (final InputStream yamlInputStream = Files.newInputStream(this.configFile.toPath(), StandardOpenOption.READ)) {
+    try (final InputStream yamlInputStream = Files.newInputStream(getConfigFilePath(), StandardOpenOption.READ)) {
       final Map<String, Object> yamlConfig = yaml.load(yamlInputStream);
 
+      //noinspection unchecked
       return (T) yamlConfig.get(fieldName);
     } catch (final ClassCastException | IOException ioEx) {
-      LOG.log(Level.SEVERE, ioEx, () -> "Unable to read config from [" + this.configFile.getAbsolutePath() + "].");
+      LOG.log(Level.SEVERE, ioEx,
+          () -> String.format(Locale.ENGLISH, "Unable to read config from [%s].", getConfigFile().getAbsolutePath()));
+
       return defaultValue;
     }
   }
@@ -86,97 +71,53 @@ public class YamlConfigurator {
   }
 
   private void writeField(final String fieldName, final Object value) {
-    if (!this.isUsable) {
+    if (!isUsable()) {
       return;
     }
 
     final Yaml yaml = YamlProvider.createYaml();
     final Map<String, Object> yamlConfig = new ConcurrentHashMap<>();
 
-    try (final InputStream yamlInputStream = Files.newInputStream(this.configFile.toPath(), StandardOpenOption.READ)) {
+    try (final InputStream yamlInputStream = Files.newInputStream(getConfigFilePath(), StandardOpenOption.READ)) {
       final Map<String, Object> loadedConfig = yaml.load(yamlInputStream);
       if (loadedConfig != null) {
         yamlConfig.putAll(loadedConfig);
       }
     } catch (final ClassCastException | IOException ioEx) {
-      LOG.log(Level.SEVERE, ioEx, () -> "Unable to read config from [" + this.configFile.getAbsolutePath() + "].");
-      final Path destination = new File(this.configFile.getAbsolutePath() + ".old").toPath();
+      LOG.log(Level.SEVERE, ioEx, () -> "Unable to read config from [" + getConfigFilePath() + "].");
+      final Path destination = new File(getConfigFile().getAbsolutePath() + ".old").toPath();
 
       // make a backup before (over-)writing.
       try {
-        Files.copy(this.configFile.toPath(), destination);
+        Files.copy(getConfigFilePath(), destination);
       } catch (final IOException copyIoEx) {
         LOG.log(Level.SEVERE, copyIoEx,
             () -> String.format(Locale.ENGLISH, "Unable to write backup from [%s] to [%s].",
-                this.configFile,
+                getConfigFilePath(),
                 destination));
       }
     }
 
     yamlConfig.put(fieldName, value);
 
-    try (final OutputStream outputStream = Files.newOutputStream(this.configFile.toPath(), StandardOpenOption.WRITE);
+    try (final OutputStream outputStream = Files.newOutputStream(getConfigFilePath(), StandardOpenOption.WRITE);
          final OutputStreamWriter outputStreamWriter = new OutputStreamWriter(outputStream, StandardCharsets.UTF_8)) {
       yaml.dump(yamlConfig, outputStreamWriter);
       outputStreamWriter.flush();
     } catch (final IOException ioException) {
-      LOG.log(Level.SEVERE, ioException, () -> "Unable to write config to [" + this.configFile.getAbsolutePath() + "].");
+      LOG.log(Level.SEVERE, ioException, () -> "Unable to write config to [" + getConfigFile().getAbsolutePath() + "].");
     }
   }
 
-  protected final void initConfigDirectory() {
-    if (couldBeWindows()) {
-      this.configDirectory = getWindowsConfigDir().orElseThrow();
-      tryCreateConfigDir();
-      return;
-    }
-
-    final File memeForceHuntConfigDir = Optional.ofNullable(System.getenv("XDG_CONFIG_HOME"))
-        .map(File::new)
-        .or(() -> Optional.of(new File(System.getProperty("user.home"), ".config")))
-        .map(file -> new File(file, "memeforcehunt"))
-        .orElseThrow();
-    this.configDirectory = memeForceHuntConfigDir;
-    tryCreateConfigDir();
-  }
-
-  private void tryCreateConfigDir() {
-    try {
-      Files.createDirectories(this.configDirectory.toPath());
-    } catch (final IOException ioEx) {
-      LOG.log(Level.WARNING, ioEx, () -> "Unable to create config directory: [" + this.configDirectory.getAbsolutePath() + "].");
-    }
-  }
-
-
-  private boolean couldBeWindows() {
-    final String os = System.getProperty("os.name", "").toLowerCase(Locale.ENGLISH);
-
-    return os.startsWith("win") || System.getenv("AppData") != null || System.getenv("LocalAppData") != null;
-  }
-
-  public Optional<File> getWindowsConfigDir() {
-    return Optional.ofNullable(System.getenv("LocalAppData"))
-        .or(() -> Optional.ofNullable(System.getenv("LOCALAPPDATA")))
-        .or(() -> Optional.ofNullable(System.getenv("AppData")))
-        .or(() -> Optional.ofNullable(System.getenv("APPDATA")))
-        .map(File::new)
-        .or(() -> Optional.of(new File(System.getenv("user.home"), "//")))
-        .map(file -> new File(file, "memeforcehunt"));
-  }
 
   public int getCustomOffsetAddress() {
-    if (!this.useCustomPatchOffset()) {
-      return 0;
+    if (!isUsable()) {
+      return NO_PATCHOFFSET_OPTION_SET;
     }
 
-    if (!this.isUsable) {
-      return 0;
-    }
-
-    String offset = readFromYaml("offset", "0x0");
+    String offset = readFromYaml("offset", "" + NO_PATCHOFFSET_OPTION_SET);
     if (offset == null) {
-      return 0;
+      return NO_PATCHOFFSET_OPTION_SET;
     }
 
     if (offset.startsWith("0x")) {
@@ -188,7 +129,7 @@ public class YamlConfigurator {
     } catch (final NumberFormatException nfEx) {
       LOG.log(Level.WARNING, "Invalid field 'offset' was written in yaml file: [" + offset + "].", nfEx);
       writeField("offset", 0);
-      return 0;
+      return NO_PATCHOFFSET_OPTION_SET;
     }
   }
 
