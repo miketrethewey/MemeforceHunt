@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  ~ Copyright 2020-2020 the ALttPJ Team @ https://github.com/alttpj
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~          http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<?import io.github.alttpj.memeforcehunt.app.gui.preferences.MultiNumberInput?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Text?>
+<?import java.net.URL?>
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            xmlns="http://javafx.com/javafx"
+            prefHeight="480"
+            prefWidth="720"
+            styleClass="background">
+  <stylesheets>
+    <URL value="@../borders.css"/>
+    <URL value="@../icons.css"/>
+    <URL value="@../nodes.css"/>
+  </stylesheets>
+
+  <center>
+    <TabPane tabClosingPolicy="UNAVAILABLE">
+      <tabs>
+        <Tab text="ROM Patching">
+          <GridPane vgap="25" hgap="25">
+            <padding>
+              <Insets left="15" top="15" right="15" bottom="15"/>
+            </padding>
+
+            <!-- heading -->
+            <Text text="ROM Patching settings"
+                  textAlignment="CENTER"
+                  GridPane.columnIndex="0" GridPane.rowIndex="0" GridPane.columnSpan="2"/>
+
+            <!-- enable or disable -->
+            <Label text="Enable custom memory address:"
+                   GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+            <CheckBox fx:id="customMemoryEnabledCheckBox"
+                      GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+
+            <!-- memory address setter -->
+            <Label text="Custom memory address:"
+                   GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+            <MultiNumberInput fx:id="customMemoryAddressField"
+                              GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+            <Text fx:id="memoryAddressHexDisplay" text="0x000000"
+                  styleClass="bold, red, monospaced"
+                  GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+            <Button fx:id="memoryAddressReset" text="Reset"
+                    prefWidth="120"
+                    onAction="#onMemoryAddressReset"
+                    GridPane.columnIndex="1" GridPane.rowIndex="4"/>
+
+          </GridPane>
+        </Tab>
+
+        <Tab text="UI" disable="true">
+
+        </Tab>
+
+        <Tab text="Misc." disable="true">
+
+        </Tab>
+      </tabs>
+    </TabPane>
+  </center>
+
+  <bottom>
+    <HBox alignment="BASELINE_RIGHT" spacing="5">
+      <padding>
+        <Insets left="5" top="5" right="5" bottom="5"/>
+      </padding>
+      <Button fx:id="prefButtonApply" text="Apply" onAction="#onPrefButtonApplyClick" prefWidth="120"
+              HBox.hgrow="NEVER"/>
+      <Button fx:id="prefButtonCancel" text="Cancel" onAction="#onPrefButtonCancelClick" prefWidth="120"
+              HBox.hgrow="NEVER"/>
+      <Button fx:id="prefButtonOk" text="OK" onAction="#onPrefButtonOkClick" prefWidth="120" HBox.hgrow="NEVER"/>
+    </HBox>
+  </bottom>
+</BorderPane>

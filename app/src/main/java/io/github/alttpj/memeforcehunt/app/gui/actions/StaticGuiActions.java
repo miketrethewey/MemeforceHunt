@@ -16,9 +16,15 @@
 
 package io.github.alttpj.memeforcehunt.app.gui.actions;
 
+import io.github.alttpj.memeforcehunt.app.config.YamlConfigurator;
+import io.github.alttpj.memeforcehunt.common.value.SpritemapWithSkin;
+import io.github.alttpj.memeforcehunt.lib.AlttpRomPatcher;
+
 import javafx.application.HostServices;
 import javafx.scene.control.Alert;
 
+import java.io.File;
+import java.io.IOException;
 import java.net.URI;
 
 public final class StaticGuiActions {
@@ -38,5 +44,17 @@ public final class StaticGuiActions {
       alert.setContentText("Unable to open your browser. Error message:\n[" + urlOpenEx.getMessage() + "].");
       alert.show();
     }
+  }
+
+  public static void patch(final File romToPatch, final SpritemapWithSkin selectedItem) throws IOException {
+    final YamlConfigurator yamlConfigurator = new YamlConfigurator();
+    final int customOffset = yamlConfigurator.getCustomOffsetAddress();
+    final AlttpRomPatcher alttpRomPatcher = new AlttpRomPatcher();
+
+    if (yamlConfigurator.useCustomPatchOffset() && customOffset != 0) {
+      alttpRomPatcher.setOffset(customOffset);
+    }
+
+    alttpRomPatcher.patchROM(romToPatch.getAbsolutePath(), selectedItem);
   }
 }

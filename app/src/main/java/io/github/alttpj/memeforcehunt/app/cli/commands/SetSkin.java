@@ -17,6 +17,7 @@
 package io.github.alttpj.memeforcehunt.app.cli.commands;
 
 import io.github.alttpj.memeforcehunt.app.cli.ToLogPrintStream;
+import io.github.alttpj.memeforcehunt.app.config.YamlConfigurator;
 import io.github.alttpj.memeforcehunt.common.sprites.DefaultSpritemapWithSkins;
 import io.github.alttpj.memeforcehunt.common.value.SpritemapWithSkin;
 import io.github.alttpj.memeforcehunt.lib.AlttpRomPatcher;
@@ -26,6 +27,7 @@ import picocli.CommandLine.Command;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Locale;
 import java.util.Optional;
 import java.util.concurrent.Callable;
 import java.util.logging.Level;
@@ -39,6 +41,11 @@ public class SetSkin implements Callable<Integer> {
   private static final Logger STDERR = Logger.getLogger("STDERR");
   private static final ToLogPrintStream ERRORLOG_PRINTSTREAM = new ToLogPrintStream(STDERR, Level.SEVERE);
 
+  /**
+   * Offset not set.
+   */
+  private static final int NO_PATCHOFFSET_OPTION_SET = -1;
+
   @CommandLine.Option(names = {"-r", "--rom"}, description = "the ROM file (\"*.sfc\") to patch.",
       required = true)
   private File romFileToPatch;
@@ -48,6 +55,14 @@ public class SetSkin implements Callable<Integer> {
 
   @CommandLine.Option(names = {"-c", "--custom"}, description = "Patch from this custom spritemap file.")
   private File customSpritemapFile;
+
+  @CommandLine.Option(
+      names = {"--offset"},
+      converter = HexStringConverter.class,
+      description = "Patch offset. Do not touch this setting unless you know what you do!",
+      defaultValue = "-1",
+      required = false)
+  private int patchOffset;
 
   @Override
   public Integer call() {
@@ -88,6 +103,19 @@ public class SetSkin implements Callable<Integer> {
     final SpritemapWithSkin skinToPatch = skinToPatchOpt.orElseThrow();
 
     final AlttpRomPatcher alttpRomPatcher = new AlttpRomPatcher();
+
+    final YamlConfigurator yamlConfigurator = new YamlConfigurator();
+    final int yamlConfigOffset = yamlConfigurator.getCustomOffsetAddress();
+    if (yamlConfigurator.useCustomPatchOffset() && this.patchOffset == NO_PATCHOFFSET_OPTION_SET && yamlConfigOffset >= 0) {
+      STDOUT.log(Level.INFO, () -> String.format(Locale.ENGLISH, "Setting memory address to [0x%06X].", 0x000000));
+      alttpRomPatcher.setOffset(yamlConfigOffset);
+    }
+
+    if (this.patchOffset != NO_PATCHOFFSET_OPTION_SET) {
+      STDOUT.log(Level.INFO, () -> String.format(Locale.ENGLISH, "Setting memory address to [0x%06X].", this.patchOffset));
+      alttpRomPatcher.setOffset(this.patchOffset);
+    }
+
     try {
       alttpRomPatcher.patchROM(this.romFileToPatch.getAbsolutePath(), skinToPatch);
       STDOUT.log(Level.INFO, "Patched successfully.");
@@ -134,5 +162,13 @@ public class SetSkin implements Callable<Integer> {
 
   public void setSkin(final String skin) {
     this.skin = skin;
+  }
+
+  static class HexStringConverter implements CommandLine.ITypeConverter<Integer> {
+
+    @Override
+    public Integer convert(final String value) {
+      return Integer.decode(value);
+    }
   }
 }

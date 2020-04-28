@@ -19,6 +19,7 @@ package io.github.alttpj.memeforcehunt.app.gui;
 import io.github.alttpj.memeforcehunt.app.gui.actions.StaticGuiActions;
 import io.github.alttpj.memeforcehunt.app.gui.main.DefaultSpriteTab;
 import io.github.alttpj.memeforcehunt.app.gui.main.MainPane;
+import io.github.alttpj.memeforcehunt.app.gui.preferences.Preferences;
 import io.github.alttpj.memeforcehunt.app.gui.properties.SelectedFileProperty;
 
 import javafx.application.HostServices;
@@ -136,7 +137,15 @@ public class MainWindow extends BorderPane implements Initializable {
     StaticGuiActions.tryOpenAboutPage(getHostServices());
   }
 
+  @FXML
   public void onHelpMenuAbout(final ActionEvent actionEvent) {
+  }
+
+  @FXML
+  public void onEditMenuPreferences(final ActionEvent actionEvent) {
+    final Preferences preferences = new Preferences(this.getScene().getWindow());
+
+    preferences.showAndWait();
   }
 
   public HostServices getHostServices() {

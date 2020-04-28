@@ -9,3 +9,8 @@
 .bold {
   -fx-font-weight: bold;
 }
+
+.red {
+  -fx-font-color: red;
+  -fx-color: red;
+}

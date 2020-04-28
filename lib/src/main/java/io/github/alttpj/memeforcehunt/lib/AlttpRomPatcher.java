@@ -103,6 +103,10 @@ public class AlttpRomPatcher {
   }
 
   public void setOffset(final int offset) {
+    if (offset <= -1) {
+      // ignore
+      return;
+    }
     this.offset = offset;
   }
 
