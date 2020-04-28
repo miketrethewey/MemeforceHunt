@@ -29,7 +29,8 @@ import java.net.URI;
 
 public final class StaticGuiActions {
 
-  private static final URI LINK = URI.create("https://github.com/alttpj/MemeforceHunt/releases");
+  private static final URI RELEASES = URI.create("https://github.com/alttpj/MemeforceHunt/releases");
+  private static final URI WIKI = URI.create("https://github.com/alttpj/MemeforceHunt/wiki");
 
   private StaticGuiActions() {
     // util class
@@ -37,7 +38,7 @@ public final class StaticGuiActions {
 
   public static void tryOpenAboutPage(final HostServices hostServices) {
     try {
-      hostServices.showDocument(LINK.toString());
+      hostServices.showDocument(RELEASES.toString());
     } catch (final UnsupportedOperationException | SecurityException urlOpenEx) {
       final Alert alert = new Alert(Alert.AlertType.ERROR);
       alert.setHeaderText("Unable to open your browser");
@@ -56,5 +57,16 @@ public final class StaticGuiActions {
     }
 
     alttpRomPatcher.patchROM(romToPatch.getAbsolutePath(), selectedItem);
+  }
+
+  public static void tryOpenHelpPage(final HostServices hostServices) {
+    try {
+      hostServices.showDocument(WIKI.toString());
+    } catch (final UnsupportedOperationException | SecurityException urlOpenEx) {
+      final Alert alert = new Alert(Alert.AlertType.ERROR);
+      alert.setHeaderText("Unable to open your browser");
+      alert.setContentText("Unable to open your browser. Error message:\n[" + urlOpenEx.getMessage() + "].");
+      alert.show();
+    }
   }
 }

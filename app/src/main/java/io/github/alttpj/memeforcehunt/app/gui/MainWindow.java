@@ -148,6 +148,11 @@ public class MainWindow extends BorderPane implements Initializable {
     preferences.showAndWait();
   }
 
+  @FXML
+  public void onHelp(final ActionEvent actionEvent) {
+    StaticGuiActions.tryOpenHelpPage(getHostServices());
+  }
+
   public HostServices getHostServices() {
     return this.hostServices;
   }

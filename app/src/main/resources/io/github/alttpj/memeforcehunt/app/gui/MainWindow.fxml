@@ -53,6 +53,7 @@
           </Menu>
 
           <Menu fx:id="HelpMenu" text="Help">
+            <MenuItem fx:id="helpMenuHelp" text="Help…" onAction="#onHelp"/>
             <MenuItem fx:id="helpMenuUpdate" text="Check for updates…" onAction="#onHelpMenuUpdate"/>
             <SeparatorMenuItem/>
             <MenuItem fx:id="helpMenuAbout" text="About…" onAction="#onHelpMenuAbout"/>
@@ -86,6 +87,7 @@
           />
           <Separator/>
           <Button text="?"
+                  onAction="#onHelp"
                   styleClass="toolbar-button, toolbar-button-help"
           />
         </ToolBar>
