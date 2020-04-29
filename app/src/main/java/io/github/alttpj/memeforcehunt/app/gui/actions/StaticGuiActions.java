@@ -30,21 +30,11 @@ import java.net.URI;
 public final class StaticGuiActions {
 
   private static final URI RELEASES = URI.create("https://github.com/alttpj/MemeforceHunt/releases");
+  private static final URI TEAM = URI.create("https://github.com/alttpj");
   private static final URI WIKI = URI.create("https://github.com/alttpj/MemeforceHunt/wiki");
 
   private StaticGuiActions() {
     // util class
-  }
-
-  public static void tryOpenAboutPage(final HostServices hostServices) {
-    try {
-      hostServices.showDocument(RELEASES.toString());
-    } catch (final UnsupportedOperationException | SecurityException urlOpenEx) {
-      final Alert alert = new Alert(Alert.AlertType.ERROR);
-      alert.setHeaderText("Unable to open your browser");
-      alert.setContentText("Unable to open your browser. Error message:\n[" + urlOpenEx.getMessage() + "].");
-      alert.show();
-    }
   }
 
   public static void patch(final File romToPatch, final SpritemapWithSkin selectedItem) throws IOException {
@@ -59,9 +49,21 @@ public final class StaticGuiActions {
     alttpRomPatcher.patchROM(romToPatch.getAbsolutePath(), selectedItem);
   }
 
+  public static void tryOpenAboutPage(final HostServices hostServices) {
+    tryOpenLink(hostServices, RELEASES);
+  }
+
   public static void tryOpenHelpPage(final HostServices hostServices) {
+    tryOpenLink(hostServices, WIKI);
+  }
+
+  public static void tryOpenTeamPage(final HostServices hostServices) {
+    tryOpenLink(hostServices, TEAM);
+  }
+
+  private static void tryOpenLink(final HostServices hostServices, final URI wiki) {
     try {
-      hostServices.showDocument(WIKI.toString());
+      hostServices.showDocument(wiki.toString());
     } catch (final UnsupportedOperationException | SecurityException urlOpenEx) {
       final Alert alert = new Alert(Alert.AlertType.ERROR);
       alert.setHeaderText("Unable to open your browser");

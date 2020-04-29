@@ -139,6 +139,9 @@ public class MainWindow extends BorderPane implements Initializable {
 
   @FXML
   public void onHelpMenuAbout(final ActionEvent actionEvent) {
+    final AboutBox aboutBox = new AboutBox(this.getScene().getWindow(), getHostServices());
+
+    aboutBox.showAndWait();
   }
 
   @FXML

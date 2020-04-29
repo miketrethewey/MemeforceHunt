@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  ~ Copyright 2020-2020 the ALttPJ Team @ https://github.com/alttpj
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~          http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Text?>
+<?import java.net.URL?>
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            xmlns="http://javafx.com/javafx"
+            prefHeight="480"
+            prefWidth="720"
+            styleClass="background">
+  <stylesheets>
+    <URL value="@borders.css"/>
+    <URL value="@icons.css"/>
+    <URL value="@nodes.css"/>
+  </stylesheets>
+
+  <top>
+    <GridPane alignment="BOTTOM_LEFT" style="-fx-background-color: #016601">
+      <padding>
+        <Insets top="25" bottom="25" left="25" right="25"/>
+      </padding>
+      <columnConstraints>
+        <ColumnConstraints prefWidth="120" hgrow="NEVER"/>
+        <ColumnConstraints hgrow="ALWAYS"/>
+      </columnConstraints>
+      <ImageView GridPane.rowIndex="0" GridPane.columnIndex="0">
+        <image>
+          <Image url="@/triforce piece.png" requestedWidth="64" requestedHeight="64"/>
+        </image>
+      </ImageView>
+
+      <Text fx:id="textNameVersion" GridPane.rowIndex="0" GridPane.columnIndex="1" text="Memforce Hunt"
+            textAlignment="CENTER"/>
+    </GridPane>
+  </top>
+
+
+  <center>
+    <GridPane alignment="TOP_LEFT">
+      <padding>
+        <Insets top="25" bottom="25" left="25" right="25"/>
+      </padding>
+      <columnConstraints>
+        <ColumnConstraints prefWidth="120" hgrow="NEVER"/>
+        <ColumnConstraints hgrow="ALWAYS"/>
+      </columnConstraints>
+      <Text GridPane.rowIndex="2" GridPane.columnIndex="1"
+            text="Memeforce Hunt is a tool to make Triforce Hunts even more fun!"/>
+      <Text GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+
+      <Text GridPane.rowIndex="4" GridPane.columnIndex="1"
+            text="Originally created by Spandaisms (fatmanspanda)"/>
+      <Text GridPane.rowIndex="5" GridPane.columnIndex="1"/>
+
+      <Text GridPane.rowIndex="6" GridPane.columnIndex="1"
+            text="Now developed by the ALttPJ Team."/>
+      <Text GridPane.rowIndex="7" GridPane.columnIndex="1"/>
+
+      <Hyperlink GridPane.rowIndex="8" GridPane.columnIndex="1"
+                 text="https://github.com/alttpj"
+                 onAction="#onLinkClick"/>
+    </GridPane>
+  </center>
+
+  <bottom>
+    <HBox alignment="BASELINE_RIGHT" spacing="5">
+      <padding>
+        <Insets left="5" top="5" right="5" bottom="5"/>
+      </padding>
+      <Button fx:id="prefButtonOk" text="OK" onAction="#onAboutOk" prefWidth="120" HBox.hgrow="NEVER"/>
+    </HBox>
+  </bottom>
+</BorderPane>
