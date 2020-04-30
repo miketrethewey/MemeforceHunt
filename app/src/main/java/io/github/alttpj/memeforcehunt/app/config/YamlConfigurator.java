@@ -42,6 +42,10 @@ public class YamlConfigurator extends AbstractOsConfigurationFile {
    */
   private static final int NO_PATCHOFFSET_OPTION_SET = -1;
 
+  public YamlConfigurator() {
+    super();
+  }
+
 
   public boolean useCustomPatchOffset() {
     if (!isUsable()) {
@@ -54,7 +58,11 @@ public class YamlConfigurator extends AbstractOsConfigurationFile {
   private <T> T readFromYaml(final String fieldName, final T defaultValue) {
     final Yaml yaml = YamlProvider.createYaml();
     try (final InputStream yamlInputStream = Files.newInputStream(getConfigFilePath(), StandardOpenOption.READ)) {
-      final Map<String, Object> yamlConfig = yaml.load(yamlInputStream);
+      final Map<String, Object> yamlConfig = (Map<String, Object>) yaml.load(yamlInputStream);
+
+      if (yamlConfig == null) {
+        return defaultValue;
+      }
 
       //noinspection unchecked
       return (T) yamlConfig.get(fieldName);
