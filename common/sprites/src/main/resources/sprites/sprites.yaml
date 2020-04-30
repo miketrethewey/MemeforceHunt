@@ -517,7 +517,7 @@ sprites:
   - id: 01E6YC4JCNSQHD3XTRP6CRMZAY
     palette: 'BLUE'
     spriteName: acorn
-    uri: "/sprites/fish/acorn.bin"
+    uri: "/sprites/fish/acorn.gfx"
     preview: "/sprites/fish/acorn.png"
     author: 'Fish'
     description: "One of Squirrel's prized acorns."
@@ -525,7 +525,7 @@ sprites:
   - id: 01E6YCKEK6A91EYH3NZ8W6YQQ1
     palette: 'BLUE'
     spriteName: bpendant
-    uri: "/sprites/fish/bpendant.bin"
+    uri: "/sprites/fish/bpendant.gfx"
     preview: "/sprites/fish/bpendant.png"
     author: 'Fish'
     description: "The Pendant of Power?"
@@ -533,7 +533,7 @@ sprites:
   - id: 01E6YCKN2QGE1BJ2GBNCX6A0ZX
     palette: 'BLUE'
     spriteName: cake
-    uri: "/sprites/fish/cake.bin"
+    uri: "/sprites/fish/cake.gfx"
     preview: "/sprites/fish/cake.png"
     author: 'Fish'
     description: "Happy Birthday!"
@@ -541,7 +541,7 @@ sprites:
   - id: 01E6YCKRZFE81DZRS464WHPMES
     palette: 'RED'
     spriteName: cog
-    uri: "/sprites/fish/cog.bin"
+    uri: "/sprites/fish/cog.gfx"
     preview: "/sprites/fish/cog.png"
     author: 'Fish'
     description: "A Cog from Ty the Tasmanian Tiger"
@@ -549,7 +549,7 @@ sprites:
   - id: 01E6YCKX4GZ1THG89ZVNJH6K7K
     palette: 'BLUE'
     spriteName: crystal
-    uri: "/sprites/fish/crystal.bin"
+    uri: "/sprites/fish/crystal.gfx"
     preview: "/sprites/fish/crystal.png"
     author: 'Fish'
     description: "Maiden not included"
@@ -557,7 +557,7 @@ sprites:
   - id: 01E6YCM37BVM7WY1W4MX7WVKH3
     palette: 'BLUE'
     spriteName: donut
-    uri: "/sprites/fish/donut.bin"
+    uri: "/sprites/fish/donut.gfx"
     preview: "/sprites/fish/donut.png"
     author: 'Fish'
     description: "A tasty, strawberry iced donut."
@@ -565,7 +565,7 @@ sprites:
   - id: 01E6YCM7RMJPPZ761PPWZ1VCNC
     palette: 'GREEN'
     spriteName: earthbadge
-    uri: "/sprites/fish/earthbadge.bin"
+    uri: "/sprites/fish/earthbadge.gfx"
     preview: "/sprites/fish/earthbadge.png"
     author: 'Fish'
     description: "The last gym badge for Kanto."
@@ -573,7 +573,7 @@ sprites:
   - id: 01E6YCMC30D417BSMS5A23CYTQ
     palette: 'GREEN'
     spriteName: gpendant
-    uri: "/sprites/fish/gpendant.bin"
+    uri: "/sprites/fish/gpendant.gfx"
     preview: "/sprites/fish/gpendant.png"
     author: 'Fish'
     description: "Bring this to Sassy! "
@@ -581,7 +581,7 @@ sprites:
   - id: 01E6YCMGAQ3457X5J7MD4VM4D6
     palette: 'BLUE'
     spriteName: icecream
-    uri: "/sprites/fish/icecream.bin"
+    uri: "/sprites/fish/icecream.gfx"
     preview: "/sprites/fish/icecream.png"
     author: 'Fish'
     description: "A large scoop of vanilla ice cream."
@@ -589,7 +589,7 @@ sprites:
   - id: 01E6YCMNEXBBBC2K7B0Y35ZA9Q
     palette: 'GREEN'
     spriteName: magicite
-    uri: "/sprites/fish/magicite.bin"
+    uri: "/sprites/fish/magicite.gfx"
     preview: "/sprites/fish/magicite.png"
     author: 'Fish'
     description: "An Esper now at your service."
@@ -597,7 +597,7 @@ sprites:
   - id: 01E6YCMSR3HZW4GY90RSWZF8ZY
     palette: 'BLUE'
     spriteName: mmetank
-    uri: "/sprites/fish/mmetank.bin"
+    uri: "/sprites/fish/mmetank.gfx"
     preview: "/sprites/fish/mmetank.png"
     author: 'Fish'
     description: "Gotta keep your energy up."
@@ -605,7 +605,7 @@ sprites:
   - id: 01E6YCP392S32XQCSF8V3SP3KW
     palette: 'BLUE'
     spriteName: mmlife
-    uri: "/sprites/fish/mmlife.bin"
+    uri: "/sprites/fish/mmlife.gfx"
     preview: "/sprites/fish/mmlife.png"
     author: 'Fish'
     description: "An extra life!"
@@ -613,14 +613,14 @@ sprites:
   - id: 01E6YCNZ0SSZ81YMVN9FRD2R1A
     palette: 'BLUE'
     spriteName: mnc
-    uri: "/sprites/fish/mnc.bin"
+    uri: "/sprites/fish/mnc.gfx"
     preview: "/sprites/fish/mnc.png"
     author: 'Fish'
     description: "Cheesy, gooey goodness."
 
   - id: 01E6YCNTXX34FJR00QJ6PE5AEE
     spriteName: opal
-    uri: "/sprites/fish/opal.bin"
+    uri: "/sprites/fish/opal.gfx"
     preview: "/sprites/fish/opal.png"
     author: 'Fish'
     palette: 'RED'
@@ -629,7 +629,7 @@ sprites:
   - id: 01E6YCP7YZH150XB2CDE5TWWK7
     palette: 'RED'
     spriteName: orb
-    uri: "/sprites/fish/orb.bin"
+    uri: "/sprites/fish/orb.gfx"
     preview: "/sprites/fish/orb.png"
     author: 'Fish'
     description: "A collectable from Ty the Tasmanian Tiger"
@@ -637,7 +637,7 @@ sprites:
   - id: 01E6YCPD4GVECBR3PS55SF1B9Z
     palette: 'BLUE'
     spriteName: pepsi
-    uri: "/sprites/fish/pepsi.bin"
+    uri: "/sprites/fish/pepsi.gfx"
     preview: "/sprites/fish/pepsi.png"
     author: 'Fish'
     description: "An ice-cold can of Pepsi."
@@ -645,7 +645,7 @@ sprites:
   - id: 01E6YCPHPM7JSJEQ8HBXY2M8G1
     palette: 'RED'
     spriteName: pizzaheart
-    uri: "/sprites/fish/pizzaheart.bin"
+    uri: "/sprites/fish/pizzaheart.gfx"
     preview: "/sprites/fish/pizzaheart.png"
     author: 'Fish'
     description: "You got a Pizza Heart!"
@@ -653,7 +653,7 @@ sprites:
   - id: 01E6YCPPS2JKAY2ESARCGKC4J0
     palette: 'RED'
     spriteName: rpendant
-    uri: "/sprites/fish/rpendant.bin"
+    uri: "/sprites/fish/rpendant.gfx"
     preview: "/sprites/fish/rpendant.png"
     author: 'Fish'
     description: "The Pendant of Wisdom?"
@@ -661,7 +661,7 @@ sprites:
   - id: 01E6YCPTP3QHB840SBQMZN6XVA
     palette: 'GREEN'
     spriteName: sandwich
-    uri: "/sprites/fish/sandwich.bin"
+    uri: "/sprites/fish/sandwich.gfx"
     preview: "/sprites/fish/sandwich.png"
     author: 'Fish'
     description: "Piled sky high, good luck finishing it."
@@ -669,7 +669,7 @@ sprites:
   - id: 01E6YCPYJJTYJ62446T8FJB5DQ
     palette: 'BLUE'
     spriteName: scookie
-    uri: "/sprites/fish/scookie.bin"
+    uri: "/sprites/fish/scookie.gfx"
     preview: "/sprites/fish/scookie.png"
     author: 'Fish'
     description: "The addictive sandwich cookie. Has a cultfollowing."
@@ -677,7 +677,7 @@ sprites:
   - id: 01E6YCQ2EKNXK61E3ZV23GP134
     palette: 'RED'
     spriteName: snescart
-    uri: "/sprites/fish/snescart.bin"
+    uri: "/sprites/fish/snescart.gfx"
     preview: "/sprites/fish/snescart.png"
     author: 'Fish'
     description: "What game is this?"
@@ -685,7 +685,7 @@ sprites:
   - id: 01E6YCQ7F1B5FFN139P7QZX444
     palette: 'BLUE'
     spriteName: snickers
-    uri: "/sprites/fish/snickers.bin"
+    uri: "/sprites/fish/snickers.gfx"
     preview: "/sprites/fish/snickers.png"
     author: 'Fish'
     description: "You're not you when you're hungry."
@@ -693,7 +693,7 @@ sprites:
   - id: 01E6YCQ7QRDH4JWKAHVZNV85PQ
     palette: 'GREEN'
     spriteName: spaghetti
-    uri: "/sprites/fish/spaghetti.bin"
+    uri: "/sprites/fish/spaghetti.gfx"
     preview: "/sprites/fish/spaghetti.png"
     author: 'Fish'
     description: "With a giant meatball!"
@@ -701,7 +701,7 @@ sprites:
   - id: 01E6YCQ7YNARAQH769V9SQC247
     palette: 'GREEN'
     spriteName: sundrop
-    uri: "/sprites/fish/sundrop.bin"
+    uri: "/sprites/fish/sundrop.gfx"
     preview: "/sprites/fish/sundrop.png"
     author: 'Fish'
     description: "An ice-cold can of Sun Drop."

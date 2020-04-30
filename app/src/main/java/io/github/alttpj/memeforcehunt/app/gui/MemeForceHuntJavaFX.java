@@ -20,6 +20,7 @@ import io.github.alttpj.memeforcehunt.lib.AlttpRomPatcher;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import jfxtras.styles.jmetro.JMetro;
 import jfxtras.styles.jmetro.Style;
@@ -43,6 +44,7 @@ public class MemeForceHuntJavaFX extends Application {
     final Scene scene = new Scene(root, 720, 544);
     jMetro.setScene(scene);
 
+    primaryStage.getIcons().add(new Image(this.getClass().getResourceAsStream("/triforce piece.png")));
     primaryStage.setTitle("Memforce Hunt v" + LIB_VERSION);
     primaryStage.setScene(scene);
     primaryStage.show();
