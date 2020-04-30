@@ -86,6 +86,25 @@
         <artifactId>javafx-graphics</artifactId>
         <version>${dependency.javafx.version}</version>
       </dependency>
+      <!-- platform dependent deps -->
+      <dependency>
+        <groupId>org.openjfx</groupId>
+        <artifactId>javafx-graphics</artifactId>
+        <version>${dependency.javafx.version}</version>
+        <classifier>win</classifier>
+      </dependency>
+      <dependency>
+        <groupId>org.openjfx</groupId>
+        <artifactId>javafx-graphics</artifactId>
+        <version>${dependency.javafx.version}</version>
+        <classifier>linux</classifier>
+      </dependency>
+      <dependency>
+        <groupId>org.openjfx</groupId>
+        <artifactId>javafx-graphics</artifactId>
+        <version>${dependency.javafx.version}</version>
+        <classifier>mac</classifier>
+      </dependency>
 
       <dependency>
         <groupId>org.yaml</groupId>
