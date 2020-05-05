@@ -25,10 +25,31 @@ import io.github.alttpj.memeforcehunt.common.value.SpritemapWithSkin;
 import io.github.alttpj.memeforcehunt.common.value.ULID;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.List;
 
 public class DefaultSpritemapWithSkinsTest {
+
+  public static Arguments[] allSpritemaps() {
+    return DefaultSpritemapWithSkins.values().stream()
+        .map(Arguments::of)
+        .toArray(Arguments[]::new);
+  }
+
+  @ParameterizedTest
+  @MethodSource("allSpritemaps")
+  public void testSpriteHasRequiredAttributes(final SpritemapWithSkin spritemapWithSkin) {
+    if (spritemapWithSkin.getImage() == null) {
+      throw new IllegalStateException("Shipped sprite [" + spritemapWithSkin + "] must contain preview.");
+    }
+
+    if (spritemapWithSkin.getImageIcon() == null) {
+      throw new IllegalStateException("Shipped sprite [" + spritemapWithSkin + "] must contain preview.");
+    }
+  }
 
   @Test
   public void testSpritesLoadable() {
@@ -37,16 +58,6 @@ public class DefaultSpritemapWithSkinsTest {
 
     //
     assertFalse(values.isEmpty());
-
-    for (final SpritemapWithSkin value : values) {
-      if (value.getImage() == null) {
-        throw new IllegalStateException("Shipped sprites must contain preview.");
-      }
-
-      if (value.getImageIcon() == null) {
-        throw new IllegalStateException("Shipped sprites must contain preview.");
-      }
-    }
 
   }
 

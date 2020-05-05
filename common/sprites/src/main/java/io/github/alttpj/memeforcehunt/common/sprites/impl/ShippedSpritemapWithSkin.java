@@ -22,6 +22,7 @@ import io.github.alttpj.memeforcehunt.common.value.ItemPalette;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.StringJoiner;
 import javax.imageio.ImageIO;
 
 public class ShippedSpritemapWithSkin extends AbstractSpritemapWithSkin {
@@ -68,5 +69,14 @@ public class ShippedSpritemapWithSkin extends AbstractSpritemapWithSkin {
 
   public String getSkinPreviewPath() {
     return this.skinPreviewPath;
+  }
+
+  @Override
+  public String toString() {
+    return new StringJoiner(", ", "ShippedSpritemapWithSkin{", "}")
+        .add("super=" + super.toString())
+        .add("skinResourceName='" + this.skinResourceName + "'")
+        .add("skinPreviewPath='" + this.skinPreviewPath + "'")
+        .toString();
   }
 }
