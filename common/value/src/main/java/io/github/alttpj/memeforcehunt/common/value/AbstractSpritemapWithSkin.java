@@ -21,6 +21,7 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Optional;
 import javax.swing.ImageIcon;
 
 public abstract class AbstractSpritemapWithSkin implements SpritemapWithSkin {
@@ -28,6 +29,7 @@ public abstract class AbstractSpritemapWithSkin implements SpritemapWithSkin {
   private static final int BUFFER_SIZE = 512;
   private final ULID.Value id;
   private final String spriteName;
+  private final /* Nullable */ String displayName;
   private final String description;
   private final String author;
   private final ItemPalette palette;
@@ -39,6 +41,21 @@ public abstract class AbstractSpritemapWithSkin implements SpritemapWithSkin {
                                    final ItemPalette palette) {
     this.id = ULID.parseULID(spriteId);
     this.spriteName = spriteName;
+    this.displayName = null;
+    this.description = description;
+    this.author = author;
+    this.palette = palette;
+  }
+
+  public AbstractSpritemapWithSkin(final String spriteId,
+                                   final String spriteName,
+                                   final String displayName,
+                                   final String description,
+                                   final String author,
+                                   final ItemPalette palette) {
+    this.id = ULID.parseULID(spriteId);
+    this.spriteName = spriteName;
+    this.displayName = displayName;
     this.description = description;
     this.author = author;
     this.palette = palette;
@@ -51,6 +68,7 @@ public abstract class AbstractSpritemapWithSkin implements SpritemapWithSkin {
                                    final ItemPalette palette) {
     this.id = spriteId;
     this.spriteName = spriteName;
+    this.displayName = null;
     this.description = description;
     this.author = author;
     this.palette = palette;
@@ -64,6 +82,12 @@ public abstract class AbstractSpritemapWithSkin implements SpritemapWithSkin {
   @Override
   public String getSpriteName() {
     return this.spriteName;
+  }
+
+  @Override
+  public String getDisplayName() {
+    return Optional.ofNullable(this.displayName)
+        .orElseGet(this::getSpriteName);
   }
 
   @Override

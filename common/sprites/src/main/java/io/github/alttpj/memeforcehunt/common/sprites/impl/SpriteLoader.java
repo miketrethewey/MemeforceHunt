@@ -68,6 +68,7 @@ public class SpriteLoader {
     return new ShippedSpritemapWithSkin(
         spriteMap.get("id"),
         spriteName,
+        spriteMap.get("displayName"),
         description,
         spriteMap.get("author"),
         spriteMap.get("uri"),

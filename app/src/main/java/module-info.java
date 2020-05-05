@@ -1,10 +1,10 @@
 module memeforcehunt.app {
-  requires javafx.graphics;
   requires javafx.fxml;
-  requires javafx.controls;
-  requires javafx.swing;
-  requires java.desktop;
   requires java.logging;
+  requires transitive javafx.controls;
+  requires transitive javafx.graphics;
+  requires transitive javafx.swing;
+  requires transitive java.desktop;
 
   requires info.picocli;
   requires memeforcehunt.common.sprites;
