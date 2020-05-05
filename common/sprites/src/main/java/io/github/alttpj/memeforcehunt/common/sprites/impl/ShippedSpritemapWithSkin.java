@@ -32,12 +32,13 @@ public class ShippedSpritemapWithSkin extends AbstractSpritemapWithSkin {
 
   public ShippedSpritemapWithSkin(final String spriteId,
                                   final String spriteName,
+                                  final String displayName,
                                   final String description,
                                   final String author,
                                   final String skinResourcePath,
                                   final String skinPreviewPath,
                                   final ItemPalette palette) {
-    super(spriteId, spriteName, description, author, palette);
+    super(spriteId, spriteName, displayName, description, author, palette);
     this.skinResourceName = skinResourcePath;
     this.skinPreviewPath = skinPreviewPath;
   }

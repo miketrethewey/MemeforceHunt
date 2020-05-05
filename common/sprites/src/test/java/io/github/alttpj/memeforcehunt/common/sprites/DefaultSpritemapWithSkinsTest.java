@@ -16,9 +16,13 @@
 
 package io.github.alttpj.memeforcehunt.common.sprites;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
+import io.github.alttpj.memeforcehunt.common.sprites.impl.ShippedSpritemapWithSkin;
+import io.github.alttpj.memeforcehunt.common.value.ItemPalette;
 import io.github.alttpj.memeforcehunt.common.value.SpritemapWithSkin;
+import io.github.alttpj.memeforcehunt.common.value.ULID;
 
 import org.junit.jupiter.api.Test;
 
@@ -33,5 +37,24 @@ public class DefaultSpritemapWithSkinsTest {
 
     //
     assertFalse(values.isEmpty());
+  }
+
+  @Test
+  public void testDisplayNameDefaultsToSpriteName() {
+    // given
+    final ShippedSpritemapWithSkin shippedSpritemapWithSkin = new ShippedSpritemapWithSkin(new ULID().nextULID(),
+        "testSprite",
+        null,
+        "desc",
+        "author",
+        "/res",
+        "/prev",
+        ItemPalette.BLUE);
+
+    // when
+    final String displayName = shippedSpritemapWithSkin.getDisplayName();
+
+    // then
+    assertEquals(shippedSpritemapWithSkin.getSpriteName(), displayName);
   }
 }
