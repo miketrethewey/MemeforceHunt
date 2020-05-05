@@ -37,6 +37,17 @@ public class DefaultSpritemapWithSkinsTest {
 
     //
     assertFalse(values.isEmpty());
+
+    for (final SpritemapWithSkin value : values) {
+      if (value.getImage() == null) {
+        throw new IllegalStateException("Shipped sprites must contain preview.");
+      }
+
+      if (value.getImageIcon() == null) {
+        throw new IllegalStateException("Shipped sprites must contain preview.");
+      }
+    }
+
   }
 
   @Test
