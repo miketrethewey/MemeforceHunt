@@ -81,11 +81,12 @@ public class SkinListCell extends ListCell<SpritemapWithSkin> {
 
       // right: Multi-Line text
       final VBox rightHandCellPart = new VBox();
-      final Text itemNameLabel = new Text(this.item.getSpriteName());
-      itemNameLabel.getStyleClass().add("bold");
+      final String spriteDisplayName = this.item.getDisplayName();
+      final Text spriteNameLabel = new Text(spriteDisplayName);
+      spriteNameLabel.getStyleClass().add("bold");
       final Text authorLabel = new Text(" by " + this.item.getAuthor());
       authorLabel.getStyleClass().add("italic");
-      rightHandCellPart.getChildren().add(new HBox(itemNameLabel, authorLabel));
+      rightHandCellPart.getChildren().add(new HBox(spriteNameLabel, authorLabel));
       rightHandCellPart.getChildren().add(new Label(this.item.getDescription()));
       final Text idLabel = new Text("ID: " + this.item.getId());
       idLabel.getStyleClass().add("monospaced");

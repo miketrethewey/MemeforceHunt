@@ -71,23 +71,6 @@
       <artifactId>javafx-swing</artifactId>
     </dependency>
 
-    <!-- platform dependent deps -->
-    <dependency>
-      <groupId>org.openjfx</groupId>
-      <artifactId>javafx-graphics</artifactId>
-      <classifier>win</classifier>
-    </dependency>
-    <dependency>
-      <groupId>org.openjfx</groupId>
-      <artifactId>javafx-graphics</artifactId>
-      <classifier>linux</classifier>
-    </dependency>
-    <dependency>
-      <groupId>org.openjfx</groupId>
-      <artifactId>javafx-graphics</artifactId>
-      <classifier>mac</classifier>
-    </dependency>
-
     <!-- theme -->
     <dependency>
       <groupId>org.jfxtras</groupId>
@@ -150,6 +133,24 @@
   <profiles>
     <profile>
       <id>shade</id>
+      <dependencies>
+        <!-- platform dependent deps -->
+        <dependency>
+          <groupId>org.openjfx</groupId>
+          <artifactId>javafx-graphics</artifactId>
+          <classifier>win</classifier>
+        </dependency>
+        <dependency>
+          <groupId>org.openjfx</groupId>
+          <artifactId>javafx-graphics</artifactId>
+          <classifier>linux</classifier>
+        </dependency>
+        <dependency>
+          <groupId>org.openjfx</groupId>
+          <artifactId>javafx-graphics</artifactId>
+          <classifier>mac</classifier>
+        </dependency>
+      </dependencies>
       <build>
         <plugins>
           <plugin>

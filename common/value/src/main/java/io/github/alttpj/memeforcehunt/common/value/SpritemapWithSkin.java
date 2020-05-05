@@ -36,11 +36,18 @@ public interface SpritemapWithSkin {
   ULID.Value getId();
 
   /**
-   * Returns a short, non-changing identifier.
+   * Returns a short, non-changing identifier. Must not contain spaces, ASCII only.
    *
    * @return a short human-readable ID.
    */
   String getSpriteName();
+
+  /**
+   * Returns a slightly longer version of the sprite name. Can contain spaces and special chars etc.
+   *
+   * @return a display name.
+   */
+  String getDisplayName();
 
   String getDescription();
 
