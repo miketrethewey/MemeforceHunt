@@ -1,0 +1,17 @@
+Header:                   ZSPR
+Header Version:           0x01 (1)
+Checksum:                 0x2B 0xE8 (0x2BE8)
+Checksum Complement:      0xD4 0x17 (0xD417)
+Pixel Data Offset:        0x38 0x00 0x00 0x00 (0x38)
+Pixel Data Length:        0xB0 0x01 (0x01B0)
+Palette Data Offset:      0xE8 0x01 (0x01E8)
+Palette Data Length:      0x02 0x00 (0x02)
+Sprite Type:              0x0F 0x00 (0x0F, 16)
+Extended Header Version:  0x00 (No extended header)
+Extended Header Offset:   0x00 0x00 0x00 0x00 (No extended header)
+Reserved:                 0x00
+Sprite Name:              Diedice Dice
+Author:                   Unknown
+Author Short:             Unknown
+Pixel Data:               3bpp
+Palette Data:             0x01 0x02 (RED)
